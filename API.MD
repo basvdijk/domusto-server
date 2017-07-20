@@ -6,7 +6,7 @@
 
 * **URL**
 
-  /switch/deviceId/on
+  `/switch/deviceId/on`
 
 * **Method:**
 

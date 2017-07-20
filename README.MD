@@ -1,6 +1,6 @@
 ## API docs
 
-See [a the API docs](API.MD)
+See [the API docs](API.MD)
 
 ## Running DOMUSTO server
 
