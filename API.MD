@@ -28,7 +28,7 @@
 
 * **URL**
 
-  /switch/deviceId/off
+  `/switch/deviceId/off`
 
 * **Method:**
 
