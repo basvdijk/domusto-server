@@ -18,8 +18,8 @@
             "name": "modem",
             "type": "switch",
             "subtype": "on/off",
-            "hardware": {
-                "deviceId": 0,
+            "protocol": {
+                "hardwareId": 0,
                 "type": "Lighting2",
                 "subType": "AC",
                 "unit": 1,

@@ -10,7 +10,7 @@ DomustoRfxCom.init = function(device, configuration) {
     DomustoRfxCom.configuration = configuration;
 
     let rfxtrx = new rfxcom.RfxCom(device.port, { debug: true });
-    DomustoRfxCom.hardwareInstances = rfxtrx;
+    DomustoRfxCom.hardwareInstance = rfxtrx;
     rfxtrx.initialise();
 
 }
@@ -18,10 +18,16 @@ DomustoRfxCom.init = function(device, configuration) {
 DomustoRfxCom.switch = function (deviceId, command) {
 
     let device = DomustoRfxCom.configuration.devices[deviceId];
-    let hardware = device.hardware;
+    let protocol = device.protocol;
 
-    let rfxSwitch = new rfxcom[hardware.type](DomustoRfxCom.hardwareInstances, rfxcom[hardware.type.toLowerCase()][hardware.subType]);
-    rfxSwitch[command](hardware.id + '/' + hardware.unit);
+    // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.
+    let rfxConstructor = rfxcom[protocol.type];
+    let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
+
+    let rfxSwitch = new rfxConstructor(DomustoRfxCom.hardwareInstance, rfxProtocolType[protocol.subType]);
+
+    // Format the hardware id and into the 0x2020504/1 format
+    rfxSwitch[command](protocol.id + '/' + protocol.unit);
 
 }
 
