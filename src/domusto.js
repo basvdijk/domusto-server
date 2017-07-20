@@ -1,9 +1,6 @@
 let fs = require('fs');
 let util = require('./util');
 
-// PLUGINS
-let DomustoRfxCom = require('./plugins/domusto-rfxcom');
-
 let Domusto = {};
 
 Domusto.hardwareInstances = {};
@@ -23,6 +20,7 @@ Domusto.init = function() {
     let hardware = Domusto.configuration.hardware;
     let hardwareInstance = null;
 
+    // Loading hardware plugins
     for (let i = 0; i < hardware.length; i++) {
         
         let component = hardware[i];
@@ -50,15 +48,22 @@ Domusto.loadConfiguration = function() {
     Domusto.configuration = configuration;
 }
 
-Domusto.switchOn = function(deviceId) {
-    util.debug('Switch on id ' + deviceId);
-    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOn');
+Domusto.switchOn = function(deviceId, callback) {
+    let device = Domusto.configuration.devices[deviceId];
+    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOn', function(err, res, sequenceNumber) {       
+        util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' ON');
+        callback(err, res, sequenceNumber);
+    });
 }
 
-Domusto.switchOff = function(deviceId) {
-    util.debug('Switch off id ' + deviceId);
-    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOff');
+Domusto.switchOff = function(deviceId, callback) {
+    let device = Domusto.configuration.devices[deviceId];
+    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOff', function(err, res, sequenceNumber) {       
+        util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' OFF');
+        callback(err, res, sequenceNumber);
+    });
 }
+
 
 Domusto.hardwareByDeviceId = function(deviceId) {
     let device = Domusto.configuration.devices[deviceId];
