@@ -1,12 +1,14 @@
 ## Running DOMUSTO server
 
 ```
+$ cd src
 $ npm run start
 ```
 
 ## Running DOMUSTO server with auto reload on changes
 ```
-$ ./node_modules/.bin/nodemon src/server.js
+$ cd src
+$ ../node_modules/.bin/nodemon server.js
 ```
 
 # Setup
@@ -22,7 +24,7 @@ $ node -v
 v0.10.29
 ```
 
-To upgrade to the latest node / npm:
+To upgrade the RPI to the latest node / npm:
 
 ```
 $ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
