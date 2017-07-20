@@ -1,7 +1,8 @@
 let fs = require('fs');
 let rfxcom = require('rfxcom');
 let Domusto = {};
-let hardwareInstances = {};
+
+Domusto.hardwareInstances = {};
 
 Domusto.debug = function(message) {
     console.log('[domusto] ' + message);
@@ -17,11 +18,15 @@ Domusto.init = function() {
 
     if (!configuration.debug) {
         Domusto.debug = function() {};
+    } else {
+        Domusto.log('Debug messages enabled')
     }
+
+    Domusto.configuration = configuration;
+
+    Domusto.debug('Initialising hardware');
     
     let hardware = configuration.hardware;
-
-    Domusto.debug('test');
 
     for (let i = 0; i < hardware.length; i++) {
         
@@ -41,19 +46,34 @@ Domusto.init = function() {
 }
 
 Domusto.initRfxcom = function(device) {
+
+    Domusto.debug('Initialising RFXtrx');
+
     let rfxtrx = new rfxcom.RfxCom(device.port, { debug: true });
-    hardwareInstances.rfxcom = rfxtrx;
+    Domusto.hardwareInstances.rfxcom = rfxtrx;
     rfxtrx.initialise();
 }
 
-Domusto.switchOn = function(idx) {
-    lightning2 = new rfxcom.Lighting2(hardwareInstances.rfxcom, rfxcom.lighting2.AC);
-    lightning2.switchOn('0x02020504/1');
+Domusto.switchOn = function(deviceId) {
+    Domusto.debug('Switch on id ' + deviceId);
+    Domusto.Rfx.switch(deviceId, 'switchOn');
 }
 
-Domusto.switchOff = function(idx) {
-    lightning2 = new rfxcom.Lighting2(hardwareInstances.rfxcom, rfxcom.lighting2.AC);
-    lightning2.switchOff('0x02020504/1');
+Domusto.switchOff = function(deviceId) {
+    Domusto.debug('Switch off id ' + deviceId);
+    Domusto.Rfx.switch(deviceId, 'switchOff');
+}
+
+Domusto.Rfx = {
+    switch: function(deviceId, command) {
+
+        let device = Domusto.configuration.devices[deviceId];
+        let hardware = device.hardware;
+
+        let rfxSwitch = new rfxcom[hardware.type](Domusto.hardwareInstances.rfxcom, rfxcom[hardware.type.toLowerCase()][hardware.subType]);
+        rfxSwitch[command](hardware.id + '/' + hardware.unit);
+
+    }
 }
 
 module.exports = Domusto;
