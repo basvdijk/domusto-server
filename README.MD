@@ -1,8 +1,10 @@
-## API docs
+# API docs
 
 See [the API docs](API.MD)
 
-## Running DOMUSTO server
+# Running the DOMUSTO server
+
+## Normal
 
 ```
 $ cd src
