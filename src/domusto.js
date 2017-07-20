@@ -12,7 +12,7 @@ Domusto.init = function() {
     
     Domusto.loadConfiguration();
 
-    if (!configuration.debug) {
+    if (!Domusto.configuration.debug) {
         util.debug = function() {};
     } else {
         util.log('Debug messages enabled')
@@ -20,7 +20,7 @@ Domusto.init = function() {
 
     util.debug('Initialising hardware');
     
-    let hardware = configuration.hardware;
+    let hardware = Domusto.configuration.hardware;
 
     for (let i = 0; i < hardware.length; i++) {
         
@@ -28,7 +28,7 @@ Domusto.init = function() {
 
         switch (component.type) {
             case "RFXCOM":
-                DomustoRfxCom.init(component, configuration);
+                DomustoRfxCom.init(component, Domusto.configuration);
                 break;
         
             default:
