@@ -48,30 +48,82 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
         // Temp + Humidity
         if (device.role === 'input' && device.protocol.type === 'th' && device.protocol.hardwareId === 0) {
-            rfxtrx.on(device.protocol.type + device.protocol.subType, DomustoRfxCom.updateInputTempData);
+            rfxtrx.on(device.protocol.type + device.protocol.subType, function(sensorData) {
+                let _device = device;
+                DomustoRfxCom.updateInputTempData(sensorData, _device);
+            });
+
             DomustoRfxCom.registeredInputDevices.push(device.protocol.id);
         }
 
     }
 };
 
-DomustoRfxCom.updateInputTempData = function (evt) {
+DomustoRfxCom.updateInputTempData = function (sensorData, device) {
 
-    util.debug('Receiving input data ', evt);
+    util.debug('Receiving input data ', sensorData);
 
-    if (DomustoRfxCom.registeredInputDevices.includes(evt.id)) {
-        DomustoRfxCom.inputData[evt.id] = evt;
+    if (DomustoRfxCom.registeredInputDevices.includes(sensorData.id)) {
+        sensorData.typeString = DomustoRfxCom.subTypeString(device.protocol.type + device.protocol.subType);
+        DomustoRfxCom.inputData[sensorData.id] = sensorData;
     }
 
 };
 
-DomustoRfxCom.ReceivedInput = function (evt) {
-    util.debug('Receiving input data ', evt);
-    console.log(evt);
+DomustoRfxCom.ReceivedInput = function (sensorData) {
+    util.debug('Receiving input data ', sensorData);
+    console.log(sensorData);
 };
 
+// Descriptions from https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.rfxcom
+DomustoRfxCom.subTypeString = function (subType) {
 
+    switch (subType) {
 
+        case 'th1':
+            retVal = 'THGN122/123, THGN132, THGR122/228/238/268';
+            break;
+        case 'th2':
+            retVal = 'THGR810, THGN800';
+            break;
+        case 'th3':
+            retVal = 'RTGR328';
+            break;
+        case 'th4':
+            retVal = 'THGR328';
+            break;
+        case 'th5':
+            retVal = 'WTGR800';
+            break;
+        case 'th6':
+            retVal = 'THGR918/928, THGRN228, THGN500';
+            break;
+        case 'th7':
+            retVal = 'TFA TS34C, Cresta';
+            break;
+        case 'th8':
+            retVal = 'WT260, WT260H, WT440H, WT450, WT450H';
+            break;
+        case 'th9':
+            retVal = 'Viking 02035, 02038 (02035 has no humidity), Proove TSS320, 311501';
+            break;
+        case 'th10':
+            retVal = 'Rubicson';
+            break;
+        case 'th11':
+            retVal = 'EW109';
+            break;
+        case 'th12':
+            retVal = 'Imagintronix/Opus XT300 Soil sensor';
+            break;
+        case 'th13':
+            retVal = 'Alecto WS1700 and compatibles';
+            break;
+
+    }
+
+    return retVal;
+};
 
 DomustoRfxCom.ListenAll = function (rfxtrx) {
 
