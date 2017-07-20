@@ -1,3 +1,7 @@
+## API docs
+
+See [a the API docs](API.md)
+
 ## Running DOMUSTO server
 
 ```
