@@ -1,30 +1,24 @@
 let fs = require('fs');
-let rfxcom = require('rfxcom');
+let util = require('./util');
+
+// PLUGINS
+let DomustoRfxCom = require('./plugins/domusto-rfxcom');
+
 let Domusto = {};
 
 Domusto.hardwareInstances = {};
 
-Domusto.debug = function(message) {
-    console.log('[domusto] ' + message);
-}
-
-Domusto.log = function(message) {
-    console.log('[domusto] ' + message);
-}
-
 Domusto.init = function() {
     
-    let configuration = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+    Domusto.loadConfiguration();
 
     if (!configuration.debug) {
-        Domusto.debug = function() {};
+        util.debug = function() {};
     } else {
-        Domusto.log('Debug messages enabled')
+        util.log('Debug messages enabled')
     }
 
-    Domusto.configuration = configuration;
-
-    Domusto.debug('Initialising hardware');
+    util.debug('Initialising hardware');
     
     let hardware = configuration.hardware;
 
@@ -34,7 +28,7 @@ Domusto.init = function() {
 
         switch (component.type) {
             case "RFXCOM":
-                Domusto.initRfxcom(component);
+                DomustoRfxCom.init(component, configuration);
                 break;
         
             default:
@@ -45,35 +39,21 @@ Domusto.init = function() {
 
 }
 
-Domusto.initRfxcom = function(device) {
+Domusto.loadConfiguration = function() {
 
-    Domusto.debug('Initialising RFXtrx');
+    let configuration = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+    Domusto.configuration = configuration;
 
-    let rfxtrx = new rfxcom.RfxCom(device.port, { debug: true });
-    Domusto.hardwareInstances.rfxcom = rfxtrx;
-    rfxtrx.initialise();
 }
 
 Domusto.switchOn = function(deviceId) {
-    Domusto.debug('Switch on id ' + deviceId);
-    Domusto.Rfx.switch(deviceId, 'switchOn');
+    util.debug('Switch on id ' + deviceId);
+    DomustoRfxCom.switch(deviceId, 'switchOn');
 }
 
 Domusto.switchOff = function(deviceId) {
-    Domusto.debug('Switch off id ' + deviceId);
-    Domusto.Rfx.switch(deviceId, 'switchOff');
-}
-
-Domusto.Rfx = {
-    switch: function(deviceId, command) {
-
-        let device = Domusto.configuration.devices[deviceId];
-        let hardware = device.hardware;
-
-        let rfxSwitch = new rfxcom[hardware.type](Domusto.hardwareInstances.rfxcom, rfxcom[hardware.type.toLowerCase()][hardware.subType]);
-        rfxSwitch[command](hardware.id + '/' + hardware.unit);
-
-    }
+    util.debug('Switch off id ' + deviceId);
+    DomustoRfxCom.switch(deviceId, 'switchOff');
 }
 
 module.exports = Domusto;

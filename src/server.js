@@ -1,5 +1,6 @@
 let express = require('express');
 let domusto = require('./domusto.js');
+let util = require('./util.js');
 let switchRoutes = require('./switch/switchRoutes');
 
 domusto.init();
@@ -11,4 +12,4 @@ switchRoutes(app);
 
 app.listen(port);
 
-domusto.log('Domusto REST api server started on: ' + port);
+util.log('Domusto REST api server started on: ' + port);
