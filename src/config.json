@@ -35,6 +35,17 @@
                     "time": "* 0 10 * *"
                 }
             ]
+        },
+        {
+            "id": 1,
+            "role": "input",
+            "name": "Achtertuin",
+            "protocol": {
+                "hardwareId": 0,
+                "type": "th",
+                "subType": "13",
+                "id": "0x7003"
+            }
         }
     ]
 }

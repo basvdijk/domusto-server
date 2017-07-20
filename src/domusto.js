@@ -6,7 +6,7 @@ let Domusto = {};
 Domusto.hardwareInstances = {};
 
 Domusto.init = function() {
-    
+
     Domusto.loadConfiguration();
 
     if (!Domusto.configuration.debug) {
