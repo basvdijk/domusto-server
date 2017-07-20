@@ -1,0 +1,19 @@
+{
+  "name": "domusto",
+  "version": "0.0.1",
+  "description": "Node home automation rest API for RPI",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bas van Dijk",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.15.3",
+    "fs": "0.0.1-security",
+    "rfxcom": "^0.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

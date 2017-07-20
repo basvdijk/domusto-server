@@ -1,0 +1,39 @@
+{
+    "debug": true,
+    "input": {
+        "thermometers": [],
+        "utility": []
+    },
+    "hardware": [
+        {
+            "id": 1,
+            "type": "RFXCOM",
+            "port": "/dev/ttyUSB-RFX433"
+        }
+    ],
+    "devices": [
+        {
+            "id": 1,
+            "role": "output",
+            "name": "modem",
+            "type": "switch",
+            "subtype": "on/off",
+            "hardware": {
+                "type": "RFXCOM",
+                "protocol": "AC",
+                "unit": 1,
+                "id": "0x2020504"
+            },            
+            "timers": [
+                {
+                    "state": "on",
+                    "time": "* 11 52 * *"
+                },
+                {
+                    "state": "off",
+                    "time": "* 0 10 * *"
+                }
+            ]
+        }
+    ]
+}
