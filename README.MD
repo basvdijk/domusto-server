@@ -9,6 +9,8 @@ $ npm run start
 $ ./node_modules/.bin/nodemon src/server.js
 ```
 
+# Setup
+
 ## Installing and upgrading NPM / Nodejs on RPI
 
 By default the node package in Raspian is very old:
@@ -34,3 +36,8 @@ $ npm -v
 ```
 
 source: http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/
+
+## Install npm packages
+```
+$ npm install
+```
