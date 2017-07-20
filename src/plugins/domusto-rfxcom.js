@@ -15,7 +15,7 @@ DomustoRfxCom.init = function(device, configuration) {
 
 }
 
-DomustoRfxCom.switch = function (deviceId, command) {
+DomustoRfxCom.switch = function (deviceId, command, callback) {
 
     let device = DomustoRfxCom.configuration.devices[deviceId];
     let protocol = device.protocol;
@@ -25,9 +25,10 @@ DomustoRfxCom.switch = function (deviceId, command) {
     let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
     let rfxSwitch = new rfxConstructor(DomustoRfxCom.hardwareInstance, rfxProtocolType[protocol.subType]);
-
+    
     // Format the hardware id and into the 0x2020504/1 format
-    rfxSwitch[command](protocol.id + '/' + protocol.unit);
+    rfxSwitch[command](protocol.id + '/' + protocol.unit, callback);
+    
 
 }
 
