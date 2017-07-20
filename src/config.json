@@ -39,12 +39,23 @@
         {
             "id": 1,
             "role": "input",
-            "name": "Achtertuin",
+            "name": "Studeerkamer",
             "protocol": {
                 "hardwareId": 0,
                 "type": "th",
                 "subType": "13",
                 "id": "0x7003"
+            }
+        },
+        {
+            "id": 2,
+            "role": "input",
+            "name": "Achtertuin",
+            "protocol": {
+                "hardwareId": 0,
+                "type": "th",
+                "subType": "13",
+                "id": "0xBB03"
             }
         }
     ]
