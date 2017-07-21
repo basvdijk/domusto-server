@@ -4,7 +4,7 @@ let util = require('../util');
 let DomustoRfxCom = {};
 
 DomustoRfxCom.inputData = {};
-DomustoRfxCom.registeredInputDevices = [];
+DomustoRfxCom.registeredInputDeviceIds = [];
 DomustoRfxCom.onNewInputData = null;
 
 DomustoRfxCom.init = function (device, configuration) {
@@ -49,27 +49,42 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
         // Temp + Humidity
         if (device.role === 'input' && device.protocol.type === 'th' && device.protocol.hardwareId === 0) {
+
             rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
-                let _device = device;
-                DomustoRfxCom.updateInputTempData(sensorData, _device);
+                DomustoRfxCom.updateInputTempData(sensorData);
             });
 
-            DomustoRfxCom.registeredInputDevices.push(device.protocol.id);
+            DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.id);
         }
 
     }
 };
 
-DomustoRfxCom.updateInputTempData = function (sensorData, device) {
+DomustoRfxCom.updateInputTempData = function (sensorData) {
+
+    let device = DomustoRfxCom.getDeviceById(sensorData.id);
 
     util.debug('Receiving input data ', sensorData);
 
-    if (DomustoRfxCom.registeredInputDevices.includes(sensorData.id)) {
+    if (DomustoRfxCom.registeredInputDeviceIds.includes(sensorData.id)) {
         sensorData.typeString = DomustoRfxCom.subTypeString(device.protocol.type + device.protocol.subType);
-        DomustoRfxCom.inputData[sensorData.id] = sensorData;
+
+        DomustoRfxCom.inputData[sensorData.id] = {
+            device: device,
+            data: sensorData
+        };
+
+        // console.log(DomustoRfxCom.inputData);
+
         DomustoRfxCom.onNewInputData(DomustoRfxCom.inputData);
     }
 
+};
+
+DomustoRfxCom.getDeviceById = function (deviceId) {
+    return DomustoRfxCom.configuration.devices.find(function(device) {
+        return device.protocol.id === deviceId;
+    });
 };
 
 DomustoRfxCom.ReceivedInput = function (sensorData) {

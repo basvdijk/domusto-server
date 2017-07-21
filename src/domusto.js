@@ -69,8 +69,8 @@ Domusto.init = function (io) {
 }
 
 // Fired when a plugin broadcasts new data
-Domusto.onNewInputData = function (data) {
-    Domusto.socket.emit('stream', { 'number': Math.random(), data: data });
+Domusto.onNewInputData = function (inputData) {
+    Domusto.socket.emit('stream', inputData);
 }
 
 // Load the app / input / output configuration file
