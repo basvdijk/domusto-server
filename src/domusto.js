@@ -8,9 +8,7 @@ let Domusto = {};
 Domusto.hardwareInstances = {};
 Domusto.socket = null;
 
-Domusto.initSocketIo = function () {
-
-    io = require('socket.io')(Domusto.http);
+Domusto.initSocketIo = function (io) {
 
     io.on('connection', function (socket) {
 
@@ -25,11 +23,11 @@ Domusto.initSocketIo = function () {
 
 }
 
-Domusto.init = function (http) {
+Domusto.init = function (io) {
 
-    Domusto.http = http;
+    // Domusto.http = http;
 
-    Domusto.initSocketIo();
+    Domusto.initSocketIo(io);
 
     Domusto.loadConfiguration();
 
