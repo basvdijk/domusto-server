@@ -1,17 +1,21 @@
-let express = require('express');
+let app = require('express')();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+
 let domusto = require('./domusto.js');
 let util = require('./util.js');
+
+// Routes
 let switchRoutes = require('./switch/switchRoutes');
 let inputRoutes = require('./input/inputRoutes');
 
-domusto.init();
+domusto.init(http);
 
-let app = express();
 let port = process.env.PORT || 3000;
 
 switchRoutes(app);
 inputRoutes(app);
 
-app.listen(port);
-
-util.log('Domusto REST api server started on: ' + port);
+http.listen(port, function () {
+    util.log('Domusto REST api server started on: ' + port);
+});
