@@ -7,6 +7,8 @@ DomustoRfxCom.inputData = {};
 DomustoRfxCom.registeredInputDeviceIds = [];
 DomustoRfxCom.onNewInputData = null;
 
+DomustoRfxCom.outputDevices = {};
+
 DomustoRfxCom.init = function (device, configuration) {
 
     util.debug('Initialising RFXtrx');
@@ -48,11 +50,22 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
         let device = devices[i];
 
         // Temp + Humidity
-        if (device.role === 'input' && device.protocol.type === 'th' && device.protocol.hardwareId === 0) {
+        if (device.role === 'input' && device.type === 'temp-humid' && device.protocol.hardwareId === 0) {
 
             rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
                 DomustoRfxCom.updateInputTempData(sensorData);
             });
+
+            DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.id);
+        }
+
+        if (device.role === 'output' && device.type === 'switch' && device.protocol.hardwareId === 0) {
+
+            // rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
+            //     DomustoRfxCom.updateInputTempData(sensorData);
+            // });
+
+            DomustoRfxCom.outputDevices[device.protocol.id] = device;
 
             DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.id);
         }
