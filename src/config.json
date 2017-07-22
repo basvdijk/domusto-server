@@ -40,6 +40,7 @@
             "id": 1,
             "role": "input",
             "name": "Studeerkamer",
+            "type": "temp-humid",
             "protocol": {
                 "hardwareId": 0,
                 "type": "th",
@@ -51,6 +52,7 @@
             "id": 2,
             "role": "input",
             "name": "Achtertuin",
+            "type": "temp-humid",
             "protocol": {
                 "hardwareId": 0,
                 "type": "th",
