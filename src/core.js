@@ -51,13 +51,6 @@ Core.getNetworkIPs = (function () {
     };
 })();
 
-Core.getNetworkIPs(function callback(error, ip) {
 
-    Core.data.ip = ip[0];
-
-    if (error) {
-        console.log('error:', error);
-    }
-}, false);
 
 module.exports = Core;

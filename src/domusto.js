@@ -1,11 +1,15 @@
 let fs = require('fs');
 let util = require('./util');
+let core = require('./core.js');
 
 let io;
 
 let Domusto = {};
 
+Domusto.outputDevices = [];
+Domusto.inputDevices = [];
 Domusto.hardwareInstances = {};
+Domusto.devices = {};
 Domusto.socket = null;
 
 Domusto.initSocketIo = function (io) {
@@ -30,6 +34,8 @@ Domusto.init = function (io) {
     Domusto.initSocketIo(io);
 
     Domusto.loadConfiguration();
+
+    Domusto.initDevices();
 
     if (!Domusto.configuration.debug) {
         util.debug = function () { };
@@ -68,6 +74,57 @@ Domusto.init = function (io) {
 
 }
 
+Domusto.initDevices = function() {
+
+    for (let i = 0; i < Domusto.configuration.devices.length; i++) {
+
+        let device = Domusto.configuration.devices[i];
+
+        switch (device.role) {
+          case 'input': {
+            let input = Domusto.initInput(Object.assign({}, device));
+            Domusto.inputDevices.push(input);
+            break
+          }  
+          case 'output': {
+            let output = Domusto.initOutput(Object.assign({}, device));
+            Domusto.outputDevices.push(output);
+            break
+          }  
+        }
+    }
+
+}
+
+Domusto.initInput = function(input) {
+    return input;
+}
+
+Domusto.initOutput = function(output) {
+
+    output.state = 'off';
+    output.lastUpdated = new Date();
+    output.actions = {
+        on: core.data.serverAddress + 'output/command/' + output.id + '/on',
+        off: core.data.serverAddress +'output/command/' + output.id + '/off'
+    }
+
+    return output;
+}
+
+Domusto.outputCommand = function(deviceId, command, onSuccess) {
+    console.log(deviceId, command);
+
+    let hardware = Domusto.hardwareByDeviceId(deviceId);
+    let device = Domusto.outputDevices[deviceId];
+
+    hardware.outputCommand(deviceId, command, function(response) {
+        device.state = response.state;
+        onSuccess(device);
+    });
+
+}
+
 // Fired when a plugin broadcasts new data
 Domusto.onNewInputData = function (inputData) {
     Domusto.socket.emit('stream', inputData);
@@ -83,6 +140,7 @@ Domusto.switchOn = function (deviceId, callback) {
     let device = Domusto.configuration.devices[deviceId];
     Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOn', function (err, res, sequenceNumber) {
         util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' ON');
+        device.status = 'ON';
         callback(err, res, sequenceNumber);
     });
 }
@@ -91,6 +149,7 @@ Domusto.switchOff = function (deviceId, callback) {
     let device = Domusto.configuration.devices[deviceId];
     Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOff', function (err, res, sequenceNumber) {
         util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' OFF');
+        device.status = 'OFF';
         callback(err, res, sequenceNumber);
     });
 }

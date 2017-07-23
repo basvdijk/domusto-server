@@ -33,7 +33,18 @@ let inputRoutes = require('./input/inputRoutes');
 let outputRoutes = require('./output/outputRoutes');
 let coreRoutes = require('./core/coreRoutes');
 
-domusto.init(io);
+// We can only start DOMUSTO server if we know the server ip address
+core.getNetworkIPs(function callback(error, ip) {
+
+    core.data.ip = ip[0];
+    core.data.serverAddress = 'http://' + ip[0] + ':' + core.data.port + '/'
+
+    domusto.init(io);
+
+    if (error) {
+        console.log('error:', error);
+    }
+}, false);
 
 let port = process.env.PORT || 3000;
 

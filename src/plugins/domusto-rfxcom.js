@@ -1,5 +1,6 @@
 let rfxcom = require('rfxcom');
 let util = require('../util');
+let domusto = require('../domusto');
 
 let DomustoRfxCom = {};
 
@@ -25,8 +26,7 @@ DomustoRfxCom.init = function (device, configuration) {
     // DomustoRfxCom.ListenAll(rfxtrx);
 }
 
-DomustoRfxCom.switch = function (deviceId, command, callback) {
-
+DomustoRfxCom.outputCommand = function (deviceId, command, onSucces) {
     let device = DomustoRfxCom.configuration.devices[deviceId];
     let protocol = device.protocol;
 
@@ -36,8 +36,25 @@ DomustoRfxCom.switch = function (deviceId, command, callback) {
 
     let rfxSwitch = new rfxConstructor(DomustoRfxCom.hardwareInstance, rfxProtocolType[protocol.subType]);
 
+    let rfxCommand = null;
+
+    console.log(command);
+
+    switch (command) {
+        case 'on':
+            rfxCommand = 'switchOn';
+            break;
+        case 'off':
+            rfxCommand = 'switchOff';
+            break;
+    }
+
+    console.log(protocol.id + '/' + protocol.unit, rfxCommand);
+
     // Format the hardware id and into the 0x2020504/1 format
-    rfxSwitch[command](protocol.id + '/' + protocol.unit, callback);
+    rfxSwitch[rfxCommand](protocol.id + '/' + protocol.unit, function() {
+        onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
+    });
 
 }
 
