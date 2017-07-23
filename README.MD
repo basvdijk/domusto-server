@@ -1,3 +1,5 @@
+This project is pre-pre-pre-alpha, so don't expect a working solution.
+
 # API docs
 
 See [the API docs](API.MD)
