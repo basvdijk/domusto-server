@@ -156,7 +156,7 @@ Domusto.onNewInputData = function (input) {
 
     device.lastUpdated = new Date();
 
-    Domusto.io.emit('deviceUpdate', device);
+    Domusto.io.emit('inputDeviceUpdate', device);
 }
 
 // Load the app / input / output configuration file
