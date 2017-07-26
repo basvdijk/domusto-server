@@ -26,8 +26,8 @@ DomustoRfxCom.init = function (device, configuration) {
     // DomustoRfxCom.ListenAll(rfxtrx);
 }
 
-DomustoRfxCom.outputCommand = function (deviceId, command, onSucces) {
-    let device = DomustoRfxCom.configuration.devices[deviceId];
+DomustoRfxCom.outputCommand = function (device, command, onSucces) {
+
     let protocol = device.protocol;
 
     // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.

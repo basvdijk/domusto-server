@@ -123,26 +123,25 @@ Domusto.initInput = function (input) {
 }
 
 Domusto.initOutput = function (output) {
-
     output.state = 'off';
     output.lastUpdated = new Date();
     output.actions = {
-        on: core.data.serverAddress + 'output/command/' + output.id + '/on',
-        off: core.data.serverAddress + 'output/command/' + output.id + '/off'
+        on: core.data.serverAddress + 'output/command/' + output.protocol.id + '/on',
+        off: core.data.serverAddress + 'output/command/' + output.protocol.id + '/off'
     }
 
     return output;
 }
 
-Domusto.outputCommand = function (deviceId, command, onSuccess) {
+Domusto.outputCommand = function (hardwareId, command, onSuccess) {
 
-    let hardware = Domusto.hardwareByDeviceId(deviceId);
-    let device = Domusto.outputDevices[deviceId];
+    let device = Domusto.deviceByHardwareId(hardwareId);
+    let hardware = Domusto.hardwareByHardwareId(hardwareId);
 
-    hardware.outputCommand(deviceId, command, function (response) {
+    hardware.outputCommand(device, command, function (response) {
         device.state = response.state;
         onSuccess(device);
-        Domusto.io.emit('outputDevices', device);
+        Domusto.io.emit('outputDeviceUpdate', device);
     });
 
 }
@@ -191,10 +190,13 @@ Domusto.switchOff = function (deviceId, callback) {
 }
 
 // Get the hardware instance by device id
-Domusto.hardwareByDeviceId = function (deviceId) {
-    let device = Domusto.configuration.devices[deviceId];
-    let hardwareId = device.protocol.hardwareId;
-    let hardwareType = Domusto.configuration.hardware[hardwareId].type;
+Domusto.hardwareByHardwareId = function (hardwareId) {
+
+    let device = Domusto.deviceByHardwareId(hardwareId);
+
+    let hardwareInstanceId = device.protocol.hardwareId;
+
+    let hardwareType = Domusto.configuration.hardware[hardwareInstanceId].type;
     return Domusto.hardwareInstances[hardwareType];
 }
 

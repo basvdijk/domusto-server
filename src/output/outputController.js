@@ -4,7 +4,7 @@ let DomustoRfxCom = require('../plugins/domusto-rfxcom');
 let Domusto = require('../domusto');
 
 exports.list = function (req, res) {   
-    res.json(Domusto.outputDevices);
+    res.json(Domusto.getDevicesByRole('output'));
 };
 
 exports.command = function(req, res) {
