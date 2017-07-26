@@ -6,46 +6,46 @@ let io;
 
 let Domusto = {};
 
+Domusto.io = null;
+
 Domusto.outputDevices = [];
 Domusto.inputDevices = [];
 
 Domusto.devices = [];
 
 Domusto.hardwareInstances = {};
-// Domusto.devices = {};
-Domusto.socket = null;
+
+Domusto.init = function (io) {
+
+    Domusto.loadConfiguration();
+
+    Domusto.io = io;
+
+    Domusto.initSocketIo();
+
+    Domusto.initDevices();
+
+    Domusto.initHardware();
+    
+}
 
 Domusto.initSocketIo = function (io) {
 
-    io.on('connection', function (socket) {
+    Domusto.io.on('connection', function (socket) {
 
-        Domusto.socket = socket;
+        util.debug('Connection received from:', socket.handshake.headers.referer);
 
         // // send data to client
         // setInterval(function () {
         //     console.log('emit');
-        //     Domusto.socket.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
+        //     Domusto.io.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
         // }, 10000);
 
     });
 
 }
 
-Domusto.init = function (io) {
-
-    // Domusto.http = http;
-
-    Domusto.initSocketIo(io);
-
-    Domusto.loadConfiguration();
-
-    Domusto.initDevices();
-
-    if (!Domusto.configuration.debug) {
-        util.debug = function () { };
-    } else {
-        util.log('Debug messages enabled')
-    }
+Domusto.initHardware = function() {
 
     util.debug('Initialising hardware');
 
@@ -99,8 +99,6 @@ Domusto.initDevices = function () {
         }
     }
 
-    console.log(Domusto.devices);
-
 }
 
 Domusto.initInput = function (input) {
@@ -144,7 +142,7 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
     hardware.outputCommand(deviceId, command, function (response) {
         device.state = response.state;
         onSuccess(device);
-        Domusto.socket.emit('outputDevices', device);
+        Domusto.io.emit('outputDevices', device);
     });
 
 }
@@ -154,20 +152,24 @@ Domusto.onNewInputData = function (input) {
 
     let device = Domusto.deviceByHardwareId(input.hardwareId);
 
-    console.log(input.hardwareId);
-
     // Update the device with the new input data
     Object.assign(device.data, input.data);
 
     device.lastUpdated = new Date();
 
-    Domusto.socket.emit('deviceUpdate', device);
+    Domusto.io.emit('deviceUpdate', device);
 }
 
 // Load the app / input / output configuration file
 Domusto.loadConfiguration = function () {
     let configuration = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     Domusto.configuration = configuration;
+
+    if (!Domusto.configuration.debug) {
+        util.debug = function () { };
+    } else {
+        util.log('Debug messages enabled')
+    }
 }
 
 Domusto.switchOn = function (deviceId, callback) {
