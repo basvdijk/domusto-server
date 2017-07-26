@@ -62,18 +62,28 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
     let devices = DomustoRfxCom.configuration.devices;
 
+    let protocolsWithListeners = [];
+
     for (let i = 0; i < devices.length; i++) {
 
         let device = devices[i];
 
-        // Temp + Humidity
-        if (device.role === 'input' && device.type === 'temp-humid' && device.protocol.hardwareId === 0) {
+        let protocolHasListener = protocolsWithListeners.indexOf(device.role + device.type + device.protocol.hardwareId) > -1;
 
-            rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
-                DomustoRfxCom.updateInputTempData(sensorData);
-            });
+        // Temp + Humidity
+        if (device.role === 'input' && device.type === 'temperature' && device.protocol.hardwareId === 0) {
+
+            if (!protocolHasListener) {
+
+                rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
+                    DomustoRfxCom.updateInputTempData(sensorData);
+                    protocolsWithListeners.push(device.role + device.type + device.protocol.hardwareId);
+                });
+
+            }
 
             DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.id);
+
         }
 
         if (device.role === 'output' && device.type === 'switch' && device.protocol.hardwareId === 0) {
@@ -92,6 +102,8 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
 DomustoRfxCom.updateInputTempData = function (sensorData) {
 
+    // console.log(sensorData);
+
     let device = DomustoRfxCom.getDeviceById(sensorData.id);
 
     util.debug('Receiving input data ', sensorData);
@@ -99,14 +111,34 @@ DomustoRfxCom.updateInputTempData = function (sensorData) {
     if (DomustoRfxCom.registeredInputDeviceIds.includes(sensorData.id)) {
         sensorData.typeString = DomustoRfxCom.subTypeString(device.protocol.type + device.protocol.subType);
 
-        DomustoRfxCom.inputData[sensorData.id] = {
-            device: device,
-            data: sensorData
-        };
+        // let device = DomustoRfxCom.inputData[sensorData.id];
+
+        // device.data.temperature = sensorData.temperature;
+
+        // DomustoRfxCom.inputData[sensorData.id] = {
+        //     device: device,
+        //     data: {
+        //         temperature: sensorData.temperature,
+        //         humidity: sensorData.humidity,
+        //         humidityStatus: sensorData.humidityStatus,
+        //         batteryLevel: sensorData.batteryLevel,
+        //         rssi: sensorData.rssi
+        //     }
+        // };
 
         // console.log(DomustoRfxCom.inputData);
 
-        DomustoRfxCom.onNewInputData(DomustoRfxCom.inputData);
+        DomustoRfxCom.onNewInputData({
+            hardwareId: sensorData.id,
+            data: {
+                deviceTypeString: DomustoRfxCom.subTypeString(device.protocol.type + device.protocol.subType),
+                temperature: sensorData.temperature,
+                humidity: sensorData.humidity,
+                humidityStatus: sensorData.humidityStatus,
+                batteryLevel: sensorData.batteryLevel,
+                rssi: sensorData.rssi
+            }
+        });
     }
 
 };
@@ -119,7 +151,6 @@ DomustoRfxCom.getDeviceById = function (deviceId) {
 
 DomustoRfxCom.ReceivedInput = function (sensorData) {
     util.debug('Receiving input data ', sensorData);
-    console.log(sensorData);
 };
 
 // Descriptions from https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.rfxcom

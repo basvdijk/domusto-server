@@ -2,9 +2,9 @@ let app = require('express')();
 let server = require('http').Server(app);
 let io = require('socket.io')(server);
 
-let domusto = require('./domusto.js');
-let util = require('./util.js');
-let core = require('./core.js');
+let domusto = require('./domusto');
+let util = require('./util');
+let core = require('./core');
 
 // Add headers
 app.use(function (req, res, next) {
@@ -60,13 +60,13 @@ server.listen(port, function () {
 core.data.port = port;
 
 // io.on('connection', function (socket) {
-//     socket.emit('stream', { hello: 'world' });
+//     socket.emit('inputDevices', { hello: 'world' });
 //     socket.on('my other event', function (data) {
 //         console.log(data);
 //     });
 
 //     setInterval(function () {
-//         socket.emit('stream', { 'number': Math.random() });
+//         socket.emit('inputDevices', { 'number': Math.random() });
 //     }, 1000);
 
 // });

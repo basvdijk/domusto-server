@@ -1,6 +1,6 @@
 'use strict';
 
-let domusto = require('../domusto.js');
+let domusto = require('../domusto');
 
 exports.on = function (req, res) {
     domusto.switchOn(req.params.deviceId, function() {

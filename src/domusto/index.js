@@ -1,6 +1,6 @@
 let fs = require('fs');
-let util = require('./util');
-let core = require('./core.js');
+let util = require('../util');
+let core = require('../core.js');
 
 let io;
 
@@ -8,8 +8,11 @@ let Domusto = {};
 
 Domusto.outputDevices = [];
 Domusto.inputDevices = [];
+
+Domusto.devices = [];
+
 Domusto.hardwareInstances = {};
-Domusto.devices = {};
+// Domusto.devices = {};
 Domusto.socket = null;
 
 Domusto.initSocketIo = function (io) {
@@ -18,10 +21,11 @@ Domusto.initSocketIo = function (io) {
 
         Domusto.socket = socket;
 
-        //send data to client
+        // // send data to client
         // setInterval(function () {
-        //     Domusto.socket.emit('stream', { 'number': Math.random() });
-        // }, 1000);
+        //     console.log('emit');
+        //     Domusto.socket.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
+        // }, 10000);
 
     });
 
@@ -55,7 +59,7 @@ Domusto.init = function (io) {
 
         switch (component.type) {
             case "RFXCOM":
-                hardwareInstance = require('./plugins/domusto-rfxcom');
+                hardwareInstance = require('../plugins/domusto-rfxcom');
                 break;
 
             default:
@@ -74,60 +78,90 @@ Domusto.init = function (io) {
 
 }
 
-Domusto.initDevices = function() {
+Domusto.initDevices = function () {
 
     for (let i = 0; i < Domusto.configuration.devices.length; i++) {
 
         let device = Domusto.configuration.devices[i];
 
         switch (device.role) {
-          case 'input': {
-            let input = Domusto.initInput(Object.assign({}, device));
-            Domusto.inputDevices.push(input);
-            break
-          }  
-          case 'output': {
-            let output = Domusto.initOutput(Object.assign({}, device));
-            Domusto.outputDevices.push(output);
-            break
-          }  
+            case 'input': {
+                let input = Domusto.initInput(Object.assign({}, device));
+                input.id = 'input-' + input.id;
+                Domusto.devices.push(input);
+                break
+            }
+            case 'output': {
+                let output = Domusto.initOutput(Object.assign({}, device));
+                Domusto.devices.push(output);
+                break
+            }
         }
     }
 
+    console.log(Domusto.devices);
+
 }
 
-Domusto.initInput = function(input) {
+Domusto.initInput = function (input) {
+
+    switch (input.type) {
+        case 'temperature': {
+            input.data = {
+                deviceTypeString: null,
+                temperature: null,
+                humidity: null,
+                humidityStatus: null,
+                barometer: null,
+                batteryLevel: null,
+                rssi: null,
+            }
+            input.lastUpdated = new Date()
+            break;
+        }
+    }
+
     return input;
 }
 
-Domusto.initOutput = function(output) {
+Domusto.initOutput = function (output) {
 
     output.state = 'off';
     output.lastUpdated = new Date();
     output.actions = {
         on: core.data.serverAddress + 'output/command/' + output.id + '/on',
-        off: core.data.serverAddress +'output/command/' + output.id + '/off'
+        off: core.data.serverAddress + 'output/command/' + output.id + '/off'
     }
 
     return output;
 }
 
-Domusto.outputCommand = function(deviceId, command, onSuccess) {
-    console.log(deviceId, command);
+Domusto.outputCommand = function (deviceId, command, onSuccess) {
 
     let hardware = Domusto.hardwareByDeviceId(deviceId);
     let device = Domusto.outputDevices[deviceId];
 
-    hardware.outputCommand(deviceId, command, function(response) {
+    hardware.outputCommand(deviceId, command, function (response) {
         device.state = response.state;
         onSuccess(device);
+        Domusto.socket.emit('outputDevices', device);
     });
 
 }
 
 // Fired when a plugin broadcasts new data
-Domusto.onNewInputData = function (inputData) {
-    Domusto.socket.emit('stream', inputData);
+Domusto.onNewInputData = function (input) {
+
+    let device = Domusto.deviceByHardwareId(input.hardwareId);
+
+    console.log(input.hardwareId);
+
+    // Update the device with the new input data
+    Object.assign(device.data, input.data);
+
+    device.lastUpdated = new Date();
+
+    Domusto.socket.emit('deviceUpdate', device);
 }
 
 // Load the app / input / output configuration file
@@ -160,6 +194,28 @@ Domusto.hardwareByDeviceId = function (deviceId) {
     let hardwareId = device.protocol.hardwareId;
     let hardwareType = Domusto.configuration.hardware[hardwareId].type;
     return Domusto.hardwareInstances[hardwareType];
+}
+
+Domusto.deviceByHardwareId = function (hardwareId) {
+
+    let device = null;
+
+    device = Domusto.devices.find(function (device) {
+        return device.protocol.id === hardwareId;
+    });
+
+    return device;
+};
+
+Domusto.getDevicesByRole = function(role) {
+
+    let inputDevices = Domusto.devices.slice().filter(function (device) {
+        return device.role === role;
+    });
+
+
+    return inputDevices;
+
 }
 
 module.exports = Domusto;
