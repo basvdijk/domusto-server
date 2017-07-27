@@ -87,7 +87,6 @@ Domusto.initDevices = function () {
         switch (device.role) {
             case 'input': {
                 let input = Domusto.initInput(Object.assign({}, device));
-                input.id = 'input-' + input.id;
                 Domusto.devices.push(input);
                 break
             }
