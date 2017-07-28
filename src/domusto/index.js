@@ -155,6 +155,12 @@ Domusto.initOutput = function (output) {
     return output;
 }
 
+/**
+ * Sends an output command to the hardware of an output device
+ * @param {integer} hardwareId Id of the hardware used by a device
+ * @param {string} command Command to send
+ * @param {function} onSucces Fired when the command is successfully executed
+ */
 Domusto.outputCommand = function (hardwareId, command, onSuccess) {
 
     let device = Domusto.deviceByHardwareId(hardwareId);
@@ -166,6 +172,7 @@ Domusto.outputCommand = function (hardwareId, command, onSuccess) {
         device.lastUpdated = new Date();
         onSuccess(device);
 
+        // outputDeviceUpdate channel only takes arrays
         let devices = [];
         devices.push(device);
         Domusto.io.emit('outputDeviceUpdate', devices);
@@ -173,7 +180,10 @@ Domusto.outputCommand = function (hardwareId, command, onSuccess) {
 
 }
 
-// Fired when a plugin broadcasts new data
+/**
+ * Fired when a plugin broadcasts new data
+ * @param {object} input Input device object
+ */
 Domusto.onNewInputData = function (input) {
 
     let device = Domusto.deviceByHardwareId(input.hardwareId);
@@ -183,12 +193,15 @@ Domusto.onNewInputData = function (input) {
 
     device.lastUpdated = new Date();
 
+    // inputDeviceUpdate channel only takes arrays
     let devices = [];
     devices.push(device);
     Domusto.io.emit('inputDeviceUpdate', devices);
 }
 
-// Load the app / input / output configuration file
+/*
+ * Load the app / input / output configuration file
+ */
 Domusto.loadConfiguration = function () {
     let configuration = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     Domusto.configuration = configuration;
