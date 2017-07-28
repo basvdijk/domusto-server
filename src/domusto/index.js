@@ -11,7 +11,7 @@ Domusto.io = null;
 Domusto.outputDevices = [];
 Domusto.inputDevices = [];
 
-Domusto.devices = [];
+Domusto.devices = {};
 
 Domusto.hardwareInstances = {};
 
@@ -26,14 +26,23 @@ Domusto.init = function (io) {
     Domusto.initDevices();
 
     Domusto.initHardware();
-    
+
 }
+
+/**
+ * Initialises Socket.io
+ * @param {socket.io server} io The server instance of Socket.io
+ */
 
 Domusto.initSocketIo = function (io) {
 
     Domusto.io.on('connection', function (socket) {
 
         util.debug('Connection received from:', socket.handshake.headers.referer);
+
+        // Update the client with the latest known states / data
+        socket.emit('inputDeviceUpdate', Domusto.getDevicesByRole('input'));
+        socket.emit('outputDeviceUpdate', Domusto.getDevicesByRole('output'));
 
         // // send data to client
         // setInterval(function () {
@@ -45,7 +54,10 @@ Domusto.initSocketIo = function (io) {
 
 }
 
-Domusto.initHardware = function() {
+/**
+ * Initialises configured hardware
+ */
+Domusto.initHardware = function () {
 
     util.debug('Initialising hardware');
 
@@ -78,6 +90,9 @@ Domusto.initHardware = function() {
 
 }
 
+/**
+ * Initialises configured devices
+ */
 Domusto.initDevices = function () {
 
     for (let i = 0; i < Domusto.configuration.devices.length; i++) {
@@ -87,12 +102,12 @@ Domusto.initDevices = function () {
         switch (device.role) {
             case 'input': {
                 let input = Domusto.initInput(Object.assign({}, device));
-                Domusto.devices.push(input);
+                Domusto.devices[input.id] = input;
                 break
             }
             case 'output': {
                 let output = Domusto.initOutput(Object.assign({}, device));
-                Domusto.devices.push(output);
+                Domusto.devices[output.id] = output;
                 break
             }
         }
@@ -100,6 +115,10 @@ Domusto.initDevices = function () {
 
 }
 
+/**
+ * Initialises an input device with its default DOMUSTO device properties
+ * @param {object} input Input device object from configuration
+ */
 Domusto.initInput = function (input) {
 
     switch (input.type) {
@@ -121,6 +140,10 @@ Domusto.initInput = function (input) {
     return input;
 }
 
+/**
+ * Initialises an output device with its default DOMUSTO device properties
+ * @param {object} output Output device object from configuration
+ */
 Domusto.initOutput = function (output) {
     output.state = 'off';
     output.lastUpdated = new Date();
@@ -135,12 +158,17 @@ Domusto.initOutput = function (output) {
 Domusto.outputCommand = function (hardwareId, command, onSuccess) {
 
     let device = Domusto.deviceByHardwareId(hardwareId);
+
     let hardware = Domusto.hardwareByHardwareId(hardwareId);
 
     hardware.outputCommand(device, command, function (response) {
         device.state = response.state;
+        device.lastUpdated = new Date();
         onSuccess(device);
-        Domusto.io.emit('outputDeviceUpdate', device);
+
+        let devices = [];
+        devices.push(device);
+        Domusto.io.emit('outputDeviceUpdate', devices);
     });
 
 }
@@ -155,7 +183,9 @@ Domusto.onNewInputData = function (input) {
 
     device.lastUpdated = new Date();
 
-    Domusto.io.emit('inputDeviceUpdate', device);
+    let devices = [];
+    devices.push(device);
+    Domusto.io.emit('inputDeviceUpdate', devices);
 }
 
 // Load the app / input / output configuration file
@@ -201,23 +231,32 @@ Domusto.hardwareByHardwareId = function (hardwareId) {
 
 Domusto.deviceByHardwareId = function (hardwareId) {
 
-    let device = null;
+    for (let i in Domusto.devices) {
 
-    device = Domusto.devices.find(function (device) {
-        return device.protocol.id === hardwareId;
-    });
+        let device = Domusto.devices[i];
 
-    return device;
+        if (device.protocol.id === hardwareId) {
+            return device;
+        }
+    }
+
+    return null;
 };
 
-Domusto.getDevicesByRole = function(role) {
+Domusto.getDevicesByRole = function (role) {
 
-    let inputDevices = Domusto.devices.slice().filter(function (device) {
-        return device.role === role;
-    });
+    let devices = [];
 
+    for (let i in Domusto.devices) {
 
-    return inputDevices;
+        let device = Domusto.devices[i];
+
+        if (device.role === role) {
+            devices.push(device);
+        }
+    }
+
+    return devices;
 
 }
 
