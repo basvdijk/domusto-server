@@ -1,3 +1,4 @@
+let schedule = require('node-schedule');
 let fs = require('fs');
 let util = require('../util');
 let core = require('../core.js');
@@ -111,27 +112,55 @@ Domusto.initDevices = function () {
                     let hardwareId = input.protocol.hardwareId;
                     let hardwareComponent = Domusto.hardwareByHardwareId(hardwareId);
                     hardwareComponent.registerDevice(input);
-
                     break
                 }
                 case 'output': {
                     let output = Domusto.initOutput(Object.assign({}, device));
                     Domusto.devices[output.id] = output;
+
+                    // Initialise timers when specified
+                    if (output.timers) {
+                        Domusto.initTimers(output);
+                    }
+
                     break
                 }
-                
+
             }
         }
     }
 
 }
 
+Domusto.initTimers = function (device) {
+
+    var _device = device;
+
+    device.timers.forEach(function(timer) {
+
+        if (timer.enabled) {
+
+            util.log('Timer set for', timer.time, 'state', timer.state);
+
+            schedule.scheduleJob(timer.time, function() {
+                util.log('Timer activated for', _device.id, 'state', timer.state);
+                Domusto.outputCommand(_device.id, timer.state);
+            });
+
+        } else {
+            util.log('Timer ignored for', timer.time, 'state', timer.state);
+        }
+
+    }, this);
+
+};
+
 /**
  * Initialises an input device with its default DOMUSTO device properties
  * @param {object} input Input device object from configuration
  */
 Domusto.initInput = function (input) {
-   
+
     switch (input.type) {
         case 'temperature': {
 
@@ -204,7 +233,11 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
     hardware.outputCommand(device, command, function (response) {
         device.state = response.state;
         device.lastUpdated = new Date();
-        onSuccess(device);
+
+        // check if a callback is provided
+        if (typeof onSucces === 'function') {
+            onSuccess(device);
+        }
 
         // outputDeviceUpdate channel only takes arrays
         let devices = [];
