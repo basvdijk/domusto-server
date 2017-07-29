@@ -1,5 +1,6 @@
 let schedule = require('node-schedule');
 let fs = require('fs');
+var SunCalc = require('suncalc');
 let util = require('../util');
 let core = require('../core.js');
 
@@ -136,16 +137,48 @@ Domusto.initTimers = function (device) {
 
     var _device = device;
 
-    device.timers.forEach(function(timer) {
+    var times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
+
+
+    console.log(times.sunset);
+
+    console.log(times.sunset, util.offsetDate(times.sunset, '* 120 * * * *'));
+
+    device.timers.forEach(function (timer) {
 
         if (timer.enabled) {
 
-            util.log('Timer set for', timer.time, 'state', timer.state);
+            switch (timer.type) {
 
-            schedule.scheduleJob(timer.time, function() {
-                util.log('Timer activated for', _device.id, 'state', timer.state);
-                Domusto.outputCommand(_device.id, timer.state);
-            });
+                case 'time':
+                    util.log('Timer (timed) set for', timer.time, 'state', timer.state);
+
+                    schedule.scheduleJob(timer.time, function () {
+                        util.log('Timer activated for', _device.id, 'state', timer.state);
+                        Domusto.outputCommand(_device.id, timer.state);
+                    });
+                    break;
+
+                case 'sun':
+
+                    schedule.scheduleJob('1 0 0 * * *', function () {
+
+                        // We need to recalculate sunset, sunrise etc every day
+                        let times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
+                        date = util.offsetDate(times[timer.condition], timer.offset);
+
+                        util.log('Timer set for', _device.id, 'state', timer.state, date);
+
+                        schedule.scheduleJob(date, function () {
+                            util.log('Timer activated for', _device.id, 'state', timer.state);
+                            Domusto.outputCommand(_device.id, timer.state);
+                        });
+
+                    });
+
+                    break;
+
+            }
 
         } else {
             util.log('Timer ignored for', timer.time, 'state', timer.state);
