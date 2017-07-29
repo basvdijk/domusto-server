@@ -73,6 +73,9 @@ Domusto.initHardware = function () {
             case "RFXCOM":
                 hardwareInstance = require('../plugins/domusto-rfxcom');
                 break;
+            case "P1":
+                hardwareInstance = require('../plugins/domusto-p1');
+                break;
 
             default:
                 break;
@@ -135,6 +138,20 @@ Domusto.initInput = function (input) {
             input.lastUpdated = new Date()
             break;
         }
+        case 'power': {
+            input.data = {
+                electricity: {
+                    received: {
+                        actual: {
+                            value: 0,
+                            unit: 'kW'
+                        }
+                    }
+                }
+            }
+            input.lastUpdated = new Date()
+            break;
+        }
     }
 
     return input;
@@ -187,6 +204,8 @@ Domusto.outputCommand = function (hardwareId, command, onSuccess) {
 Domusto.onNewInputData = function (input) {
 
     let device = Domusto.deviceByHardwareId(input.hardwareId);
+
+    console.log(input);
 
     // Update the device with the new input data
     Object.assign(device.data, input.data);
