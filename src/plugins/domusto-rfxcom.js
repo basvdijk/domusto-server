@@ -1,6 +1,5 @@
 let rfxcom = require('rfxcom');
 let util = require('../util');
-let domusto = require('../domusto');
 
 let DomustoRfxCom = {};
 
@@ -25,6 +24,8 @@ DomustoRfxCom.init = function (device, configuration) {
     // Listen all possibilities for debugging / scanning
     // DomustoRfxCom.ListenAll(rfxtrx);
 }
+
+DomustoRfxCom.registerDevice = function(device) {}
 
 DomustoRfxCom.outputCommand = function (device, command, onSucces) {
 
@@ -71,7 +72,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
         let protocolHasListener = protocolsWithListeners.indexOf(device.role + device.type + device.protocol.hardwareId) > -1;
 
         // Temp + Humidity
-        if (device.role === 'input' && device.type === 'temperature' && device.protocol.hardwareId === 0) {
+        if (device.role === 'input' && device.type === 'temperature' && device.protocol.hardwareId === 'RFXCOM') {
 
             if (!protocolHasListener) {
 
@@ -86,7 +87,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
         }
 
-        if (device.role === 'output' && device.type === 'switch' && device.protocol.hardwareId === 0) {
+        if (device.role === 'output' && device.type === 'switch' && device.protocol.hardwareId === 'RFXCOM') {
 
             // rfxtrx.on(device.protocol.type + device.protocol.subType, function (sensorData) {
             //     DomustoRfxCom.updateInputTempData(sensorData);
@@ -102,7 +103,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
 DomustoRfxCom.updateInputTempData = function (sensorData) {
 
-    // console.log(sensorData);
+    console.log(sensorData);
 
     let device = DomustoRfxCom.getDeviceById(sensorData.id);
 

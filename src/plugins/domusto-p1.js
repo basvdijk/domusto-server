@@ -4,9 +4,10 @@
 
 let P1Reader = require('p1-reader');
 let util = require('../util');
-let domusto = require('../domusto');
 
 let DomustoP1 = {};
+
+DomustoP1.registerDevices = [];
 
 DomustoP1.init = function (hardwareComponent, configuration) {
 
@@ -23,35 +24,42 @@ DomustoP1.init = function (hardwareComponent, configuration) {
 
 }
 
-DomustoP1.registerDevice = function(device) {
-    console.log("REGISTER", device);
+DomustoP1.registerDevice = function (device) {
+    DomustoP1.registerDevices.push(device);
 }
 
 DomustoP1.updatePowerData = function (data) {
 
-    util.debug('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
+    // util.debug('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
 
-    DomustoP1.onNewInputData({
-        hardwareId: 'POWER1',
-        data: {
-            electricity: {
-                received: {
-                    tariff1: {
-                        value: data.electricity.received.tariff1.reading,
-                        unit: data.electricity.received.tariff1.unit
-                    },
-                    tariff2: {
-                        value: data.electricity.received.tariff2.reading,
-                        unit: data.electricity.received.tariff2.unit
-                    },
-                    actual: {
-                        value: data.electricity.received.actual.reading,
-                        unit: data.electricity.received.actual.unit
+    // console.log(DomustoP1.registerDevices);
+
+    DomustoP1.registerDevices.forEach(function(device) {
+
+        DomustoP1.onNewInputData({
+            hardwareId: device.id,
+            data: {
+                electricity: {
+                    received: {
+                        tariff1: {
+                            value: data.electricity.received.tariff1.reading,
+                            unit: data.electricity.received.tariff1.unit
+                        },
+                        tariff2: {
+                            value: data.electricity.received.tariff2.reading,
+                            unit: data.electricity.received.tariff2.unit
+                        },
+                        actual: {
+                            value: data.electricity.received.actual.reading,
+                            unit: data.electricity.received.actual.unit
+                        }
                     }
                 }
             }
-        }
+        });
+
     });
+
 
 }
 

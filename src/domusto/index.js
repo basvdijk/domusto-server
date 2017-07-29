@@ -23,9 +23,9 @@ Domusto.init = function (io) {
 
     Domusto.initSocketIo();
 
-    Domusto.initDevices();
-
     Domusto.initHardware();
+
+    Domusto.initDevices();
 
 }
 
@@ -38,7 +38,7 @@ Domusto.initSocketIo = function (io) {
 
     Domusto.io.on('connection', function (socket) {
 
-        util.debug('Connection received from:', socket.handshake.headers.referer);
+        util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
 
         // Update the client with the latest known states / data
         socket.emit('inputDeviceUpdate', Domusto.getDevicesByRole('input'));
@@ -107,6 +107,11 @@ Domusto.initDevices = function () {
                 case 'input': {
                     let input = Domusto.initInput(Object.assign({}, device));
                     Domusto.devices[input.id] = input;
+
+                    let hardwareId = input.protocol.hardwareId;
+                    let hardwareComponent = Domusto.hardwareInstances[hardwareId];
+                    hardwareComponent.registerDevice(input);
+
                     break
                 }
                 case 'output': {
@@ -126,9 +131,10 @@ Domusto.initDevices = function () {
  * @param {object} input Input device object from configuration
  */
 Domusto.initInput = function (input) {
-
+   
     switch (input.type) {
         case 'temperature': {
+
             input.data = {
                 deviceTypeString: null,
                 temperature: null,
@@ -142,16 +148,6 @@ Domusto.initInput = function (input) {
             break;
         }
         case 'power': {
-
-            console.log(Domusto.hardwareInstances);
-
-            
-            // let hardwareId = input.protocol.hardwareId;
-            // let hardwareComponent = Domusto.hardwareByHardwareId(hardwareId);
-
-            // hardwareComponent.registerDevice(device);
-
-            // Domusto.hardwareInstances[hardwareComponent.type];
 
             input.data = {
                 electricity: {
@@ -225,9 +221,9 @@ Domusto.outputCommand = function (hardwareId, command, onSuccess) {
  */
 Domusto.onNewInputData = function (input) {
 
-    let device = Domusto.deviceByHardwareId(input.hardwareId);
-
     console.log(input);
+
+    let device = Domusto.deviceByHardwareId(input.hardwareId);
 
     // Update the device with the new input data
     Object.assign(device.data, input.data);
