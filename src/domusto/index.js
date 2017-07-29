@@ -67,9 +67,9 @@ Domusto.initHardware = function () {
     // Loading hardware plugins
     for (let i = 0; i < hardware.length; i++) {
 
-        let component = hardware[i];
+        let hardwareComponent = hardware[i];
 
-        switch (component.type) {
+        switch (hardwareComponent.type) {
             case "RFXCOM":
                 hardwareInstance = require('../plugins/domusto-rfxcom');
                 break;
@@ -82,9 +82,8 @@ Domusto.initHardware = function () {
         }
 
         if (hardwareInstance) {
-            hardwareInstance.init(component, Domusto.configuration);
-            Domusto.hardwareInstances[component.type] = hardwareInstance;
-
+            hardwareInstance.init(hardwareComponent, Domusto.configuration);
+            Domusto.hardwareInstances[hardwareComponent.type] = hardwareInstance;
             // Subscribe to the new input data function
             hardwareInstance.onNewInputData = Domusto.onNewInputData;
         }
@@ -102,16 +101,20 @@ Domusto.initDevices = function () {
 
         let device = Domusto.configuration.devices[i];
 
-        switch (device.role) {
-            case 'input': {
-                let input = Domusto.initInput(Object.assign({}, device));
-                Domusto.devices[input.id] = input;
-                break
-            }
-            case 'output': {
-                let output = Domusto.initOutput(Object.assign({}, device));
-                Domusto.devices[output.id] = output;
-                break
+        if (device.enabled) {
+
+            switch (device.role) {
+                case 'input': {
+                    let input = Domusto.initInput(Object.assign({}, device));
+                    Domusto.devices[input.id] = input;
+                    break
+                }
+                case 'output': {
+                    let output = Domusto.initOutput(Object.assign({}, device));
+                    Domusto.devices[output.id] = output;
+                    break
+                }
+                
             }
         }
     }
@@ -139,12 +142,31 @@ Domusto.initInput = function (input) {
             break;
         }
         case 'power': {
+
+            console.log(Domusto.hardwareInstances);
+
+            
+            // let hardwareId = input.protocol.hardwareId;
+            // let hardwareComponent = Domusto.hardwareByHardwareId(hardwareId);
+
+            // hardwareComponent.registerDevice(device);
+
+            // Domusto.hardwareInstances[hardwareComponent.type];
+
             input.data = {
                 electricity: {
                     received: {
-                        actual: {
-                            value: 0,
+                        tariff1: {
+                            value: null,
                             unit: 'kW'
+                        },
+                        tariff2: {
+                            value: null,
+                            unit: 'kWh'
+                        },
+                        actual: {
+                            value: null,
+                            unit: 'kWh'
                         }
                     }
                 }

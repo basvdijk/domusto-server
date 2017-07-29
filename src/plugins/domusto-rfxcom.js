@@ -149,8 +149,8 @@ DomustoRfxCom.getDeviceById = function (deviceId) {
     });
 };
 
-DomustoRfxCom.ReceivedInput = function (sensorData) {
-    util.debug('Receiving input data ', sensorData);
+DomustoRfxCom.ReceivedInput = function (type, sensorData) {
+    util.debug('Receiving input data ', type, sensorData);
 };
 
 // Descriptions from https://github.com/openhab/openhab2-addons/tree/master/addons/binding/org.openhab.binding.rfxcom
@@ -207,244 +207,244 @@ DomustoRfxCom.ListenAll = function (rfxtrx) {
 
     rfxtrx.on('security1', function (evt) {
         console.log('security1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('security1', evt);
     });
 
     rfxtrx.on('bbq1', function (evt) {
         console.log('bbq1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('bbq1', evt);
     });
 
     rfxtrx.on('temprain1', function (evt) {
         console.log('temprain1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temprain1', evt);
     });
 
     rfxtrx.on('temp1', function (evt) {
         console.log('temp1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp1', evt);
     });
     rfxtrx.on('temp2', function (evt) {
         console.log('temp2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp2', evt);
     });
     rfxtrx.on('temp3', function (evt) {
         console.log('temp3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp3', evt);
     });
     rfxtrx.on('temp4', function (evt) {
         console.log('temp4');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp4', evt);
     });
     rfxtrx.on('temp5', function (evt) {
         console.log('temp5');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp5', evt);
     });
     rfxtrx.on('temp6', function (evt) {
         console.log('temp6');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp6', evt);
     });
     rfxtrx.on('temp7', function (evt) {
         console.log('temp7');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp7', evt);
     });
     rfxtrx.on('temp8', function (evt) {
         console.log('temp8');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp8', evt);
     });
     rfxtrx.on('temp9', function (evt) {
         console.log('temp9');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp9', evt);
     });
     rfxtrx.on('temp10', function (evt) {
         console.log('temp10');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp10', evt);
     });
     rfxtrx.on('temp11', function (evt) {
         console.log('temp11');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('temp11', evt);
     });
 
     rfxtrx.on('humidity1', function (evt) {
         console.log('humidity1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('humidity1', evt);
     });
 
     rfxtrx.on('th1', function (evt) {
         console.log('th1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th1', evt);
     });
     rfxtrx.on('th2', function (evt) {
         console.log('th2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th2', evt);
     });
     rfxtrx.on('th3', function (evt) {
         console.log('th3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th3', evt);
     });
     rfxtrx.on('th4', function (evt) {
         console.log('th4');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th4', evt);
     });
     rfxtrx.on('th5', function (evt) {
         console.log('th5');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th5', evt);
     });
     rfxtrx.on('th6', function (evt) {
         console.log('th6');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th6', evt);
     });
     rfxtrx.on('th7', function (evt) {
         console.log('th7');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th7', evt);
     });
     rfxtrx.on('th8', function (evt) {
         console.log('th8');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th8', evt);
     });
     rfxtrx.on('th9', function (evt) {
         console.log('th9');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th9', evt);
     });
     rfxtrx.on('th10', function (evt) {
         console.log('th10');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th10', evt);
     });
     rfxtrx.on('th11', function (evt) {
         console.log('th11');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th11', evt);
     });
     rfxtrx.on('th12', function (evt) {
         console.log('th12');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th12', evt);
     });
     rfxtrx.on('th13', function (evt) {
         console.log('th13');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th13', evt);
     });
     rfxtrx.on('th14', function (evt) {
         console.log('th14');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('th14', evt);
     });
 
     rfxtrx.on('thb1', function (evt) {
         console.log('thb1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('thb1', evt);
     });
     rfxtrx.on('thb2', function (evt) {
         console.log('thb2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('thb2', evt);
     });
 
     rfxtrx.on('rain1', function (evt) {
         console.log('rain1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain1', evt);
     });
     rfxtrx.on('rain2', function (evt) {
         console.log('rain2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain2', evt);
     });
     rfxtrx.on('rain3', function (evt) {
         console.log('rain3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain3', evt);
     });
     rfxtrx.on('rain4', function (evt) {
         console.log('rain4');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain4', evt);
     });
     rfxtrx.on('rain5', function (evt) {
         console.log('rain5');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain5', evt);
     });
     rfxtrx.on('rain6', function (evt) {
         console.log('rain6');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain6', evt);
     });
     rfxtrx.on('rain7', function (evt) {
         console.log('rain7');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rain7', evt);
     });
 
     rfxtrx.on('wind1', function (evt) {
         console.log('wind1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind1', evt);
     });
     rfxtrx.on('wind2', function (evt) {
         console.log('wind2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind2', evt);
     });
     rfxtrx.on('wind3', function (evt) {
         console.log('wind3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind3', evt);
     });
     rfxtrx.on('wind4', function (evt) {
         console.log('wind4');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind4', evt);
     });
     rfxtrx.on('wind5', function (evt) {
         console.log('wind5');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind5', evt);
     });
     rfxtrx.on('wind6', function (evt) {
         console.log('wind6');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind6', evt);
     });
     rfxtrx.on('wind7', function (evt) {
         console.log('wind7');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('wind7', evt);
     });
 
     rfxtrx.on('uv1', function (evt) {
         console.log('uv1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('uv1', evt);
     });
     rfxtrx.on('uv2', function (evt) {
         console.log('uv2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('uv2', evt);
     });
     rfxtrx.on('uv3', function (evt) {
         console.log('uv3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('uv3', evt);
     });
 
     rfxtrx.on('weight1', function (evt) {
         console.log('weight1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('weight1', evt);
     });
     rfxtrx.on('weight2', function (evt) {
         console.log('weight2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('weight2', evt);
     });
 
     rfxtrx.on('elec1', function (evt) {
         console.log('elec1');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('elec1', evt);
     });
     rfxtrx.on('elec2', function (evt) {
         console.log('elec2');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('elec2', evt);
     });
     rfxtrx.on('elec3', function (evt) {
         console.log('elec3');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('elec3', evt);
     });
     rfxtrx.on('elec4', function (evt) {
         console.log('elec4');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('elec4', evt);
     });
     rfxtrx.on('elec5', function (evt) {
         console.log('elec5');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('elec5', evt);
     });
 
     rfxtrx.on('rfxmeter', function (evt) {
         console.log('rfxsensor');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rfxsensor', evt);
     });
 
     rfxtrx.on('rfxsensor', function (evt) {
         console.log('rfxsensor');
-        DomustoRfxCom.ReceivedInput(evt);
+        DomustoRfxCom.ReceivedInput('rfxsensor', evt);
     });
 
 }
