@@ -133,16 +133,34 @@ Domusto.initDevices = function () {
 
 }
 
+/**
+ * Schedules a timer according to sunset, sunrise etc
+ * @param {object} device The device who executes the command
+ * @param {object} timer The timer object which contains the timer information
+ */
+Domusto.scheduleSunTimer = function (device, timer) {
+
+    var _device = device;
+    var _timer = timer;
+
+    let times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
+    let date = util.offsetDate(times[_timer.condition], _timer.offset);
+
+    util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date);
+
+    schedule.scheduleJob(date, function () {
+        util.log('Timer activated for', _device.id, 'state', _timer.state);
+        Domusto.outputCommand(_device.id, _timer.state);
+
+        // Reschedule for next day
+        Domusto.scheduleSunTimer(_device, _timer);
+    });
+
+}
+
 Domusto.initTimers = function (device) {
 
     var _device = device;
-
-    var times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
-
-
-    console.log(times.sunset);
-
-    console.log(times.sunset, util.offsetDate(times.sunset, '* 120 * * * *'));
 
     device.timers.forEach(function (timer) {
 
@@ -151,7 +169,7 @@ Domusto.initTimers = function (device) {
             switch (timer.type) {
 
                 case 'time':
-                    util.log('Timer (timed) set for', timer.time, 'state', timer.state);
+                    util.log('Timer (timed) set for', _device.id, 'state', timer.state, 'at', timer.time);
 
                     schedule.scheduleJob(timer.time, function () {
                         util.log('Timer activated for', _device.id, 'state', timer.state);
@@ -160,28 +178,13 @@ Domusto.initTimers = function (device) {
                     break;
 
                 case 'sun':
-
-                    schedule.scheduleJob('1 0 0 * * *', function () {
-
-                        // We need to recalculate sunset, sunrise etc every day
-                        let times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
-                        date = util.offsetDate(times[timer.condition], timer.offset);
-
-                        util.log('Timer set for', _device.id, 'state', timer.state, date);
-
-                        schedule.scheduleJob(date, function () {
-                            util.log('Timer activated for', _device.id, 'state', timer.state);
-                            Domusto.outputCommand(_device.id, timer.state);
-                        });
-
-                    });
-
+                    Domusto.scheduleSunTimer(_device, timer);
                     break;
 
             }
 
         } else {
-            util.log('Timer ignored for', timer.time, 'state', timer.state);
+            util.log('Timer disabled for', timer.time, 'state', timer.state, '-> Set enabled to true to enable');
         }
 
     }, this);
