@@ -8,15 +8,15 @@ See [the API docs](API.MD)
 
 ## Normal
 
-```
-$ cd src
-$ npm run start
+```bash
+cd src
+npm run start
 ```
 
 ## Running DOMUSTO server with auto reload on changes
-```
-$ cd src
-$ ../node_modules/.bin/nodemon server.js
+```bash
+cd src
+../node_modules/.bin/nodemon server.js
 ```
 
 # Setup
@@ -25,38 +25,56 @@ $ ../node_modules/.bin/nodemon server.js
 
 By default the node package in Raspian is very old:
 
-```
-$ npm -v
+```bash
+npm -v
 1.4.21
 ```
 
-```
-$ node -v
+```bash
+node -v
 v0.10.29
 ```
 
 To upgrade the RPI to the latest node / npm:
 
-```
-$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-$ sudo apt install nodejs
-$ apt-get install nodejs
+```bash
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt install nodejs
+apt-get install nodejs
 ```
 
 The new versions should became: (or higher)
-```
+```bash
 node -v
 v8.1.4
 ```
 
-```
-$ npm -v
+```bash
+npm -v
 5.0.3
 ```
 
 source: http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/
 
 ## Install npm packages
+
+```bash
+npm install
 ```
-$ npm install
+
+You can now run the server with
+```bash
+cd src
+npm run start
 ```
+
+Once the server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
+
+## Fixed names for USB port devices
+
+If you have multiple USB devices connected, sometimes the order of the USB assignmets change after a reboot e.g. ttyUSB0 is suddenly ttyUSB1 and vice versa.
+
+These pages on the Domoticz wiki show how to solve this issue by assigning fixed ports:
+
+- https://www.domoticz.com/wiki/Assign_fixed_device_name_to_USB_port
+- https://www.domoticz.com/wiki/PersistentUSBDevices
