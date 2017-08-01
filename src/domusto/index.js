@@ -308,28 +308,31 @@ Domusto.outputCommandSilent = function (device, command) {
  */
 Domusto.onNewInputData = function (input) {
 
-    // console.log(input);
-
     let device = Domusto.deviceByHardwareId(input.hardwareId);
 
-    switch (device.type) {
-        case 'switch': {
-            Domusto.outputCommandSilent(device, input.command);
-            break;
+    // Check if the updated data comes from a registered device
+    if (device) {
+
+        switch (device.type) {
+            case 'switch': {
+                Domusto.outputCommandSilent(device, input.command);
+                break;
+            }
+            default:
+
+                // Update the device with the new input data
+                Object.assign(device.data, input.data);
+
+                device.lastUpdated = new Date();
+
+                // inputDeviceUpdate channel only takes arrays
+                let devices = [];
+                devices.push(device);
+                Domusto.io.emit('inputDeviceUpdate', devices);
+
+                break;
         }
-        default:
 
-            // Update the device with the new input data
-            Object.assign(device.data, input.data);
-
-            device.lastUpdated = new Date();
-
-            // inputDeviceUpdate channel only takes arrays
-            let devices = [];
-            devices.push(device);
-            Domusto.io.emit('inputDeviceUpdate', devices);
-
-            break;
     }
 
 }
