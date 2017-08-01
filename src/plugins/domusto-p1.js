@@ -17,10 +17,14 @@ DomustoP1.init = function (hardwareComponent, configuration) {
 
     DomustoP1.hardware = hardwareComponent;
 
-    let p1Reader = new P1Reader({ serialPort: hardwareComponent.port });
-    DomustoP1.hardwareInstance = p1Reader;
-
-    p1Reader.on('reading', DomustoP1.updatePowerData);
+    try {
+        let p1Reader = new P1Reader({ serialPort: hardwareComponent.port });
+        DomustoP1.hardwareInstance = p1Reader;
+        p1Reader.on('reading', DomustoP1.updatePowerData);
+    } catch (error) {
+        util.debug('P1 init failed, retrying');
+        DomustoP1.init();        
+    }
 
 }
 
