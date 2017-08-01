@@ -32,9 +32,21 @@
                 "hardwareId": "RFXCOM",
                 "type": "Lighting2",
                 "subType": "AC",
-                "unit": 1,
-                "id": "0x2021504"
-            },            
+                "output": {
+                    "unit": 10,
+                    "id": "0x0E24B7E"
+                },
+                "inputs": [
+                    {
+                        "unit": 2,
+                        "id": "0x010CE4C6"
+                    },
+                    {
+                        "unit": 1,
+                        "id": "0x010CE4C6"
+                    }
+                ]  
+            },         
             "timers": [
                 {
                     "type": "time",

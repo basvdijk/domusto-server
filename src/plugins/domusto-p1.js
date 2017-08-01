@@ -34,6 +34,8 @@ DomustoP1.updatePowerData = function (data) {
 
     // console.log(DomustoP1.registerDevices);
 
+    util.debug('Received new data for P1');
+
     DomustoP1.registerDevices.forEach(function(device) {
 
         DomustoP1.onNewInputData({

@@ -14,9 +14,3 @@ exports.command = function(req, res) {
     });
 
 }
-
-exports.off = function(deviceId) {
-    Domusto.switchOff(deviceId, function success(result) {
-        res.json(result);
-    });
-}

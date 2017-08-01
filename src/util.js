@@ -1,13 +1,18 @@
 let Util = {};
 
 Util.debug = function() { 
-    Array.prototype.unshift.call(arguments, '[domusto] ');
+    Array.prototype.unshift.call(arguments, '[domusto] ' + Util.getLogDate());
     console.log.apply(this, arguments)
 }
 
 Util.log = function() {
     Array.prototype.unshift.call(arguments, '[domusto] ');
     console.log.apply(this, arguments)
+}
+
+Util.getLogDate = function() {
+    let date = new Date();
+    return '' + date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' +  date.getSeconds() + '.' +  date.getMilliseconds()
 }
 
 /**

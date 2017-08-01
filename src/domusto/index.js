@@ -166,6 +166,8 @@ Domusto.initTimers = function (device) {
 
         if (timer.enabled) {
 
+            _device.hasTimers = true;
+
             switch (timer.type) {
 
                 case 'time':
@@ -246,6 +248,7 @@ Domusto.initInput = function (input) {
  */
 Domusto.initOutput = function (output) {
     output.state = 'off';
+    output.hasTimers = false;
     output.lastUpdated = new Date();
     output.actions = {
         on: core.data.serverAddress + 'output/command/' + output.id + '/on',
@@ -284,24 +287,51 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
 }
 
 /**
+ * Update an output device without sending a signal
+ * @param {string} deviceId Id of the device
+ * @param {string} command Command to send
+  */
+Domusto.outputCommandSilent = function (device, command) {
+
+    device.state = command;
+    device.lastUpdated = new Date();
+
+    let devices = [];
+    devices.push(device);
+    Domusto.io.emit('outputDeviceUpdate', devices);
+
+}
+
+/**
  * Fired when a plugin broadcasts new data
  * @param {object} input Input device object
  */
 Domusto.onNewInputData = function (input) {
 
-    console.log(input);
+    // console.log(input);
 
     let device = Domusto.deviceByHardwareId(input.hardwareId);
 
-    // Update the device with the new input data
-    Object.assign(device.data, input.data);
+    switch (device.type) {
+        case 'switch': {
+            Domusto.outputCommandSilent(device, input.command);
+            break;
+        }
+        default:
 
-    device.lastUpdated = new Date();
+            // Update the device with the new input data
+            Object.assign(device.data, input.data);
 
-    // inputDeviceUpdate channel only takes arrays
-    let devices = [];
-    devices.push(device);
-    Domusto.io.emit('inputDeviceUpdate', devices);
+            device.lastUpdated = new Date();
+
+            // inputDeviceUpdate channel only takes arrays
+            let devices = [];
+            devices.push(device);
+            Domusto.io.emit('inputDeviceUpdate', devices);
+
+            break;
+    }
+
 }
 
 /*
@@ -318,24 +348,6 @@ Domusto.loadConfiguration = function () {
     }
 }
 
-Domusto.switchOn = function (deviceId, callback) {
-    let device = Domusto.configuration.devices[deviceId];
-    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOn', function (err, res, sequenceNumber) {
-        util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' ON');
-        device.status = 'ON';
-        callback(err, res, sequenceNumber);
-    });
-}
-
-Domusto.switchOff = function (deviceId, callback) {
-    let device = Domusto.configuration.devices[deviceId];
-    Domusto.hardwareByDeviceId(deviceId).switch(deviceId, 'switchOff', function (err, res, sequenceNumber) {
-        util.debug('#' + sequenceNumber + ' Switching ' + device.name + ' with device id ' + deviceId + ' OFF');
-        device.status = 'OFF';
-        callback(err, res, sequenceNumber);
-    });
-}
-
 // Get the hardware instance by device id
 Domusto.hardwareByHardwareId = function (hardwareId) {
     return Domusto.hardwareInstances[hardwareId];
@@ -347,8 +359,37 @@ Domusto.deviceByHardwareId = function (hardwareId) {
 
         let device = Domusto.devices[i];
 
-        if (device.protocol.id === hardwareId) {
+        if (device.protocol.id && (device.protocol.id === hardwareId)) {
             return device;
+        }
+    }
+
+    for (let i in Domusto.devices) {
+
+        let device = Domusto.devices[i];
+
+
+        if (device.protocol.outputs && (device.protocol.outputs.id === hardwareId)) {
+            return device;
+        }
+    }
+
+    for (let i in Domusto.devices) {
+
+        let device = Domusto.devices[i];
+
+        if (device.protocol.inputs) {
+
+            let device = Domusto.devices[i];
+
+            for (let j in device.protocol.inputs) {
+
+                if (device.protocol.inputs[j].id === hardwareId) {
+                    return device;
+                }
+
+            }
+
         }
     }
 
