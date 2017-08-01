@@ -62,6 +62,18 @@ source: http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberr
 npm install
 ```
 
+## Setup configuration
+
+Copy the config file template in the `src` folder to your own:
+
+``` bash
+cp src/config.example.json src/config.json
+```
+
+Edit the config file according to your setup.
+
+## Run server
+
 You can now run the server with
 ```bash
 cd src
