@@ -287,22 +287,6 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
 }
 
 /**
- * Update an output device without sending a signal
- * @param {string} deviceId Id of the device
- * @param {string} command Command to send
-  */
-Domusto.outputCommandSilent = function (device, command) {
-
-    device.state = command;
-    device.lastUpdated = new Date();
-
-    let devices = [];
-    devices.push(device);
-    Domusto.io.emit('outputDeviceUpdate', devices);
-
-}
-
-/**
  * Fired when a plugin broadcasts new data
  * @param {object} input Input device object
  */
@@ -315,7 +299,7 @@ Domusto.onNewInputData = function (input) {
 
         switch (device.type) {
             case 'switch': {
-                Domusto.outputCommandSilent(device, input.command);
+                Domusto.outputCommand(device.id, input.command);
                 break;
             }
             default:
