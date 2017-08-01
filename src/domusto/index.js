@@ -1,8 +1,8 @@
 let schedule = require('node-schedule');
-let fs = require('fs');
-var SunCalc = require('suncalc');
+let SunCalc = require('suncalc');
 let util = require('../util');
 let core = require('../core.js');
+let config = require('../config');
 
 let io;
 
@@ -19,7 +19,11 @@ Domusto.hardwareInstances = {};
 
 Domusto.init = function (io) {
 
-    Domusto.loadConfiguration();
+    if (!config.debug) {
+        util.debug = function () { };
+    } else {
+        util.log('Debug messages enabled')
+    }
 
     Domusto.io = io;
 
@@ -63,7 +67,7 @@ Domusto.initHardware = function () {
 
     util.debug('Initialising hardware');
 
-    let hardware = Domusto.configuration.hardware;
+    let hardware = config.hardware;
     let hardwareInstance = null;
 
     // Loading hardware plugins
@@ -84,7 +88,7 @@ Domusto.initHardware = function () {
         }
 
         if (hardwareInstance) {
-            hardwareInstance.init(hardwareComponent, Domusto.configuration);
+            hardwareInstance.init(hardwareComponent, config);
             Domusto.hardwareInstances[hardwareComponent.type] = hardwareInstance;
             // Subscribe to the new input data function
             hardwareInstance.onNewInputData = Domusto.onNewInputData;
@@ -99,9 +103,9 @@ Domusto.initHardware = function () {
  */
 Domusto.initDevices = function () {
 
-    for (let i = 0; i < Domusto.configuration.devices.length; i++) {
+    for (let i = 0; i < config.devices.length; i++) {
 
-        let device = Domusto.configuration.devices[i];
+        let device = config.devices[i];
 
         if (device.enabled) {
 
@@ -143,7 +147,7 @@ Domusto.scheduleSunTimer = function (device, timer) {
     var _device = device;
     var _timer = timer;
 
-    let times = SunCalc.getTimes(new Date(), Domusto.configuration.location.latitude, Domusto.configuration.location.longitude);
+    let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
     let date = util.offsetDate(times[_timer.condition], _timer.offset);
 
     util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date);
@@ -319,20 +323,6 @@ Domusto.onNewInputData = function (input) {
 
     }
 
-}
-
-/*
- * Load the app / input / output configuration file
- */
-Domusto.loadConfiguration = function () {
-    let configuration = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-    Domusto.configuration = configuration;
-
-    if (!Domusto.configuration.debug) {
-        util.debug = function () { };
-    } else {
-        util.log('Debug messages enabled')
-    }
 }
 
 // Get the hardware instance by device id

@@ -67,7 +67,7 @@ npm install
 Copy the config file template in the `src` folder to your own:
 
 ``` bash
-cp src/config.example.json src/config.json
+cp src/config.example.js src/config.js
 ```
 
 Edit the config file according to your setup.
