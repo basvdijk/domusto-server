@@ -88,7 +88,7 @@ Domusto.initHardware = function () {
         }
 
         if (hardwareInstance) {
-            hardwareInstance.init(hardwareComponent, config);
+            hardwareInstance.init(hardwareComponent);
             Domusto.hardwareInstances[hardwareComponent.type] = hardwareInstance;
             // Subscribe to the new input data function
             hardwareInstance.onNewInputData = Domusto.onNewInputData;
