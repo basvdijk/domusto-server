@@ -7,25 +7,32 @@ let DomustoRfxCom = {};
 DomustoRfxCom.inputData = {};
 DomustoRfxCom.registeredInputDeviceIds = [];
 DomustoRfxCom.onNewInputData = null;
+DomustoRfxCom.statusData = null;
 
 DomustoRfxCom.outputDevices = {};
 
 DomustoRfxCom.init = function (device) {
 
-    util.debug('Initialising RFXtrx');
+    util.debug('Initialising RFXtrx module');
 
     try {
-        let rfxtrx = new rfxcom.RfxCom(device.port, { debug: config.debug });
+        var rfxtrx = new rfxcom.RfxCom(device.port, { debug: config.debug });
         DomustoRfxCom.hardwareInstance = rfxtrx;
-        rfxtrx.initialise();
-        DomustoRfxCom.registerInputs(rfxtrx);
+
+        rfxtrx.on('status', function(status) {
+            DomustoRfxCom.statusData = status;
+            util.prettyJson(status);
+        });
+
+        rfxtrx.initialise(function onReady() {
+            util.debug('RFXtrx ready');
+            DomustoRfxCom.registerInputs(rfxtrx);
+        });
         
     } catch (error) {
         util.debug('Error initialising RFXcom restarting module');
         DomustoRfxCom.init(device);    
     }
-
-
 
     // Listen all possibilities for debugging / scanning
     // DomustoRfxCom.ListenAll(rfxtrx);
