@@ -1,139 +1,129 @@
-{
-    "debug": true,
-    "input": {
-        "thermometers": [],
-        "utility": []
+module.exports = {
+    debug: true,
+
+    // LOCATION OF SERVER
+    // used for weather information
+    location: {
+        latitude: "51.490053",
+        longitude: "3.974129"
     },
-    "location": {
-        "latitude": "51.490053",
-        "longitude": "3.974129"
-    },
-    "hardware": [
+
+    // HARDWARE
+    // definitions of hardware devices e.g. receivers and serial converters
+    hardware: [
         {
-            "id": 0,
-            "type": "RFXCOM",
-            "port": "/dev/ttyUSB-RFX433"
+            id: 0,
+            type: "RFXCOM",
+            port: "/dev/ttyUSB-RFX433"
         },
         {
-            "id": 1,
-            "type": "P1",
-            "port": "/dev/ttyUSB-P1"
+            id: 1,
+            type: "P1",
+            port: "/dev/ttyUSB-P1"
         }
     ],
-    "devices": [
+
+    // DEVICES
+    // devices connected to the defined hardware
+    devices: [
+
+        // COCO / KAKU DEVICE
         {
-            "id": "KAKU1",
-            "enabled": true,
-            "role": "output",
-            "name": "modem",
-            "type": "switch",
-            "subtype": "on/off",
-            "protocol": {
-                "hardwareId": "RFXCOM",
-                "type": "Lighting2",
-                "subType": "AC",
-                "output": {
-                    "unit": 10,
-                    "id": "0x0E24B7E"
+            id: "KAKU1",                        // string                          DOMUSTO wide unique device identifier (no spaces or special characers)
+            enabled: true,                      // boolean                         enables or disables a device
+            role: "output",                     // input | output                  specify the role of the device
+            name: "modem",                      // string                          name of the device which is used in the frontend 
+            type: "switch",                     // switch | temperature | power    kind of device
+            subtype: "on/off",                  // on/off | temperature-humidity   subtype of switch
+            protocol: {
+                hardwareId: "RFXCOM",           // string   id of the hardware device
+                type: "Lighting2",              // string   protocol type
+                subType: "AC",                  // string   protocol subtype 
+
+                // OUTPUTS
+                // Code which is broadcasted when the button in DOMUSTO is pressed
+                output: {
+                    unit: 10,                   // int      unit number
+                    id: "0x0E24B7E"             // hex      unique hardware id of the device
                 },
-                "inputs": [
+
+                // ALIAS INPUTS
+                // ids where the button needs to listen to. Often hardware buttons which also switch the state of the device
+                // or for example a remote which is not bound via hardware, but needs to control the device
+                inputs: [
                     {
-                        "unit": 2,
-                        "id": "0x010CE4C6"
+                        unit: 2,
+                        id: "0x010CE4C6"
                     },
                     {
-                        "unit": 1,
-                        "id": "0x010CE4C6"
+                        unit: 1,
+                        id: "0x010CE4C6"
                     }
                 ]  
-            },         
-            "timers": [
+            },   
+            
+            // TIMERS
+            // timers which control the device based on time or sun      
+            timers: [
                 {
-                    "type": "time",
-                    "enabled": false,
-                    "state": "on",
-                    "time": "10 * * * * *"
+                    type: "time",           // time | sun      sets the type of timer
+                    enabled: false,         // boolean         enables or disables a timer
+                    state: "on",            // on | off        state to which the timer switched on timer hit
+                    time: "10 * * * * *"    // cron notation   define the timer in the cron format seconds - minute - hours - day - month - year. Use * as wildcard
                 },
                 {
-                    "type": "time",
-                    "enabled": false,
-                    "state": "off",
-                    "time": "30 * * * * *"
+                    type: "time",
+                    enabled: false,
+                    state: "off",
+                    time: "30 * * * * *"
                 },
                 {
-                    "type": "sun",
-                    "enabled": true,
-                    "condition": "sunset",
-                    "offset": "* * -1 * * *",
-                    "state": "off"
+                    type: "sun",
+                    enabled: true,
+                    condition: "sunset",
+                    offset: "* * -1 * * *",
+                    state: "off"
                 }
             ]
         },
+
+        // TEMPERATURE SENSOR
         {
-            "id": "KAKU2",
-            "enabled": true,
-            "role": "output",
-            "name": "tuinverlichting",
-            "type": "switch",
-            "subtype": "on/off",
-            "protocol": {
-                "hardwareId": "RFXCOM",
-                "type": "Lighting2",
-                "subType": "AC",
-                "unit": 11,
-                "id": "0x10FC076"
+            id: "TEMP1",
+            enabled: true,
+            role: "input",
+            name: "Studeerkamer",
+            type: "temperature",
+            subType: "temperature-humidity",
+            protocol: {
+                hardwareId: "RFXCOM",
+                type: "th",
+                subType: "13",
+                id: "0x7103"
             }
         },
         {
-            "id": "TEMP1",
-            "enabled": true,
-            "role": "input",
-            "name": "Studeerkamer",
-            "type": "temperature",
-            "subType": "temperature-humidity",
-            "protocol": {
-                "hardwareId": "RFXCOM",
-                "type": "th",
-                "subType": "13",
-                "id": "0x7103"
-            }
-        },
-        {
-            "id": "TEMP2",
-            "enabled": true,
-            "role": "input",
-            "name": "Achtertuin",
-            "type": "temperature",
-            "subType": "temperature-humidity",
-            "protocol": {
-                "hardwareId": "RFXCOM",
-                "type": "th",
-                "subType": "13",
-                "id": "0xBC03"
-            }
-        },
-        {
-            "id": "POWER1",
-            "enabled": true,
-            "role": "input",
-            "name": "Slimme meter",
-            "type": "power",
-            "protocol": {
-                "hardwareId": "P1",
-                "id": "POWER1",
-                "type": "power-received"
+            id: "POWER1",
+            enabled: true,
+            role: "input",
+            name: "Slimme meter",
+            type: "power",
+            protocol: {
+                hardwareId: "P1",
+                id: "POWER1",
+                type: "power-received"          // power-received | power-delivered    set the type of device
             }     
         },
         {
-            "id": "POWER2",
-            "enabled": true,
-            "role": "input",
-            "name": "Slimme meter",
-            "type": "power",
-            "protocol": {
-                "hardwareId": "P1",
-                "id": "POWER2",
-                "type": "power-delivered"
+            id: "POWER2",
+            enabled: true,
+            role: "input",
+            name: "Slimme meter",
+            type: "power",
+            protocol: {
+                hardwareId: "P1",
+                id: "POWER2",
+                type: "power-delivered"
             }     
         }
     ]
