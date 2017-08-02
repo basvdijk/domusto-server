@@ -4,6 +4,16 @@ This project is pre-pre-pre-alpha, so don't expect a working solution.
 
 See [the API docs](API.MD)
 
+# Tested hardware
+- RFXcom
+  - Weather
+    - 433MHz Wireless Remote Weather Station Digital Thermometer Humidity Sensor
+  - Switch
+    - Klik-Aan-Klik-Uit / KAKU
+    - Click-On-Click-Off / COCO
+- P1 (via P1 to usb converter)
+  - Landis+Gyr E350
+
 # Running the DOMUSTO server
 
 ## Normal

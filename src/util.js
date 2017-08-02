@@ -1,25 +1,35 @@
+let prettyjson = require('prettyjson');
+
 let Util = {};
 
-Util.debug = function() { 
-    Array.prototype.unshift.call(arguments, '[domusto] ' + Util.getLogDate());
+Util.debug = function () {
+    Array.prototype.unshift.call(arguments, '[DOMUSTO] ' + Util.getLogDate());
     console.log.apply(this, arguments)
 }
 
-Util.log = function() {
-    Array.prototype.unshift.call(arguments, '[domusto] ');
+Util.log = function () {
+    Array.prototype.unshift.call(arguments, '[DOMUSTO] ' + Util.getLogDate());
     console.log.apply(this, arguments)
 }
 
-Util.getLogDate = function() {
+Util.prettyJson = function (object) {
+    console.log(prettyjson.render(object, {
+        keysColor: 'green',
+        numberColor: 'yellow',
+        stringColor: 'yellow'
+    }));
+}
+
+Util.getLogDate = function () {
     let date = new Date();
-    return '' + date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' +  date.getSeconds() + '.' +  date.getMilliseconds()
+    return '' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds()
 }
 
 /**
  * Offsets the given date with the specified offset in cron format
  * @param {string} cronData Date in the cron format e.g "* 10 * * * *" to offset 10 minutes
  */
-Util.offsetDate = function(date, cronDateOffset) {
+Util.offsetDate = function (date, cronDateOffset) {
 
     let cronDateSplitted = cronDateOffset.split(' ');
 

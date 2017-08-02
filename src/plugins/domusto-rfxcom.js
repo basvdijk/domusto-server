@@ -1,5 +1,6 @@
 let rfxcom = require('rfxcom');
 let util = require('../util');
+let config = require('../config');
 
 let DomustoRfxCom = {};
 
@@ -9,17 +10,22 @@ DomustoRfxCom.onNewInputData = null;
 
 DomustoRfxCom.outputDevices = {};
 
-DomustoRfxCom.init = function (device, configuration) {
+DomustoRfxCom.init = function (device) {
 
     util.debug('Initialising RFXtrx');
 
-    DomustoRfxCom.configuration = configuration;
+    try {
+        let rfxtrx = new rfxcom.RfxCom(device.port, { debug: config.debug });
+        DomustoRfxCom.hardwareInstance = rfxtrx;
+        rfxtrx.initialise();
+        DomustoRfxCom.registerInputs(rfxtrx);
+        
+    } catch (error) {
+        util.debug('Error initialising RFXcom restarting module');
+        DomustoRfxCom.init(device);    
+    }
 
-    let rfxtrx = new rfxcom.RfxCom(device.port, { debug: true });
-    DomustoRfxCom.hardwareInstance = rfxtrx;
-    rfxtrx.initialise();
 
-    DomustoRfxCom.registerInputs(rfxtrx);
 
     // Listen all possibilities for debugging / scanning
     // DomustoRfxCom.ListenAll(rfxtrx);
@@ -61,7 +67,7 @@ DomustoRfxCom.outputCommand = function (device, command, onSucces) {
 
 DomustoRfxCom.registerInputs = function (rfxtrx) {
 
-    let devices = DomustoRfxCom.configuration.devices;
+    let devices = config.devices;
 
     let protocolsWithListeners = [];
 
@@ -133,11 +139,11 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
 DomustoRfxCom.updateInputTempData = function (sensorData) {
 
-    console.log('sensor data: ', sensorData);
+    util.debug('Receiving input data:');
+
+    util.prettyJson(sensorData);
 
     let device = DomustoRfxCom.getDeviceById(sensorData.id);
-
-    util.debug('Receiving input data ', sensorData);
 
     // If the sensorData is from a registered input device
     if (DomustoRfxCom.registeredInputDeviceIds.includes(sensorData.id)) {
@@ -161,7 +167,7 @@ DomustoRfxCom.updateInputTempData = function (sensorData) {
 };
 
 DomustoRfxCom.getDeviceById = function (deviceId) {
-    return DomustoRfxCom.configuration.devices.find(function (device) {
+    return config.devices.find(function (device) {
         // Switches have a master/slave, inputs don't
         return device.protocol.output ? device.protocol.output.id === deviceId : device.protocol.id === deviceId;
     });
