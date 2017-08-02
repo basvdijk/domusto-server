@@ -11,31 +11,63 @@ DomustoRfxCom.statusData = null;
 
 DomustoRfxCom.outputDevices = {};
 
-DomustoRfxCom.init = function (device) {
+DomustoRfxCom.init = function (hardwareComponent) {
 
     util.debug('Initialising RFXtrx module');
 
     try {
-        var rfxtrx = new rfxcom.RfxCom(device.port, { debug: config.debug });
+        var rfxtrx = new rfxcom.RfxCom(hardwareComponent.port, { debug: config.debug });
         DomustoRfxCom.hardwareInstance = rfxtrx;
 
-        rfxtrx.on('status', function(status) {
+
+        rfxtrx.on('status', function (status) {
             DomustoRfxCom.statusData = status;
             util.prettyJson(status);
         });
 
         rfxtrx.initialise(function onReady() {
+            // DomustoRfxCom.checkEnabledModes(hardwareComponent);
             util.debug('RFXtrx ready');
             DomustoRfxCom.registerInputs(rfxtrx);
         });
-        
+
     } catch (error) {
-        util.debug('Error initialising RFXcom restarting module');
-        DomustoRfxCom.init(device);    
+        util.debug('Error initialising RFXcom restarting module', error);
+        // DomustoRfxCom.init();
     }
 
     // Listen all possibilities for debugging / scanning
     // DomustoRfxCom.ListenAll(rfxtrx);
+}
+
+DomustoRfxCom.checkEnabledModes = function (hardwareComponent) {
+
+    // let hardwareEnabledProtocols = DomustoRfxCom.statusData.enabledProtocols.sort();
+    // let configuredEnabledProtocols = hardwareComponent.enabledProtocols.sort();
+
+    // // check if the enabled protocols are the same as the once on the device
+    // if (JSON.stringify(hardwareEnabledProtocols) === JSON.stringify(configuredEnabledProtocols)) {
+    //     util.log('Enabled protocols in config are the same as on hardware. Skipping setting protocols');
+    // } else {
+    //     util.log('Enabled protocols in config are NOT the same as on hardware.');
+
+    //     util.log('Enabling protocols in RFXcom device according to config...');
+
+        // let enabledProtocolArray = [];
+
+        // configuredEnabledProtocols.forEach(function (protocol) {
+
+        //     enabledProtocolArray.push(rfxcom.protocols[protocol]);
+
+        // }, this);
+
+        // console.log(enabledProtocolArray);
+
+        // DomustoRfxCom.hardwareInstance.enable({bit: 0x01, msg: 3}, function onDone(response) {
+        //     console.log(response);
+        // });
+
+    // }
 }
 
 DomustoRfxCom.registerDevice = function (device) { }
