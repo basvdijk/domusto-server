@@ -58,23 +58,30 @@ module.exports = {
             // timers which control the device based on time or sun      
             timers: [
                 {
-                    type: 'time',           // time | sun      sets the type of timer
                     enabled: false,         // boolean         enables or disables a timer
                     state: 'on',            // on | off        state to which the timer switched on timer hit
+                    type: 'time',           // time | sun      sets the type of timer
                     time: '10 * * * * *'    // cron notation   define the timer in the cron format seconds - minute - hours - day - month - year. Use * as wildcard
                 },
                 {
-                    type: 'time',
                     enabled: false,
                     state: 'off',
+                    type: 'time',
                     time: '30 * * * * *'
                 },
                 {
-                    type: 'sun',
                     enabled: true,
-                    condition: 'sunset',
-                    offset: '* * -1 * * *',
-                    state: 'off'
+                    type: 'sun',
+                    state: 'on',
+                    condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
+                    offset: '* * -1 * * *',  // One hour before sunset
+                },
+                {
+                    enabled: true,
+                    state: 'off',
+                    type: 'sun',
+                    condition: 'sunrise',
+                    offset: '* * 2 * * *',   // Two hours after sunrise
                 }
             ]
         },
