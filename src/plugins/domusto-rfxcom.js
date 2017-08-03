@@ -33,7 +33,7 @@ DomustoRfxCom.init = function (hardwareComponent) {
 
     } catch (error) {
         util.debug('Error initialising RFXcom restarting module', error);
-        // DomustoRfxCom.init();
+        DomustoRfxCom.init();
     }
 
     // Listen all possibilities for debugging / scanning
@@ -95,10 +95,10 @@ DomustoRfxCom.outputCommand = function (device, command, onSucces) {
             break;
     }
 
-    console.log(protocol.output.id + '/' + protocol.output.unit, rfxCommand);
+    console.log(protocol.outputId, rfxCommand);
 
     // Format the hardware id and into the 0x2020504/1 format
-    rfxSwitch[rfxCommand](protocol.output.id + '/' + protocol.output.unit, function () {
+    rfxSwitch[rfxCommand](protocol.outputId, function () {
         onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
     });
 
@@ -148,7 +148,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
                 // level: 15,
                 // rssi: 6 }
 
-                DomustoRfxCom.outputDevices[device.protocol.output.id] = device;
+                DomustoRfxCom.outputDevices[device.protocol.outputId] = device;
 
                 let protocolHasListener = protocolsWithListeners.indexOf(device.protocol.type.toLowerCase() + device.protocol.hardwareId) > -1;
 
@@ -158,7 +158,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
                         console.log('Hardware switch detected', receivedData);
 
                         DomustoRfxCom.onNewInputData({
-                            hardwareId: receivedData.id,
+                            hardwareId: receivedData.id + '/' + receivedData.unitcode,
                             command: receivedData.command.toLowerCase()
                         });
 
@@ -168,7 +168,7 @@ DomustoRfxCom.registerInputs = function (rfxtrx) {
 
                 }
 
-                DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.output.id);
+                DomustoRfxCom.registeredInputDeviceIds.push(device.protocol.outputId);
             }
 
         }
@@ -208,7 +208,7 @@ DomustoRfxCom.updateInputTempData = function (sensorData) {
 DomustoRfxCom.getDeviceById = function (deviceId) {
     return config.devices.find(function (device) {
         // Switches have a master/slave, inputs don't
-        return device.protocol.output ? device.protocol.output.id === deviceId : device.protocol.id === deviceId;
+        return device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
     });
 };
 
