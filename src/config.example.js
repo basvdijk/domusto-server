@@ -43,23 +43,14 @@ module.exports = {
 
                 // OUTPUTS
                 // Code which is broadcasted when the button in DOMUSTO is pressed
-                output: {
-                    unit: 10,                   // int      unit number
-                    id: '0x0E24B7E'             // hex      unique hardware id of the device
-                },
+                outputId: '0x0E24B7E/10',          // hex id / unit code - id and unit code separated with a slash /, is broadcasted when button in DOMUSTO is pressed
 
                 // ALIAS INPUTS
                 // ids where the button needs to listen to. Often hardware buttons which also switch the state of the device
                 // or for example a remote which is not bound via hardware, but needs to control the device
-                inputs: [
-                    {
-                        unit: 2,
-                        id: '0x010CE4C6'
-                    },
-                    {
-                        unit: 1,
-                        id: '0x010CE4C6'
-                    }
+                inputIds: [
+                    '0x010CE4C6/2',
+                    '0x010CE4C6/1'
                 ]  
             },   
             
