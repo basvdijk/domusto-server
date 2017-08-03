@@ -345,8 +345,7 @@ Domusto.deviceByHardwareId = function (hardwareId) {
 
         let device = Domusto.devices[i];
 
-
-        if (device.protocol.outputs && (device.protocol.outputs.id === hardwareId)) {
+        if (device.protocol.outputId && (device.protocol.outputId === hardwareId)) {
             return device;
         }
     }
@@ -355,13 +354,13 @@ Domusto.deviceByHardwareId = function (hardwareId) {
 
         let device = Domusto.devices[i];
 
-        if (device.protocol.inputs) {
+        if (device.protocol.inputIds) {
 
             let device = Domusto.devices[i];
 
-            for (let j in device.protocol.inputs) {
+            for (let j in device.protocol.inputIds) {
 
-                if (device.protocol.inputs[j].id === hardwareId) {
+                if (device.protocol.inputIds[j] === hardwareId) {
                     return device;
                 }
 
