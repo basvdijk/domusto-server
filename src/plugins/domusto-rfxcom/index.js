@@ -174,7 +174,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
                     // If protocol has no listener yet
                     if (protocolsWithListeners.indexOf(listenerId) == -1) {
-                        this.hardwareInstance.on(protocolEventName, eventHandler)
+                        this.hardwareInstance.on(protocolEventName, eventHandler.bind(this));
                         protocolsWithListeners.push(listenerId);
                     }
 
