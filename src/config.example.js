@@ -12,11 +12,14 @@ module.exports = {
     // definitions of hardware devices e.g. receivers and serial converters
     hardware: [
         {
+            enabled: true,
+            debug: false,
             type: 'RFXCOM',
             port: '/dev/ttyUSB-RFX433',
             enabledProtocols: ['AC', 'BYRONSX', 'LIGHTING4', 'OREGON', 'RUBICSON', 'X10']     // [string]  enabled protocols AC | ARC | ATI | BLINDST14 | BLYSS | BYRONSX | FINEOFFSET | FS20 | HIDEKI | HOMEEASY | LACROSSE | LIGHTING4 | LIGHTWAVERF | MEIANTECH | MERTIK | OREGON | PROGUARD | RFU6 | ROLLERTROL | RSL | RUBICSON | VISONIC | X10
         },
         {
+            enabled: true,
             type: 'P1',
             port: '/dev/ttyUSB-P1'
         }

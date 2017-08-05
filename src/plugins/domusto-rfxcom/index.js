@@ -35,7 +35,7 @@ class DomustoRfxCom extends DomustoPlugin {
         this.attachedInputDeviceIds = [];
 
         try {
-            let rfxtrx = new rfxcom.RfxCom(pluginConfiguration.port, { debug: config.debug });
+            let rfxtrx = new rfxcom.RfxCom(pluginConfiguration.port, { debug: this.pluginConfiguration.debug });
             this.hardwareInstance = rfxtrx;
 
             this.hardwareInstance.on('status', function (status) {
@@ -44,8 +44,7 @@ class DomustoRfxCom extends DomustoPlugin {
             });
 
             this.hardwareInstance.initialise(function onReady() {
-                _self._checkEnabledModes();
-                _self._initialiseInputs();
+                _self._initialisePlugin();
                 util.debug('RFXtrx ready');
             });
 
@@ -67,8 +66,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         let rfxCommand = null;
 
-        console.log(command);
-
+        // Convert DOMUSTO command to RfxCom command
         switch (command) {
             case 'on':
                 rfxCommand = 'switchOn';
@@ -78,13 +76,22 @@ class DomustoRfxCom extends DomustoPlugin {
                 break;
         }
 
-        console.log(protocol.outputId, rfxCommand);
+        util.debug('Sending command:');
+        util.prettyJson({
+            id: protocol.outputId,
+            command: rfxCommand
+        });
 
-        // Format the hardware id and into the 0x2020504/1 format
+        // Execute command
         rfxSwitch[rfxCommand](protocol.outputId, function () {
             onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
         });
 
+    }
+
+    _initialisePlugin() {
+        this._checkEnabledModes();
+        this._initialiseInputs();
     }
 
 
@@ -94,6 +101,8 @@ class DomustoRfxCom extends DomustoPlugin {
      * @memberof DomustoRfxCom
      */
     _checkEnabledModes() {
+
+        let _self = this;
 
         let hardwareEnabledProtocols = this.statusData.enabledProtocols.sort();
         let configuredEnabledProtocols = this.pluginConfiguration.enabledProtocols.sort();
@@ -112,11 +121,10 @@ class DomustoRfxCom extends DomustoPlugin {
                 enabledProtocolArray.push(rfxcom.protocols[protocol]);
             }, this);
 
-            console.log(enabledProtocolArray);
-
-            // DomustoRfxCom.hardwareInstance.enable(enabledProtocolArray, function onDone(response) {
-            //     console.log(response);
-            // });
+            this.hardwareInstance.enable(enabledProtocolArray, function onDone(response) {
+                util.log('Enabling protocols finished, restarting plugin');
+                _self._initialisePlugin();
+            });
 
         }
     }
@@ -134,55 +142,53 @@ class DomustoRfxCom extends DomustoPlugin {
         let devices = config.devices;
         let protocolsWithListeners = [];
 
+
         devices.forEach(function (device) {
 
             if (device.protocol.hardwareId === 'RFXCOM' && device.enabled) {
 
+                let protocolEventName = null;
+                let listenerId = null;
+                let eventHandler = null;
+
                 // Temp + Humidity
                 if (device.role === 'input' && device.type === 'temperature') {
-
-                    let protocolHasListener = protocolsWithListeners.indexOf(device.protocol.hardwareId + device.role + device.type) > -1;
-                    if (!protocolHasListener) {
-
-                        _self.hardwareInstance.on(device.protocol.type + device.protocol.subType, function receivedData(data) {
-                            _self._updateInputTemperatureData(data);
-                        });
-
-                        protocolsWithListeners.push(device.protocol.hardwareId + device.role + device.type);
-                    }
-
-                    // _self.attachedInputDeviceIds.push(device.protocol.id);
-                    _self.attachedInputDeviceIds.push(device);
-
+                    protocolEventName = device.protocol.type + device.protocol.subType;
+                    listenerId = device.protocol.hardwareId + device.role + device.type;
+                    eventHandler = _self._onInputTemperature;
+                }
+                else if (device.role === 'output' && device.type === 'switch') {
+                    protocolEventName = device.protocol.type.toLowerCase();
+                    listenerId = device.protocol.hardwareId + protocolEventName;
+                    eventHandler = _self._onOutputSwitch;
                 }
 
-                if (device.role === 'output' && device.type === 'switch') {
+                // Check if an protocol event name, listener id and event handler is set
+                if (protocolEventName && listenerId && eventHandler) {
 
-                    let protocolHasListener = protocolsWithListeners.indexOf(device.protocol.type.toLowerCase() + device.protocol.hardwareId) > -1;
-                    if (!protocolHasListener) {
-
-                        _self.hardwareInstance.on(device.protocol.type.toLowerCase(), function (receivedData) {
-                            util.debug('Hardware switch event detected', receivedData);
-
-                            _self.onNewInputData({
-                                hardwareId: receivedData.id + '/' + receivedData.unitcode,
-                                command: receivedData.command.toLowerCase()
-                            });
-
-                        });
-
-                        protocolsWithListeners.push(device.protocol.type.toLowerCase() + device.protocol.hardwareId);
-
+                    // If protocol has no listener yet
+                    if (protocolsWithListeners.indexOf(listenerId) == -1) {
+                        this.hardwareInstance.on(protocolEventName, eventHandler.bind(_self))
+                        protocolsWithListeners.push(listenerId);
                     }
 
-                    // _self.attachedInputDeviceIds.push(device.protocol.outputId);
-                    _self.attachedInputDeviceIds.push(device);
-                }
+                    this.attachedInputDeviceIds.push(device);
 
+                }
             }
 
         }, this);
+
     };
+
+    _onOutputSwitch(receivedData) {
+        util.debug('Hardware switch event detected', receivedData);
+
+        this.onNewInputData({
+            hardwareId: receivedData.id + '/' + receivedData.unitcode,
+            command: receivedData.command.toLowerCase()
+        });
+    }
 
 
     /**
@@ -191,7 +197,7 @@ class DomustoRfxCom extends DomustoPlugin {
      * @param {any} sensorData Data received from the RfxCom
      * @memberof DomustoRfxCom
      */
-    _updateInputTemperatureData(sensorData) {
+    _onInputTemperature(sensorData) {
 
         let device = this._getDeviceById(sensorData.id);
 
@@ -479,6 +485,30 @@ class DomustoRfxCom extends DomustoPlugin {
         switch (subType) {
 
             // TEMPERATURE
+            case 'temp1':
+                return 'THR128/138, THC138';
+            case 'temp2':
+                return 'THC238/268,THN132,THWR288,THRN122,THN122,AW129/131';
+            case 'temp3':
+                return 'THWR800';
+            case 'temp4':
+                return 'RTHN318';
+            case 'temp5':
+                return 'La Crosse TX2, TX3, TX4, TX17';
+            case 'temp6':
+                return 'TS15C. UPM temp only';
+            case 'temp7':
+                return 'Viking 02811, Proove TSS330, 311346';
+            case 'temp8':
+                return 'La Crosse WS2300';
+            case 'temp9':
+                return 'Rubicson';
+            case 'temp10':
+                return ' TFA 30.3133';
+            case 'temp11':
+                return ' WT0122';
+
+            // TEMPERATURE & HUMIDITY
             case 'th1':
                 return 'THGN122/123, THGN132, THGR122/228/238/268';
             case 'th2':
@@ -506,9 +536,17 @@ class DomustoRfxCom extends DomustoPlugin {
             case 'th13':
                 return 'Alecto WS1700 and compatibles';
 
+            // TEMPERATURE & HUMIDITY & BAROMETER
+            case 'thb1':
+                return 'BTHR918, BTHGN129';
+            case 'thb2':
+                return 'BTHR918N, BTHR968';
+
+            default:
+                return 'Unknown device';
+
         }
 
-        return retVal;
     };
 
 }

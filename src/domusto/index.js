@@ -75,16 +75,20 @@ Domusto.initHardware = function () {
 
         let hardwareComponent = hardware[i];
 
-        switch (hardwareComponent.type) {
-            case "RFXCOM":
-                domustoPlugin = require('../plugins/domusto-rfxcom');
-                break;
-            case 'P1':
-                domustoPlugin = require('../plugins/domusto-p1');
-                break;
+        if (hardwareComponent.enabled) {
 
-            default:
-                break;
+            switch (hardwareComponent.type) {
+                case "RFXCOM":
+                    domustoPlugin = require('../plugins/domusto-rfxcom');
+                    break;
+                case 'P1':
+                    domustoPlugin = require('../plugins/domusto-p1');
+                    break;
+
+                default:
+                    break;
+            }
+
         }
 
         if (domustoPlugin) {
