@@ -16,7 +16,7 @@ DomustoRfxCom.init = function (hardwareComponent) {
     util.debug('Initialising RFXtrx module');
 
     try {
-        var rfxtrx = new rfxcom.RfxCom(hardwareComponent.port, { debug: config.debug });
+        var rfxtrx = new rfxcom.RfxCom(config.hardware.P1.port, { debug: config.debug });
         DomustoRfxCom.hardwareInstance = rfxtrx;
 
 
@@ -26,13 +26,13 @@ DomustoRfxCom.init = function (hardwareComponent) {
         });
 
         rfxtrx.initialise(function onReady() {
-            // DomustoRfxCom.checkEnabledModes(hardwareComponent);
+            DomustoRfxCom.checkEnabledModes(hardwareComponent);
             util.debug('RFXtrx ready');
             DomustoRfxCom.registerInputs(rfxtrx);
         });
 
     } catch (error) {
-        util.debug('Error initialising RFXcom restarting module', error);
+        util.log('Initialisation of RfxCom plugin failed', error);
         DomustoRfxCom.init();
     }
 
@@ -63,7 +63,7 @@ DomustoRfxCom.checkEnabledModes = function (hardwareComponent) {
 
         // console.log(enabledProtocolArray);
 
-        // DomustoRfxCom.hardwareInstance.enable({bit: 0x01, msg: 3}, function onDone(response) {
+        // DomustoRfxCom.hardwareInstance.enable(enabledProtocolArray, function onDone(response) {
         //     console.log(response);
         // });
 

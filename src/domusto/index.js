@@ -15,7 +15,7 @@ Domusto.inputDevices = [];
 
 Domusto.devices = {};
 
-Domusto.hardwareInstances = {};
+Domusto.pluginInstances = {};
 
 Domusto.init = function (io) {
 
@@ -68,7 +68,7 @@ Domusto.initHardware = function () {
     util.debug('Initialising hardware');
 
     let hardware = config.hardware;
-    let hardwareInstance = null;
+    let domustoPlugin = null;
 
     // Loading hardware plugins
     for (let i = 0; i < hardware.length; i++) {
@@ -77,21 +77,21 @@ Domusto.initHardware = function () {
 
         switch (hardwareComponent.type) {
             case "RFXCOM":
-                hardwareInstance = require('../plugins/domusto-rfxcom');
+                domustoPlugin = require('../plugins/domusto-rfxcom');
                 break;
-            case "P1":
-                hardwareInstance = require('../plugins/domusto-p1');
+            case 'P1':
+                domustoPlugin = require('../plugins/domusto-p1');
                 break;
 
             default:
                 break;
         }
 
-        if (hardwareInstance) {
-            hardwareInstance.init(hardwareComponent);
-            Domusto.hardwareInstances[hardwareComponent.type] = hardwareInstance;
+        if (domustoPlugin) {
+            domustoPluginInstance = new domustoPlugin(hardwareComponent);
+            Domusto.pluginInstances[hardwareComponent.type] = domustoPluginInstance;
             // Subscribe to the new input data function
-            hardwareInstance.onNewInputData = Domusto.onNewInputData;
+            domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
         }
 
     }
@@ -115,9 +115,14 @@ Domusto.initDevices = function () {
                     Domusto.devices[input.id] = input;
 
                     let hardwareId = input.protocol.hardwareId;
-                    let hardwareComponent = Domusto.hardwareByHardwareId(hardwareId);
-                    hardwareComponent.registerDevice(input);
-                    break
+                    let pluginInstance = Domusto.pluginInstanceByHardwareId(hardwareId);
+
+                    if (pluginInstance) {
+                        pluginInstance.addRegisteredDevice(input);
+                    } else {
+                        util.debug('No plugin found for hardware id', input.protocol.hardwareId);
+                    }
+                    break;
                 }
                 case 'output': {
                     let output = Domusto.initOutput(Object.assign({}, device));
@@ -128,7 +133,7 @@ Domusto.initDevices = function () {
                         Domusto.initTimers(output);
                     }
 
-                    break
+                    break;
                 }
 
             }
@@ -271,7 +276,7 @@ Domusto.initOutput = function (output) {
 Domusto.outputCommand = function (deviceId, command, onSuccess) {
 
     let device = Domusto.devices[deviceId];
-    let hardware = Domusto.hardwareByHardwareId(device.protocol.hardwareId);
+    let hardware = Domusto.pluginInstanceByHardwareId(device.protocol.hardwareId);
 
     hardware.outputCommand(device, command, function (response) {
         device.state = response.state;
@@ -294,22 +299,25 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
  * Fired when a plugin broadcasts new data
  * @param {object} input Input device object
  */
-Domusto.onNewInputData = function (input) {
+Domusto.onNewInputData = function (inputData) {
 
-    let device = Domusto.deviceByHardwareId(input.hardwareId);
+    util.log('Received new input data:');
+    util.prettyJson(inputData);
+
+    let device = Domusto.deviceByHardwareId(inputData.hardwareId);
 
     // Check if the updated data comes from a registered device
     if (device) {
 
         switch (device.type) {
             case 'switch': {
-                Domusto.outputCommand(device.id, input.command);
+                Domusto.outputCommand(device.id, inputData.command);
                 break;
             }
             default:
 
                 // Update the device with the new input data
-                Object.assign(device.data, input.data);
+                Object.assign(device.data, inputData.data);
 
                 device.lastUpdated = new Date();
 
@@ -326,8 +334,8 @@ Domusto.onNewInputData = function (input) {
 }
 
 // Get the hardware instance by device id
-Domusto.hardwareByHardwareId = function (hardwareId) {
-    return Domusto.hardwareInstances[hardwareId];
+Domusto.pluginInstanceByHardwareId = function (hardwareId) {
+    return Domusto.pluginInstances[hardwareId];
 }
 
 Domusto.deviceByHardwareId = function (hardwareId) {
