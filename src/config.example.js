@@ -36,7 +36,7 @@ module.exports = {
             role: 'output',                     // input | output                  specify the role of the device
             name: 'modem',                      // string                          name of the device which is used in the frontend 
             type: 'switch',                     // switch | temperature | power    kind of device
-            subtype: 'on/off',                  // on/off | temperature-humidity   subtype of switch
+            subtype: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subtype of switch
             protocol: {
                 hardwareId: 'RFXCOM',           // string   id of the hardware device
                 type: 'Lighting2',              // string   protocol type

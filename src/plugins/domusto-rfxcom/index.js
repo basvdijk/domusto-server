@@ -45,6 +45,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
             this.hardwareInstance.initialise(function onReady() {
                 _self._initialisePlugin();
+                // _self._listenAll();
                 util.debug('RFXtrx ready');
             });
 
@@ -60,9 +61,11 @@ class DomustoRfxCom extends DomustoPlugin {
 
         // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.
         let rfxConstructor = rfxcom[protocol.type];
+
+
         let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
-        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);
+        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);       
 
         let rfxCommand = null;
 
@@ -73,6 +76,9 @@ class DomustoRfxCom extends DomustoPlugin {
                 break;
             case 'off':
                 rfxCommand = 'switchOff';
+                break;
+            case 'chime':
+                rfxCommand = 'chime';
                 break;
         }
 
@@ -168,7 +174,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
                     // If protocol has no listener yet
                     if (protocolsWithListeners.indexOf(listenerId) == -1) {
-                        this.hardwareInstance.on(protocolEventName, eventHandler.bind(_self))
+                        this.hardwareInstance.on(protocolEventName, eventHandler)
                         protocolsWithListeners.push(listenerId);
                     }
 
@@ -244,7 +250,7 @@ class DomustoRfxCom extends DomustoPlugin {
      * @param {any} data Data send by the RfxCom
      * @memberof DomustoRfxCom
      */
-    listenAllReceivedInput(type, data) {
+    _listenAllReceivedInput(type, data) {
         util.debug('Receiving input data for', type);
         util.prettyJson(data);
     };
@@ -260,221 +266,226 @@ class DomustoRfxCom extends DomustoPlugin {
         let _self = this;
 
         // SECURITY
-        this.hardwareInstance.on('security1', function (data) {
-            _self._listenAllReceivedInput('security1', data);
+        this.hardwareInstance.on('security1', (data) => {
+            this._listenAllReceivedInput('security1', data);
+        });
+        
+        // CHIME
+        this.hardwareInstance.on('chime1', (data) => {
+            this._listenAllReceivedInput('chime1', data);
         });
 
         // BBQ
-        this.hardwareInstance.on('bbq1', function (data) {
-            _self._listenAllReceivedInput('bbq1', data);
+        this.hardwareInstance.on('bbq1', (data) => {
+            this._listenAllReceivedInput('bbq1', data);
         });
 
         // TEMPERATURE & RAIN
-        this.hardwareInstance.on('temprain1', function (data) {
-            _self._listenAllReceivedInput('temprain1', data);
+        this.hardwareInstance.on('temprain1', (data) => {
+            this._listenAllReceivedInput('temprain1', data);
         });
 
         // TEMPERATURE
-        this.hardwareInstance.on('temp1', function (data) {
-            _self._listenAllReceivedInput('temp1', data);
+        this.hardwareInstance.on('temp1', (data) => {
+            this._listenAllReceivedInput('temp1', data);
         });
-        this.hardwareInstance.on('temp2', function (data) {
-            _self._listenAllReceivedInput('temp2', data);
+        this.hardwareInstance.on('temp2', (data) => {
+            this._listenAllReceivedInput('temp2', data);
         });
-        this.hardwareInstance.on('temp3', function (data) {
-            _self._listenAllReceivedInput('temp3', data);
+        this.hardwareInstance.on('temp3', (data) => {
+            this._listenAllReceivedInput('temp3', data);
         });
-        this.hardwareInstance.on('temp4', function (data) {
-            _self._listenAllReceivedInput('temp4', data);
+        this.hardwareInstance.on('temp4', (data) => {
+            this._listenAllReceivedInput('temp4', data);
         });
-        this.hardwareInstance.on('temp5', function (data) {
-            _self._listenAllReceivedInput('temp5', data);
+        this.hardwareInstance.on('temp5', (data) => {
+            this._listenAllReceivedInput('temp5', data);
         });
-        this.hardwareInstance.on('temp6', function (data) {
-            _self._listenAllReceivedInput('temp6', data);
+        this.hardwareInstance.on('temp6', (data) => {
+            this._listenAllReceivedInput('temp6', data);
         });
-        this.hardwareInstance.on('temp7', function (data) {
-            _self._listenAllReceivedInput('temp7', data);
+        this.hardwareInstance.on('temp7', (data) => {
+            this._listenAllReceivedInput('temp7', data);
         });
-        this.hardwareInstance.on('temp8', function (data) {
-            _self._listenAllReceivedInput('temp8', data);
+        this.hardwareInstance.on('temp8', (data) => {
+            this._listenAllReceivedInput('temp8', data);
         });
-        this.hardwareInstance.on('temp9', function (data) {
-            _self._listenAllReceivedInput('temp9', data);
+        this.hardwareInstance.on('temp9', (data) => {
+            this._listenAllReceivedInput('temp9', data);
         });
-        this.hardwareInstance.on('temp10', function (data) {
-            _self._listenAllReceivedInput('temp10', data);
+        this.hardwareInstance.on('temp10', (data) => {
+            this._listenAllReceivedInput('temp10', data);
         });
-        this.hardwareInstance.on('temp11', function (data) {
-            _self._listenAllReceivedInput('temp11', data);
+        this.hardwareInstance.on('temp11', (data) => {
+            this._listenAllReceivedInput('temp11', data);
         });
 
         // HUMIDITY
-        this.hardwareInstance.on('humidity1', function (data) {
-            _self._listenAllReceivedInput('humidity1', data);
+        this.hardwareInstance.on('humidity1', (data) => {
+            this._listenAllReceivedInput('humidity1', data);
         });
 
         // TEMERATURE & HUMIDITY
-        this.hardwareInstance.on('th1', function (data) {
-            _self._listenAllReceivedInput('th1', data);
+        this.hardwareInstance.on('th1', (data) => {
+            this._listenAllReceivedInput('th1', data);
         });
-        this.hardwareInstance.on('th2', function (data) {
-            _self._listenAllReceivedInput('th2', data);
+        this.hardwareInstance.on('th2', (data) => {
+            this._listenAllReceivedInput('th2', data);
         });
-        this.hardwareInstance.on('th3', function (data) {
-            _self._listenAllReceivedInput('th3', data);
+        this.hardwareInstance.on('th3', (data) => {
+            this._listenAllReceivedInput('th3', data);
         });
-        this.hardwareInstance.on('th4', function (data) {
-            _self._listenAllReceivedInput('th4', data);
+        this.hardwareInstance.on('th4', (data) => {
+            this._listenAllReceivedInput('th4', data);
         });
-        this.hardwareInstance.on('th5', function (data) {
-            _self._listenAllReceivedInput('th5', data);
+        this.hardwareInstance.on('th5', (data) => {
+            this._listenAllReceivedInput('th5', data);
         });
-        this.hardwareInstance.on('th6', function (data) {
-            _self._listenAllReceivedInput('th6', data);
+        this.hardwareInstance.on('th6', (data) => {
+            this._listenAllReceivedInput('th6', data);
         });
-        this.hardwareInstance.on('th7', function (data) {
-            _self._listenAllReceivedInput('th7', data);
+        this.hardwareInstance.on('th7', (data) => {
+            this._listenAllReceivedInput('th7', data);
         });
-        this.hardwareInstance.on('th8', function (data) {
-            _self._listenAllReceivedInput('th8', data);
+        this.hardwareInstance.on('th8', (data) => {
+            this._listenAllReceivedInput('th8', data);
         });
-        this.hardwareInstance.on('th9', function (data) {
-            _self._listenAllReceivedInput('th9', data);
+        this.hardwareInstance.on('th9', (data) => {
+            this._listenAllReceivedInput('th9', data);
         });
-        this.hardwareInstance.on('th10', function (data) {
-            _self._listenAllReceivedInput('th10', data);
+        this.hardwareInstance.on('th10', (data) => {
+            this._listenAllReceivedInput('th10', data);
         });
-        this.hardwareInstance.on('th11', function (data) {
-            _self._listenAllReceivedInput('th11', data);
+        this.hardwareInstance.on('th11', (data) => {
+            this._listenAllReceivedInput('th11', data);
         });
-        this.hardwareInstance.on('th12', function (data) {
-            _self._listenAllReceivedInput('th12', data);
+        this.hardwareInstance.on('th12', (data) => {
+            this._listenAllReceivedInput('th12', data);
         });
-        this.hardwareInstance.on('th13', function (data) {
-            _self._listenAllReceivedInput('th13', data);
+        this.hardwareInstance.on('th13', (data) => {
+            this._listenAllReceivedInput('th13', data);
         });
-        this.hardwareInstance.on('th14', function (data) {
-            _self._listenAllReceivedInput('th14', data);
+        this.hardwareInstance.on('th14', (data) => {
+            this._listenAllReceivedInput('th14', data);
         });
 
         // TEMPERATURE & HUMIDITY & BAROMETER
-        this.hardwareInstance.on('thb1', function (data) {
-            _self._listenAllReceivedInput('thb1', data);
+        this.hardwareInstance.on('thb1', (data) => {
+            this._listenAllReceivedInput('thb1', data);
         });
-        this.hardwareInstance.on('thb2', function (data) {
-            _self._listenAllReceivedInput('thb2', data);
+        this.hardwareInstance.on('thb2', (data) => {
+            this._listenAllReceivedInput('thb2', data);
         });
 
         // RAIN
-        this.hardwareInstance.on('rain1', function (data) {
-            _self._listenAllReceivedInput('rain1', data);
+        this.hardwareInstance.on('rain1', (data) => {
+            this._listenAllReceivedInput('rain1', data);
         });
-        this.hardwareInstance.on('rain2', function (data) {
-            _self._listenAllReceivedInput('rain2', data);
+        this.hardwareInstance.on('rain2', (data) => {
+            this._listenAllReceivedInput('rain2', data);
         });
-        this.hardwareInstance.on('rain3', function (data) {
-            _self._listenAllReceivedInput('rain3', data);
+        this.hardwareInstance.on('rain3', (data) => {
+            this._listenAllReceivedInput('rain3', data);
         });
-        this.hardwareInstance.on('rain4', function (data) {
-            _self._listenAllReceivedInput('rain4', data);
+        this.hardwareInstance.on('rain4', (data) => {
+            this._listenAllReceivedInput('rain4', data);
         });
-        this.hardwareInstance.on('rain5', function (data) {
-            _self._listenAllReceivedInput('rain5', data);
+        this.hardwareInstance.on('rain5', (data) => {
+            this._listenAllReceivedInput('rain5', data);
         });
-        this.hardwareInstance.on('rain6', function (data) {
-            _self._listenAllReceivedInput('rain6', data);
+        this.hardwareInstance.on('rain6', (data) => {
+            this._listenAllReceivedInput('rain6', data);
         });
-        this.hardwareInstance.on('rain7', function (data) {
-            _self._listenAllReceivedInput('rain7', data);
+        this.hardwareInstance.on('rain7', (data) => {
+            this._listenAllReceivedInput('rain7', data);
         });
 
         // WIND
-        this.hardwareInstance.on('wind1', function (data) {
-            _self._listenAllReceivedInput('wind1', data);
+        this.hardwareInstance.on('wind1', (data) => {
+            this._listenAllReceivedInput('wind1', data);
         });
-        this.hardwareInstance.on('wind2', function (data) {
-            _self._listenAllReceivedInput('wind2', data);
+        this.hardwareInstance.on('wind2', (data) => {
+            this._listenAllReceivedInput('wind2', data);
         });
-        this.hardwareInstance.on('wind3', function (data) {
-            _self._listenAllReceivedInput('wind3', data);
+        this.hardwareInstance.on('wind3', (data) => {
+            this._listenAllReceivedInput('wind3', data);
         });
-        this.hardwareInstance.on('wind4', function (data) {
-            _self._listenAllReceivedInput('wind4', data);
+        this.hardwareInstance.on('wind4', (data) => {
+            this._listenAllReceivedInput('wind4', data);
         });
-        this.hardwareInstance.on('wind5', function (data) {
-            _self._listenAllReceivedInput('wind5', data);
+        this.hardwareInstance.on('wind5', (data) => {
+            this._listenAllReceivedInput('wind5', data);
         });
-        this.hardwareInstance.on('wind6', function (data) {
-            _self._listenAllReceivedInput('wind6', data);
+        this.hardwareInstance.on('wind6', (data) => {
+            this._listenAllReceivedInput('wind6', data);
         });
-        this.hardwareInstance.on('wind7', function (data) {
-            _self._listenAllReceivedInput('wind7', data);
+        this.hardwareInstance.on('wind7', (data) => {
+            this._listenAllReceivedInput('wind7', data);
         });
 
         // UV
-        this.hardwareInstance.on('uv1', function (data) {
-            _self._listenAllReceivedInput('uv1', data);
+        this.hardwareInstance.on('uv1', (data) => {
+            this._listenAllReceivedInput('uv1', data);
         });
-        this.hardwareInstance.on('uv2', function (data) {
-            _self._listenAllReceivedInput('uv2', data);
+        this.hardwareInstance.on('uv2', (data) => {
+            this._listenAllReceivedInput('uv2', data);
         });
-        this.hardwareInstance.on('uv3', function (data) {
-            _self._listenAllReceivedInput('uv3', data);
+        this.hardwareInstance.on('uv3', (data) => {
+            this._listenAllReceivedInput('uv3', data);
         });
 
         // WEIGHT
-        this.hardwareInstance.on('weight1', function (data) {
-            _self._listenAllReceivedInput('weight1', data);
+        this.hardwareInstance.on('weight1', (data) => {
+            this._listenAllReceivedInput('weight1', data);
         });
-        this.hardwareInstance.on('weight2', function (data) {
-            _self._listenAllReceivedInput('weight2', data);
+        this.hardwareInstance.on('weight2', (data) => {
+            this._listenAllReceivedInput('weight2', data);
         });
 
         // ELECTRICITY
-        this.hardwareInstance.on('elec1', function (data) {
-            _self._listenAllReceivedInput('elec1', data);
+        this.hardwareInstance.on('elec1', (data) => {
+            this._listenAllReceivedInput('elec1', data);
         });
-        this.hardwareInstance.on('elec2', function (data) {
-            _self._listenAllReceivedInput('elec2', data);
+        this.hardwareInstance.on('elec2', (data) => {
+            this._listenAllReceivedInput('elec2', data);
         });
-        this.hardwareInstance.on('elec3', function (data) {
-            _self._listenAllReceivedInput('elec3', data);
+        this.hardwareInstance.on('elec3', (data) => {
+            this._listenAllReceivedInput('elec3', data);
         });
-        this.hardwareInstance.on('elec4', function (data) {
-            _self._listenAllReceivedInput('elec4', data);
+        this.hardwareInstance.on('elec4', (data) => {
+            this._listenAllReceivedInput('elec4', data);
         });
-        this.hardwareInstance.on('elec5', function (data) {
-            _self._listenAllReceivedInput('elec5', data);
+        this.hardwareInstance.on('elec5', (data) => {
+            this._listenAllReceivedInput('elec5', data);
         });
 
         // LIGHTING
-        this.hardwareInstance.on('lighting1', function (data) {
-            _self._listenAllReceivedInput('lighting1', data);
+        this.hardwareInstance.on('lighting1', (data) => {
+            this._listenAllReceivedInput('lighting1', data);
         });
-        this.hardwareInstance.on('lighting2', function (data) {
-            _self._listenAllReceivedInput('lighting2', data);
+        this.hardwareInstance.on('lighting2', (data) => {
+            this._listenAllReceivedInput('lighting2', data);
         });
-        this.hardwareInstance.on('lighting3', function (data) {
-            _self._listenAllReceivedInput('lighting3', data);
+        this.hardwareInstance.on('lighting3', (data) => {
+            this._listenAllReceivedInput('lighting3', data);
         });
-        this.hardwareInstance.on('lighting4', function (data) {
-            _self._listenAllReceivedInput('lighting4', data);
+        this.hardwareInstance.on('lighting4', (data) => {
+            this._listenAllReceivedInput('lighting4', data);
         });
-        this.hardwareInstance.on('lighting5', function (data) {
-            _self._listenAllReceivedInput('lighting5', data);
+        this.hardwareInstance.on('lighting5', (data) => {
+            this._listenAllReceivedInput('lighting5', data);
         });
-        this.hardwareInstance.on('lighting6', function (data) {
-            _self._listenAllReceivedInput('lighting6', data);
+        this.hardwareInstance.on('lighting6', (data) => {
+            this._listenAllReceivedInput('lighting6', data);
         });
 
         // RFX
-        this.hardwareInstance.on('rfxmeter', function (data) {
-            _self._listenAllReceivedInput('rfxsensor', data);
+        this.hardwareInstance.on('rfxmeter', (data) => {
+            this._listenAllReceivedInput('rfxsensor', data);
         });
 
-        this.hardwareInstance.on('rfxsensor', function (data) {
-            _self._listenAllReceivedInput('rfxsensor', data);
+        this.hardwareInstance.on('rfxsensor', (data) => {
+            this._listenAllReceivedInput('rfxsensor', data);
         });
 
     }

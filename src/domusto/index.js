@@ -263,9 +263,25 @@ Domusto.initOutput = function (output) {
     output.state = 'off';
     output.hasTimers = false;
     output.lastUpdated = new Date();
-    output.actions = {
-        on: core.data.serverAddress + 'output/command/' + output.id + '/on',
-        off: core.data.serverAddress + 'output/command/' + output.id + '/off'
+
+    switch (output.subtype) {
+
+        case 'on/off':
+        case 'up/down':
+
+            output.actions = {
+                on: core.data.serverAddress + 'output/command/' + output.id + '/on',
+                off: core.data.serverAddress + 'output/command/' + output.id + '/off'
+            }
+            break;
+
+        case 'momentary':
+
+            output.actions = {
+                trigger: core.data.serverAddress + 'output/command/' + output.id + '/chime'
+            }
+
+            break;
     }
 
     return output;
