@@ -159,6 +159,14 @@ Domusto.scheduleSunTimer = function (device, timer) {
     let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
     let date = util.offsetDate(times[_timer.condition], _timer.offset);
 
+    // If the next event is tomorrow
+    if (date < new Date()) {
+        let today = new Date();
+        let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+        times = SunCalc.getTimes(tomorrow, config.location.latitude, config.location.longitude);
+        date = util.offsetDate(times[_timer.condition], _timer.offset);
+    }
+
     util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date);
 
     schedule.scheduleJob(date, function () {
@@ -175,7 +183,7 @@ Domusto.initTimers = function (device) {
 
     var _device = device;
 
-    device.timers.forEach(function (timer) {
+    device.timers.forEach((timer) => {
 
         if (timer.enabled) {
 
@@ -298,12 +306,13 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
     let device = Domusto.devices[deviceId];
     let hardware = Domusto.pluginInstanceByHardwareId(device.protocol.hardwareId);
 
-    hardware.outputCommand(device, command, function (response) {
+    hardware.outputCommand(device, command, response => {
+
         device.state = response.state;
         device.lastUpdated = new Date();
 
         // check if a callback is provided
-        if (typeof onSucces === 'function') {
+        if (onSuccess) {
             onSuccess(device);
         }
 
@@ -311,6 +320,7 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
         let devices = [];
         devices.push(device);
         Domusto.io.emit('outputDeviceUpdate', devices);
+
     });
 
 }
