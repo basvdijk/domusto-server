@@ -9,8 +9,7 @@ exports.list = function (req, res) {
 
 exports.command = function(req, res) {
 
-    Domusto.outputCommand(req.params.deviceId, req.params.state, function success(result) {
+    Domusto.outputCommand(req.params.deviceId, req.params.state, result => {
         res.json(result);
     });
-
 }
