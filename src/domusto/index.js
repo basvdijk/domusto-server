@@ -19,6 +19,8 @@ Domusto.pluginInstances = {};
 
 Domusto.init = function (io) {
 
+    util.log('STARTING DOMUSTO HOME AUTOMATION SYSTEM');
+
     if (!config.debug) {
         util.debug = function () { };
     } else {
@@ -67,22 +69,25 @@ Domusto.initHardware = function () {
 
     util.debug('Initialising hardware');
 
-    let hardware = config.hardware;
-    let domustoPlugin = null;
+    let plugins = config.plugins;
+    let pluginNodeModule = null;
 
     // Loading hardware plugins
-    for (let i = 0; i < hardware.length; i++) {
+    for (let i = 0; i < plugins.length; i++) {
 
-        let hardwareComponent = hardware[i];
+        let plugin = plugins[i];
 
-        if (hardwareComponent.enabled) {
+        if (plugin.enabled) {
 
-            switch (hardwareComponent.type) {
+            switch (plugin.type) {
                 case "RFXCOM":
-                    domustoPlugin = require('../plugins/domusto-rfxcom');
+                    pluginNodeModule = require('../plugins/domusto-rfxcom');
                     break;
                 case 'P1':
-                    domustoPlugin = require('../plugins/domusto-p1');
+                    pluginNodeModule = require('../plugins/domusto-p1');
+                    break;
+                case 'SHELL':
+                    pluginNodeModule = require('../plugins/domusto-shell');
                     break;
 
                 default:
@@ -91,9 +96,9 @@ Domusto.initHardware = function () {
 
         }
 
-        if (domustoPlugin) {
-            domustoPluginInstance = new domustoPlugin(hardwareComponent);
-            Domusto.pluginInstances[hardwareComponent.type] = domustoPluginInstance;
+        if (pluginNodeModule) {
+            domustoPluginInstance = new pluginNodeModule(plugin);
+            Domusto.pluginInstances[plugin.type] = domustoPluginInstance;
             // Subscribe to the new input data function
             domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
         }
@@ -167,7 +172,7 @@ Domusto.scheduleSunTimer = function (device, timer) {
         date = util.offsetDate(times[_timer.condition], _timer.offset);
     }
 
-    util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date);
+    util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
 
     schedule.scheduleJob(date, function () {
         util.log('Timer activated for', _device.id, 'state', _timer.state);

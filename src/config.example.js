@@ -8,9 +8,9 @@ module.exports = {
         longitude: '3.974129'
     },
 
-    // HARDWARE
-    // definitions of hardware devices e.g. receivers and serial converters
-    hardware: [
+    // PLUGINS
+    // configuration of the DOMUSTO plugins used
+    plugins: [
         {
             enabled: true,
             debug: false,
