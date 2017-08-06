@@ -33,11 +33,14 @@ class DomustoShell extends DomustoPlugin {
 
     outputCommand(device, command, onSucces) {
 
-        if (device.state === 'on') {
-            console.log(device.protocol.actions.off);
-        } else {
-            console.log(device.protocol.actions.on);
-        }
+        let invertedState = device.state === 'off' ? 'on' : 'off';    
+        let shellCommand = device.protocol.actions[invertedState];
+       
+        exec(shellCommand, (error, stdout, stderr) => {
+            util.debug('error', error);
+            util.debug('stdout', stdout);
+            util.debug('stderr', stderr);
+        });
 
         onSucces({ state: device.state === 'off' ? 'on' : 'off' });
 

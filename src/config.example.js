@@ -22,6 +22,10 @@ module.exports = {
             enabled: true,
             type: 'P1',
             port: '/dev/ttyUSB-P1'
+        },
+        {
+            enabled: true,
+            type: 'SHELL',
         }
     ],
 
@@ -87,6 +91,24 @@ module.exports = {
             ]
         },
 
+        // BUTTON WHICH EXECUTES SHELL COMMANDS
+        {
+            id: 'SHELL1',
+            enabled: true,
+            role: 'output',
+            name: 'shell test',
+            type: 'switch',
+            subtype: 'on/off',
+            protocol: {
+                hardwareId: 'SHELL',
+                id: 'SHELL1',
+                actions: {
+                    on: 'ls -l',
+                    off: 'pwd'
+                }
+            }
+        },
+
         // TEMPERATURE SENSOR
         {
             id: 'TEMP1',
@@ -102,6 +124,8 @@ module.exports = {
                 id: '0x7103'
             }
         },
+
+        // ELECTRICITY METER
         {
             id: 'POWER1',
             enabled: true,
