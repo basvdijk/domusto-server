@@ -61,7 +61,7 @@ class DomustoP1 extends DomustoPlugin {
         this.registeredDevices.forEach(function (device) {
 
             _self.onNewInputData({
-                hardwareId: device.id,
+                pluginId: device.id,
                 data: {
                     electricity: {
                         received: {

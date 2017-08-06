@@ -42,7 +42,7 @@ module.exports = {
             type: 'switch',                     // switch | temperature | power    kind of device
             subtype: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subtype of switch
             protocol: {
-                hardwareId: 'RFXCOM',           // string   id of the hardware device
+                pluginId: 'RFXCOM',           // string   id of the hardware device
                 type: 'Lighting2',              // string   protocol type
                 subType: 'AC',                  // string   protocol subtype 
 
@@ -100,7 +100,7 @@ module.exports = {
             type: 'switch',
             subtype: 'on/off',
             protocol: {
-                hardwareId: 'SHELL',
+                pluginId: 'SHELL',
                 id: 'SHELL1',
                 actions: {
                     on: 'ls -l',
@@ -118,7 +118,7 @@ module.exports = {
             type: 'temperature',
             subType: 'temperature-humidity',
             protocol: {
-                hardwareId: 'RFXCOM',
+                pluginId: 'RFXCOM',
                 type: 'th',
                 subType: '13',
                 id: '0x7103'
@@ -133,7 +133,7 @@ module.exports = {
             name: 'Slimme meter',
             type: 'power',
             protocol: {
-                hardwareId: 'P1',
+                pluginId: 'P1',
                 id: 'POWER1',
                 type: 'power-received'          // power-received | power-delivered    set the type of device
             }
@@ -145,7 +145,7 @@ module.exports = {
             name: 'Slimme meter',
             type: 'power',
             protocol: {
-                hardwareId: 'P1',
+                pluginId: 'P1',
                 id: 'POWER2',
                 type: 'power-delivered'
             }

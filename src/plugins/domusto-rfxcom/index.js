@@ -143,7 +143,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         devices.forEach(device => {
 
-            if (device.protocol.hardwareId === 'RFXCOM' && device.enabled) {
+            if (device.protocol.pluginId === 'RFXCOM' && device.enabled) {
 
                 let protocolEventName = null;
                 let listenerId = null;
@@ -152,12 +152,12 @@ class DomustoRfxCom extends DomustoPlugin {
                 // Temp + Humidity
                 if (device.role === 'input' && device.type === 'temperature') {
                     protocolEventName = device.protocol.type + device.protocol.subType;
-                    listenerId = device.protocol.hardwareId + device.role + device.type;
+                    listenerId = device.protocol.pluginId + device.role + device.type;
                     eventHandler = this._onInputTemperature;
                 }
                 else if (device.role === 'output' && device.type === 'switch') {
                     protocolEventName = device.protocol.type.toLowerCase();
-                    listenerId = device.protocol.hardwareId + protocolEventName;
+                    listenerId = device.protocol.pluginId + protocolEventName;
                     eventHandler = this._onOutputSwitch;
                 }
 
@@ -183,7 +183,7 @@ class DomustoRfxCom extends DomustoPlugin {
         util.debug('Hardware switch event detected', receivedData);
 
         this.onNewInputData({
-            hardwareId: receivedData.id + '/' + receivedData.unitcode,
+            pluginId: receivedData.id + '/' + receivedData.unitcode,
             command: receivedData.command.toLowerCase()
         });
     }
@@ -205,7 +205,7 @@ class DomustoRfxCom extends DomustoPlugin {
             let typeString = this._subTypeString(device.protocol.type + device.protocol.subType);
 
             this.onNewInputData({
-                hardwareId: sensorData.id,
+                pluginId: sensorData.id,
                 data: {
                     deviceTypeString: typeString,                 // Name of device type
                     temperature: sensorData.temperature,          // Temperature

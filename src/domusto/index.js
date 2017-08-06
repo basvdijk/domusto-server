@@ -123,13 +123,13 @@ Domusto.initDevices = function () {
                     let input = Domusto.initInput(Object.assign({}, device));
                     Domusto.devices[input.id] = input;
 
-                    let hardwareId = input.protocol.hardwareId;
-                    let pluginInstance = Domusto.pluginInstanceByHardwareId(hardwareId);
+                    let pluginId = input.protocol.pluginId;
+                    let pluginInstance = Domusto.pluginInstanceByPluginId(pluginId);
 
                     if (pluginInstance) {
                         pluginInstance.addRegisteredDevice(input);
                     } else {
-                        util.debug('No plugin found for hardware id', input.protocol.hardwareId);
+                        util.debug('No plugin found for hardware id', input.protocol.pluginId);
                     }
                     break;
                 }
@@ -309,7 +309,7 @@ Domusto.initOutput = function (output) {
 Domusto.outputCommand = function (deviceId, command, onSuccess) {
 
     let device = Domusto.devices[deviceId];
-    let hardware = Domusto.pluginInstanceByHardwareId(device.protocol.hardwareId);
+    let hardware = Domusto.pluginInstanceByPluginId(device.protocol.pluginId);
 
     hardware.outputCommand(device, command, response => {
 
@@ -339,7 +339,7 @@ Domusto.onNewInputData = function (inputData) {
     util.log('Received new input data:');
     util.prettyJson(inputData);
 
-    let device = Domusto.deviceByHardwareId(inputData.hardwareId);
+    let device = Domusto.deviceByPluginId(inputData.pluginId);
 
     // Check if the updated data comes from a registered device
     if (device) {
@@ -369,17 +369,17 @@ Domusto.onNewInputData = function (inputData) {
 }
 
 // Get the hardware instance by device id
-Domusto.pluginInstanceByHardwareId = function (hardwareId) {
-    return Domusto.pluginInstances[hardwareId];
+Domusto.pluginInstanceByPluginId = function (pluginId) {
+    return Domusto.pluginInstances[pluginId];
 }
 
-Domusto.deviceByHardwareId = function (hardwareId) {
+Domusto.deviceByPluginId = function (pluginId) {
 
     for (let i in Domusto.devices) {
 
         let device = Domusto.devices[i];
 
-        if (device.protocol.id && (device.protocol.id === hardwareId)) {
+        if (device.protocol.id && (device.protocol.id === pluginId)) {
             return device;
         }
     }
@@ -388,7 +388,7 @@ Domusto.deviceByHardwareId = function (hardwareId) {
 
         let device = Domusto.devices[i];
 
-        if (device.protocol.outputId && (device.protocol.outputId === hardwareId)) {
+        if (device.protocol.outputId && (device.protocol.outputId === pluginId)) {
             return device;
         }
     }
@@ -403,7 +403,7 @@ Domusto.deviceByHardwareId = function (hardwareId) {
 
             for (let j in device.protocol.inputIds) {
 
-                if (device.protocol.inputIds[j] === hardwareId) {
+                if (device.protocol.inputIds[j] === pluginId) {
                     return device;
                 }
 
