@@ -29,8 +29,6 @@ class DomustoRfxCom extends DomustoPlugin {
             website: 'http://domusto.com'
         });
 
-        let _self = this;
-
         this.pluginConfiguration = pluginConfiguration;
         this.attachedInputDeviceIds = [];
 
@@ -38,14 +36,14 @@ class DomustoRfxCom extends DomustoPlugin {
             let rfxtrx = new rfxcom.RfxCom(pluginConfiguration.port, { debug: this.pluginConfiguration.debug });
             this.hardwareInstance = rfxtrx;
 
-            this.hardwareInstance.on('status', function (status) {
+            this.hardwareInstance.on('status', status => {
                 util.prettyJson(status);
-                _self.statusData = status;
+                this.statusData = status;
             });
 
-            this.hardwareInstance.initialise(function onReady() {
-                _self._initialisePlugin();
-                // _self._listenAll();
+            this.hardwareInstance.initialise(() => {
+                this._initialisePlugin();
+                // this._listenAll();
                 util.debug('RFXtrx ready');
             });
 
@@ -61,7 +59,6 @@ class DomustoRfxCom extends DomustoPlugin {
 
         // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.
         let rfxConstructor = rfxcom[protocol.type];
-
 
         let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
@@ -89,7 +86,7 @@ class DomustoRfxCom extends DomustoPlugin {
         });
 
         // Execute command
-        rfxSwitch[rfxCommand](protocol.outputId, function () {
+        rfxSwitch[rfxCommand](protocol.outputId, (res) => {
             onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
         });
 
@@ -108,8 +105,6 @@ class DomustoRfxCom extends DomustoPlugin {
      */
     _checkEnabledModes() {
 
-        let _self = this;
-
         let hardwareEnabledProtocols = this.statusData.enabledProtocols.sort();
         let configuredEnabledProtocols = this.pluginConfiguration.enabledProtocols.sort();
 
@@ -123,13 +118,13 @@ class DomustoRfxCom extends DomustoPlugin {
 
             let enabledProtocolArray = [];
 
-            configuredEnabledProtocols.forEach(function (protocol) {
+            configuredEnabledProtocols.forEach(protocol => {
                 enabledProtocolArray.push(rfxcom.protocols[protocol]);
             }, this);
 
-            this.hardwareInstance.enable(enabledProtocolArray, function onDone(response) {
+            this.hardwareInstance.enable(enabledProtocolArray, response => {
                 util.log('Enabling protocols finished, restarting plugin');
-                _self._initialisePlugin();
+                this._initialisePlugin();
             });
 
         }
@@ -143,13 +138,10 @@ class DomustoRfxCom extends DomustoPlugin {
      */
     _initialiseInputs() {
 
-        let _self = this;
-
         let devices = config.devices;
         let protocolsWithListeners = [];
 
-
-        devices.forEach(function (device) {
+        devices.forEach(device => {
 
             if (device.protocol.hardwareId === 'RFXCOM' && device.enabled) {
 
@@ -161,12 +153,12 @@ class DomustoRfxCom extends DomustoPlugin {
                 if (device.role === 'input' && device.type === 'temperature') {
                     protocolEventName = device.protocol.type + device.protocol.subType;
                     listenerId = device.protocol.hardwareId + device.role + device.type;
-                    eventHandler = _self._onInputTemperature;
+                    eventHandler = this._onInputTemperature;
                 }
                 else if (device.role === 'output' && device.type === 'switch') {
                     protocolEventName = device.protocol.type.toLowerCase();
                     listenerId = device.protocol.hardwareId + protocolEventName;
-                    eventHandler = _self._onOutputSwitch;
+                    eventHandler = this._onOutputSwitch;
                 }
 
                 // Check if an protocol event name, listener id and event handler is set
@@ -236,7 +228,7 @@ class DomustoRfxCom extends DomustoPlugin {
      * @memberof DomustoRfxCom
      */
     _getDeviceById(deviceId) {
-        return this.attachedInputDeviceIds.find(function (device) {
+        return this.attachedInputDeviceIds.find(device => {
             // Switches have a master/slave, inputs don't
             return device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
         });
@@ -262,8 +254,6 @@ class DomustoRfxCom extends DomustoPlugin {
      * @memberof DomustoRfxCom
      */
     _listenAll() {
-
-        let _self = this;
 
         // SECURITY
         this.hardwareInstance.on('security1', (data) => {
