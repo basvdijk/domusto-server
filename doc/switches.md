@@ -1,4 +1,10 @@
-## Klik-Aan-Klik-Uit switch
+# KaKu / CoCo APA2-2300R
+
+## Hardware needed
+- [RFXtrx433E tranceiver](http://www.rfxcom.com/) - € 109.95
+- [KaKu / CoCo APA2-2300R](https://www.klikaanklikuit.nl/nl/apa2-2300r-2-kanaals-afstandsbediening-stekkerdoos-schakelaars.html) - € 19,95
+
+## Configuration
 
 The `KaKu / CoCo APA2-2300R` contains two plug-in sockets and a remote for two devices.
 
