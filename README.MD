@@ -4,6 +4,11 @@ This project is pre-pre-pre-alpha, so don't expect a working solution.
 
 See [the API docs](API.MD)
 
+# Plugins
+- [RFXcom](src/plugins/domusto-rfxcom)
+- [P1 smart meter](src/plugins/domusto-p1)
+- [Shell executer](src/plugins/domusto-shell)
+
 # Tested hardware
 - RFXcom
   - Weather
