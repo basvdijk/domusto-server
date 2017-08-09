@@ -72,7 +72,7 @@ module.exports = {
                     enabled: false,
                     state: 'off',
                     type: 'time',
-                    time: '30 * * * * *'
+                    time: '0 0 22 * * *'     // Every day at 22:00 (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
                 },
                 {
                     enabled: true,
