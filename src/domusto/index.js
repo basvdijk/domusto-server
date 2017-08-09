@@ -3,6 +3,7 @@ let SunCalc = require('suncalc');
 let util = require('../util');
 let core = require('../core.js');
 let config = require('../config');
+let domustoEmitter = require('./domusto-emitter');
 
 let io;
 
@@ -34,6 +35,18 @@ Domusto.init = function (io) {
     Domusto.initHardware();
 
     Domusto.initDevices();
+
+    Domusto.initTriggers();
+
+}
+
+Domusto.initTriggers = function() {
+
+    Domusto.pluginInstances['SHELL'].initTriggers();
+
+    // for (var i = 0; i < Domusto.pluginInstances.length; i++) {
+    //     Domusto.pluginInstances[i].initTriggers();
+    // }
 
 }
 
@@ -141,6 +154,15 @@ Domusto.initDevices = function () {
                     if (output.timers) {
                         Domusto.initTimers(output);
                     }
+                    
+                    let pluginId = output.protocol.pluginId;
+                    let pluginInstance = Domusto.pluginInstanceByPluginId(pluginId);
+
+                    if (pluginInstance) {
+                        pluginInstance.addRegisteredDevice(output);
+                    } else {
+                        util.debug('No plugin found for hardware id', output.protocol.pluginId);
+                    }
 
                     break;
                 }
@@ -174,7 +196,7 @@ Domusto.scheduleSunTimer = function (device, timer) {
 
     util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
 
-    schedule.scheduleJob(date, function () {
+    schedule.scheduleJob(date, () => {
         util.log('Timer activated for', _device.id, 'state', _timer.state);
         Domusto.outputCommand(_device.id, _timer.state);
 
@@ -312,6 +334,9 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
     let hardware = Domusto.pluginInstanceByPluginId(device.protocol.pluginId);
 
     hardware.outputCommand(device, command, response => {
+
+        console.log('emit', device.id + command);
+        domustoEmitter.emit(device.id + command);
 
         device.state = response.state;
         device.lastUpdated = new Date();

@@ -3,6 +3,7 @@ let util = require('../../util');
 let config = require('../../config');
 
 let DomustoPlugin = require('../../domusto/domusto-plugin');
+let domustoEmitter = require('../../domusto/domusto-emitter');
 
 /**
  * Shell plugin for DOMUSTO
@@ -42,8 +43,30 @@ class DomustoShell extends DomustoPlugin {
             util.debug('stderr', stderr);
         });
 
-        onSucces({ state: device.state === 'off' ? 'on' : 'off' });
+        if (onSucces) {
+            onSucces({ state: invertedState });
+        }
 
+    }
+
+    initTriggers() {
+
+        this.registeredDevices.forEach(device => {
+
+            device.triggers.forEach(trigger => {
+
+                let listen = trigger.listenToEvent;
+                
+                domustoEmitter.on(trigger.listenToEvent.deviceId + trigger.listenToEvent.event, () => {
+                    this.outputCommand(device, trigger.execute.event);
+                });
+
+            });
+
+        });
+
+    //     [ { listenToEvent: { deviceId: 'CHIME1', event: 'on' },
+    // execute: { event: 'on' } } ]
     }
 
     toString() {
