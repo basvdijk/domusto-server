@@ -1,4 +1,4 @@
-# RFXcom
+# Shell executer
 
 ```
 plugin:    Shell executer
@@ -45,5 +45,5 @@ website:   http://domusto.com
             off: 'pwd'
         }
     }
-},
+}
 ```
