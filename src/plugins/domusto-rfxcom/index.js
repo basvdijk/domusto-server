@@ -62,7 +62,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
-        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);       
+        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);     
 
         let rfxCommand = null;
 
@@ -84,11 +84,17 @@ class DomustoRfxCom extends DomustoPlugin {
             id: protocol.outputId,
             command: rfxCommand
         });
+        
+        if (protocol.type !== 'Chime1') {
 
-        // Execute command
-        rfxSwitch[rfxCommand](protocol.outputId, (res) => {
+            // Execute command
+            rfxSwitch[rfxCommand](protocol.outputId, (res) => {
+                onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
+            });
+
+        } else {
             onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
-        });
+        }
 
     }
 
@@ -183,8 +189,8 @@ class DomustoRfxCom extends DomustoPlugin {
         util.debug('Hardware switch event detected', receivedData);
 
         this.onNewInputData({
-            pluginId: receivedData.id + '/' + receivedData.unitcode,
-            command: receivedData.command.toLowerCase()
+            pluginId: receivedData.unitcode ? receivedData.id + '/' + receivedData.unitcode : receivedData.id,
+            command: receivedData.command ? receivedData.command.toLowerCase() : 'on'
         });
     }
 
