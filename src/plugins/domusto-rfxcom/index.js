@@ -62,7 +62,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
-        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);     
+        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);
 
         let rfxCommand = null;
 
@@ -74,7 +74,7 @@ class DomustoRfxCom extends DomustoPlugin {
             case 'off':
                 rfxCommand = 'switchOff';
                 break;
-            case 'chime':
+            case 'trigger':
                 rfxCommand = 'chime';
                 break;
         }
@@ -84,18 +84,11 @@ class DomustoRfxCom extends DomustoPlugin {
             id: protocol.outputId,
             command: rfxCommand
         });
-        
-        if (protocol.type !== 'Chime1') {
 
-            // Execute command
-            rfxSwitch[rfxCommand](protocol.outputId, (res) => {
-                onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
-            });
-
-        } else {
+        // Execute command
+        rfxSwitch[rfxCommand](protocol.outputId, (res) => {
             onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
-        }
-
+        });
     }
 
     _initialisePlugin() {
@@ -190,7 +183,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         this.onNewInputData({
             pluginId: receivedData.unitcode ? receivedData.id + '/' + receivedData.unitcode : receivedData.id,
-            command: receivedData.command ? receivedData.command.toLowerCase() : 'on'
+            command: receivedData.command ? receivedData.command.toLowerCase() : 'trigger'
         });
     }
 
@@ -265,7 +258,7 @@ class DomustoRfxCom extends DomustoPlugin {
         this.hardwareInstance.on('security1', (data) => {
             this._listenAllReceivedInput('security1', data);
         });
-        
+
         // CHIME
         this.hardwareInstance.on('chime1', (data) => {
             this._listenAllReceivedInput('chime1', data);
