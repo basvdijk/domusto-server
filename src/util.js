@@ -11,6 +11,11 @@ Util.log = function () {
     Array.prototype.unshift.call(arguments, '[DOMUSTO] ' + Util.getLogDate());
     console.log.apply(this, arguments)
 }
+Util.error = function () {
+    Array.prototype.unshift.call(arguments, '\x1b[31m[DOMUSTO] ' + Util.getLogDate());
+    console.log.apply(this, arguments)
+    console.log('\x1b[0m');
+}
 
 Util.prettyJson = function (object) {
     console.log(prettyjson.render(object, {

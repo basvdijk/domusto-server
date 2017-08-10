@@ -40,7 +40,7 @@ Domusto.init = function (io) {
 
 }
 
-Domusto.initTriggers = function() {
+Domusto.initTriggers = function () {
 
     Domusto.pluginInstances['SHELL'].initTriggers();
 
@@ -91,29 +91,16 @@ Domusto.initHardware = function () {
         let plugin = plugins[i];
 
         if (plugin.enabled) {
+            try {
+                pluginNodeModule = require('../plugins/domusto-' + plugin.type.toLowerCase());
 
-            switch (plugin.type) {
-                case "RFXCOM":
-                    pluginNodeModule = require('../plugins/domusto-rfxcom');
-                    break;
-                case 'P1':
-                    pluginNodeModule = require('../plugins/domusto-p1');
-                    break;
-                case 'SHELL':
-                    pluginNodeModule = require('../plugins/domusto-shell');
-                    break;
-
-                default:
-                    break;
+                domustoPluginInstance = new pluginNodeModule(plugin);
+                Domusto.pluginInstances[plugin.type] = domustoPluginInstance;
+                // Subscribe to the new input data function
+                domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
+            } catch (error) {
+                util.error('Error loading plugin ', plugin.type, error);
             }
-
-        }
-
-        if (pluginNodeModule) {
-            domustoPluginInstance = new pluginNodeModule(plugin);
-            Domusto.pluginInstances[plugin.type] = domustoPluginInstance;
-            // Subscribe to the new input data function
-            domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
         }
 
     }
@@ -154,7 +141,7 @@ Domusto.initDevices = function () {
                     if (output.timers) {
                         Domusto.initTimers(output);
                     }
-                    
+
                     let pluginId = output.protocol.pluginId;
                     let pluginInstance = Domusto.pluginInstanceByPluginId(pluginId);
 
