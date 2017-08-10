@@ -16,8 +16,29 @@ See [the API docs](API.MD)
   - Switch
     - Klik-Aan-Klik-Uit / KAKU
     - Click-On-Click-Off / COCO
+  - Select Plus Chime Doorbell
+
 - P1 (via P1 to usb converter)
   - Landis+Gyr E350
+
+# Cost overview
+|Item          | Model        |Price          |Store|
+|--------------|--------------|--------------:|--------------|
+|RFXcom tranceiver|[RFXtrx433E](http://www.rfxcom.com/epages/78165469.sf/nl_NL/?ObjectPath=/Shops/78165469/Categories/Transceivers)|€ 109,95| online|
+|RPI, power adapter, sd card|[RPI3B starter kit](https://www.sossolutions.nl/raspberry-pi-3b-starterkit)|€ 52,95|online
+|RPI, power adapter, sd card, RFXcom**|[RPI3B starter kit + RFXtrx433E](https://www.sossolutions.nl/rfxcom-e-domoticz-starter-met-raspberry-pi3b)|€ 145,95|online
+|2x wall plug + remote|[KaKu APA2-2300R](https://www.klikaanklikuit.nl/nl/apa2-2300r-2-kanaals-afstandsbediening-stekkerdoos-schakelaars.html) | € 19,95| Gamma*, Karwei*|
+|3x wall plug + remote|[KaKu APA3-1500R](https://www.klikaanklikuit.nl/nl/apa3-1500r-starterset.html) | € 29,99| Gamma*, Karwei*|
+|Sunscreen controller|[KaKu ASUN-650](https://www.klikaanklikuit.nl/nl/asun-650-schakelaar-voor-zonwering.html)|€ 41,99| Gamma*, Karwei*|
+|Wall push button|[KaKu AWST-8800](https://www.klikaanklikuit.nl/nl/awst-8800-draadloze-wandschakelaar.html)|€ 20,99| Gamma*, Karwei*|
+|Wall dual push button|[KaKu AWST-8802](https://www.klikaanklikuit.nl/nl/awst-8802-dubbele-draadloze-wandschakelaar.html)|€ 22,99| Gamma*, Karwei*|
+|Build-in TL-light switch***|[KaKu AWMR-300](https://www.klikaanklikuit.nl/nl/awmr-300-mini-inbouw-schakelaar.html)|€ 31,99| Gamma*, Karwei*|
+|Build-in switch**|[KaKu AMU-500](https://www.klikaanklikuit.nl/nl/amu-500-universele-schakelaar.html)|€ 29,99| Gamma*, Karwei*|
+
+- \* Dutch DIY stores like Gamma and Karwei regurly have discounts on KaKu devices
+- \*\* The kit comes without a SD card, make sure you order it when you don't have one
+- \*\*\* For TL-light make sure you use the AWMR-300 and NOT the AWMR-230
+
 
 # Running the DOMUSTO server
 
