@@ -36,19 +36,11 @@ Domusto.init = function (io) {
 
     Domusto.initDevices();
 
-    Domusto.initTriggers();
+    Domusto.initDeviceTriggers();
 
 }
 
-Domusto.initTriggers = function () {
 
-    Domusto.pluginInstances['SHELL'].initTriggers();
-
-    // for (var i = 0; i < Domusto.pluginInstances.length; i++) {
-    //     Domusto.pluginInstances[i].initTriggers();
-    // }
-
-}
 
 /**
  * Initialises Socket.io
@@ -98,12 +90,63 @@ Domusto.initHardware = function () {
                 Domusto.pluginInstances[plugin.type] = domustoPluginInstance;
                 // Subscribe to the new input data function
                 domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
+
+                if (plugin.triggers) {
+                    Domusto.initPluginTriggers(domustoPluginInstance, plugin);
+                }
+
             } catch (error) {
                 util.error('Error loading plugin ', plugin.type, error);
             }
         }
 
     }
+
+}
+
+Domusto.initPluginTriggers = function (domustoPluginInstance, pluginConfiguration) {
+
+    pluginConfiguration.triggers.forEach(trigger => {
+
+        trigger.listenToEvent.events.forEach(triggerEvent => {
+
+            let listen = trigger.listenToEvent;
+
+            domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+                domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
+            });
+
+        });
+
+    });
+
+}
+
+Domusto.initDeviceTriggers = function () {
+
+    for (let i in Domusto.devices) {
+
+        let device = Domusto.devices[i];
+
+        if (device.triggers) {
+
+            device.triggers.forEach(trigger => {
+
+                trigger.listenToEvent.events.forEach(triggerEvent => {
+
+                    let listen = trigger.listenToEvent;
+
+                    domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+                        this.outputCommand(device.id, trigger.execute.event);
+                    });
+
+                });
+
+            });
+
+        }
+
+    };
 
 }
 

@@ -33,7 +33,7 @@ class DomustoRfxCom extends DomustoPlugin {
         this.attachedInputDeviceIds = [];
 
         try {
-            let rfxtrx = new rfxcom.RfxCom(pluginConfiguration.port, { debug: this.pluginConfiguration.debug });
+            let rfxtrx = new rfxcom.RfxCom(pluginConfiguration.settings.port, { debug: this.pluginConfiguration.debug });
             this.hardwareInstance = rfxtrx;
 
             this.hardwareInstance.on('status', status => {
@@ -105,7 +105,7 @@ class DomustoRfxCom extends DomustoPlugin {
     _checkEnabledModes() {
 
         let hardwareEnabledProtocols = this.statusData.enabledProtocols.sort();
-        let configuredEnabledProtocols = this.pluginConfiguration.enabledProtocols.sort();
+        let configuredEnabledProtocols = this.pluginConfiguration.settings.enabledProtocols.sort();
 
         // check if the enabled protocols are the same as the once on the device
         if (JSON.stringify(hardwareEnabledProtocols) === JSON.stringify(configuredEnabledProtocols)) {

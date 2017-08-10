@@ -8,12 +8,13 @@ let util = require('../util');
  */
 class DomustoPlugin {
 
-    constructor(metaData) {
+    constructor(metaData, self) {
         util.debug('Initialising plugin for:');
         util.prettyJson(metaData);
 
         this._registeredDevices = [];
         this._metaData = metaData;
+        this._self = this;
     }
 
     toString() {
@@ -22,6 +23,29 @@ class DomustoPlugin {
 
     addRegisteredDevice(device) {
         this._registeredDevices.push(device);
+    }
+
+    /**
+     * Executes a trigger command
+     * 
+     * @param {any} command Function of class to call
+     * @param {any} parameters Parameters to send to called function
+     * @memberof DomustoPlugin
+     */
+    trigger(command, parameters) {
+
+        let functionToTrigger = this[command];
+
+        // Check if the class has the function defined
+        if (typeof functionToTrigger === 'function') {
+
+            // Call the function with the plugin scope instead of the DomustoPlugin scope
+            functionToTrigger.apply(this._self, parameters);
+
+        } else {
+            util.error('No function defined for ', command, parameters);
+        }
+        
     }
 
     get onNewInputData() {

@@ -30,7 +30,7 @@ class DomustoP1 extends DomustoPlugin {
         });
 
         try {
-            let p1Reader = new P1Reader({ serialPort: pluginConfiguration.port });
+            let p1Reader = new P1Reader({ serialPort: pluginConfiguration.settings.port });
             this.hardwareInstance = p1Reader;
             this.hardwareInstance.on('reading', this._updatePowerData.bind(this));
         } catch (error) {

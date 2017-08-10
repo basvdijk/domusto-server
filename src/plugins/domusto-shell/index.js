@@ -32,6 +32,17 @@ class DomustoShell extends DomustoPlugin {
 
     }
 
+    runCommand(shellCommand) {
+        
+
+        exec(shellCommand, (error, stdout, stderr) => {
+            util.debug('error', error);
+            util.debug('stdout', stdout);
+            util.debug('stderr', stderr);
+        });
+
+    }
+
     outputCommand(device, command, onSucces) {
 
         let invertedState = device.state === 'off' ? 'on' : 'off';
@@ -47,30 +58,6 @@ class DomustoShell extends DomustoPlugin {
             onSucces({ state: invertedState });
         }
 
-    }
-
-    initTriggers() {
-
-        this.registeredDevices.forEach(device => {
-
-            device.triggers.forEach(trigger => {
-
-                trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                    let listen = trigger.listenToEvent;
-
-                    domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                        this.outputCommand(device, trigger.execute.event);
-                    });
-
-                });
-
-            });
-
-        });
-
-        //     [ { listenToEvent: { deviceId: 'CHIME1', event: 'on' },
-        // execute: { event: 'on' } } ]
     }
 
     toString() {
