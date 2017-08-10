@@ -6,7 +6,7 @@
 
 * **URL**
 
-  `/switch/deviceId/on`
+  `/output/command/:deviceId/on`
 
 * **Method:**
 
@@ -22,13 +22,14 @@
   * http://127.0.0.1/1/on
 
 
+
 **Turn switch off**
 ----
   Turns a switch off by device ID.
 
 * **URL**
 
-  `/switch/deviceId/off`
+  `/output/command/:deviceId/on`
 
 * **Method:**
 
@@ -42,6 +43,29 @@
 * **Sample Call:**
 
   * http://127.0.0.1/1/off
+
+
+
+**Trigger switch**
+----
+  Trigger momentary switch by device ID.
+
+* **URL**
+
+  `/output/command/:deviceId/trigger`
+
+* **Method:**
+
+  `GET`
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{ state : off }`
+ 
+* **Sample Call:**
+
+  * http://127.0.0.1/1/trigger
 
 
 # Inputs
