@@ -313,7 +313,7 @@ Domusto.initOutput = function (output) {
         case 'momentary':
 
             output.actions = {
-                trigger: core.data.serverAddress + 'output/command/' + output.id + '/chime'
+                trigger: core.data.serverAddress + 'output/command/' + output.id + '/trigger'
             }
 
             break;
