@@ -28,6 +28,7 @@ See [the API docs](API.MD)
 |Smart meter cable|[P1 Smart meter cable](https://www.sossolutions.nl/slimme-meter-kabel)|€ 16,95|online|
 |RPI, power adapter, sd card|[RPI3B starter kit](https://www.sossolutions.nl/raspberry-pi-3b-starterkit)|€ 52,95|online
 |RPI, power adapter, sd card, RFXcom**|[RPI3B starter kit + RFXtrx433E](https://www.sossolutions.nl/rfxcom-e-domoticz-starter-met-raspberry-pi3b)|€ 145,95|online
+|Wireless doorbell|[Select Plus 433mhz wireless doorbell](https://www.action.com/nl-nl/p/select-plus-draadloze-deurbel/)| € 5,95|Action|
 |2x wall plug + remote|[KaKu APA2-2300R](https://www.klikaanklikuit.nl/nl/apa2-2300r-2-kanaals-afstandsbediening-stekkerdoos-schakelaars.html) | € 19,95| Gamma*, Karwei*|
 |3x wall plug + remote|[KaKu APA3-1500R](https://www.klikaanklikuit.nl/nl/apa3-1500r-starterset.html) | € 29,99| Gamma*, Karwei*|
 |Sunscreen controller|[KaKu ASUN-650](https://www.klikaanklikuit.nl/nl/asun-650-schakelaar-voor-zonwering.html)|€ 41,99| Gamma*, Karwei*|
