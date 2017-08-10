@@ -34,7 +34,7 @@ See [the API docs](API.MD)
 |Wall dual push button|[KaKu AWST-8802](https://www.klikaanklikuit.nl/nl/awst-8802-dubbele-draadloze-wandschakelaar.html)|€ 22,99| Gamma*, Karwei*|
 |Build-in TL-light switch***|[KaKu AWMR-300](https://www.klikaanklikuit.nl/nl/awmr-300-mini-inbouw-schakelaar.html)|€ 31,99| Gamma*, Karwei*|
 |Build-in switch|[KaKu AMU-500](https://www.klikaanklikuit.nl/nl/amu-500-universele-schakelaar.html)|€ 29,99| Gamma*, Karwei*|
-|Temp + Humidity sensor| [433MHz Wireless Digital In/Outdoor Weather Humidity](http://www.ebay.nl/itm/Wireless-Temp-Alert-Thermometer-Hygrometer-Meter-433MHz-Temperature-Humidity-NEW-/182558019276?hash=item2a814e4ecc:g:W7cAAOSwdGFY2hlG) | € 7,17 | eBay
+|Temp + Humidity sensor| [433MHz Weather Humidity](http://www.ebay.nl/itm/Wireless-Temp-Alert-Thermometer-Hygrometer-Meter-433MHz-Temperature-Humidity-NEW-/182558019276?hash=item2a814e4ecc:g:W7cAAOSwdGFY2hlG) | € 7,17 | eBay
 
 ```
 *   Dutch DIY stores like Gamma and Karwei regurly have discounts on KaKu devices
