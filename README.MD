@@ -24,7 +24,7 @@ See [the API docs](API.MD)
 # Cost overview
 |Item          | Model        |Price          |Store         |
 |--------------|--------------|--------------:|--------------|
-|RFXcom tranceiver|[RFXtrx433E](http://www.rfxcom.com/epages/78165469.sf/nl_NL/?ObjectPath=/Shops/78165469/Categories/Transceivers)|€ 109,95| online|
+|RFXcom 433mhz tranceiver|[RFXtrx433E](http://www.rfxcom.com/epages/78165469.sf/nl_NL/?ObjectPath=/Shops/78165469/Categories/Transceivers)|€ 109,95| online|
 |Smart meter cable|[P1 Smart meter cable](https://www.sossolutions.nl/slimme-meter-kabel)|€ 16,95|online|
 |RPI, power adapter, sd card|[RPI3B starter kit](https://www.sossolutions.nl/raspberry-pi-3b-starterkit)|€ 52,95|online
 |RPI, power adapter, sd card, RFXcom**|[RPI3B starter kit + RFXtrx433E](https://www.sossolutions.nl/rfxcom-e-domoticz-starter-met-raspberry-pi3b)|€ 145,95|online
