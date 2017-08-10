@@ -15,21 +15,63 @@ module.exports = {
             enabled: true,
             debug: false,
             type: 'RFXCOM',
-            port: '/dev/ttyUSB-RFX433',         // [string]  enabled protocols AC | ARC | ATI | BLINDST14 | BLYSS | BYRONSX | FINEOFFSET | FS20 | HIDEKI | HOMEEASY | LACROSSE | LIGHTING4 | LIGHTWAVERF | MEIANTECH | MERTIK | OREGON | PROGUARD | RFU6 | ROLLERTROL | RSL | RUBICSON | VISONIC | X10
-            enabledProtocols: [               
-                'AC',       // KaKu
-                'BYRONSX',  // Doorbell
-                'RUBICSON'  // Temp + Humid
-            ]
+            settings: {
+                port: '/dev/ttyUSB-RFX433',         // [string]  enabled protocols AC | ARC | ATI | BLINDST14 | BLYSS | BYRONSX | FINEOFFSET | FS20 | HIDEKI | HOMEEASY | LACROSSE | LIGHTING4 | LIGHTWAVERF | MEIANTECH | MERTIK | OREGON | PROGUARD | RFU6 | ROLLERTROL | RSL | RUBICSON | VISONIC | X10
+                enabledProtocols: [
+                    'AC',       // KaKu
+                    'BYRONSX',  // Doorbell
+                    'RUBICSON'  // Temp + Humid
+                ]
+            }
         },
         {
             enabled: true,
             type: 'P1',
-            port: '/dev/ttyUSB-P1'
+            settings: {
+                port: '/dev/ttyUSB-P1'
+            }
         },
         {
             enabled: true,
             type: 'SHELL',
+            triggers: [
+                {
+                    listenToEvent: {
+                        deviceId: 'CHIME1',
+                        events: ['trigger'],
+                    },
+                    execute: {
+                        event: 'runCommand',
+                        parameters: [
+                            'aplay assets/audio/doorbell.wav'
+                        ]
+                    }
+                },
+            ],
+        },
+        {
+            enabled: true,
+            type: 'PUSHBULLET',
+            settings: {
+                apiKeys: [
+                    'SJDFKSDJFLSDJLSKFJIWI92340283020',
+                ],
+            },
+            triggers: [
+                {
+                    listenToEvent: {
+                        deviceId: 'CHIME1',
+                        events: ['trigger'],
+                    },
+                    execute: {
+                        event: 'sendMessageToAll',
+                        parameters: [
+                            'Doorbell',    // Title
+                            'Ding Dong!'   // Message
+                        ]
+                    }
+                },
+            ],
         }
     ],
 
