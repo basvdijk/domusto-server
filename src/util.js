@@ -35,7 +35,7 @@ Util.getLogDate = function () {
 }
 
 Util.logSwitchToFile = function (data) {
-    var logStream = fs.createWriteStream('../log/switches.log', { 'flags': 'a' });
+    var logStream = fs.createWriteStream('../logs/switches.log', { 'flags': 'a' });
     // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
     logStream.end(Util.getLogDate() + '   ' + data);
 }
