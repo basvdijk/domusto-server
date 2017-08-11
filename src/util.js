@@ -28,10 +28,14 @@ Util.prettyJson = function (object) {
 
 Util.getLogDate = function () {
 
-    function pad(n){return n<10 ? '0'+n : n}
+    function pad(n) { return n < 10 ? '0' + n : n }
 
     let date = new Date();
-    return '' + date.getFullYear() + '-' + pad((date.getMonth() + 1)) + '-' + pad(date.getDate()) + ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.' + date.getMilliseconds()
+
+    let days = ['SUS', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    let dayString = days[date.getDay()];
+
+    return '' + dayString + ' ' + date.getFullYear() + '-' + pad((date.getMonth() + 1)) + '-' + pad(date.getDate()) + ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.' + date.getMilliseconds()
 }
 
 Util.logSwitchToFile = function (data) {
