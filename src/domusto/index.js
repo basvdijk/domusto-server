@@ -368,6 +368,8 @@ Domusto.outputCommand = function (deviceId, command, onSuccess) {
         console.log('emit', device.id + command);
         domustoEmitter.emit(device.id + command);
 
+        util.logSwitchToFile(device.id + ': ' + command);
+
         device.state = response.state;
         device.lastUpdated = new Date();
 
