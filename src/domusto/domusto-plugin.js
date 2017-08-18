@@ -15,6 +15,7 @@ class DomustoPlugin {
         this._registeredDevices = [];
         this._metaData = metaData;
         this._self = this;
+        this._busy = false;
     }
 
     toString() {
