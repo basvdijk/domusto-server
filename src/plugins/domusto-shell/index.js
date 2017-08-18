@@ -33,29 +33,50 @@ class DomustoShell extends DomustoPlugin {
     }
 
     runCommand(shellCommand) {
-        
 
-        exec(shellCommand, (error, stdout, stderr) => {
-            util.debug('error', error);
-            util.debug('stdout', stdout);
-            util.debug('stderr', stderr);
-        });
+        if (!this._busy) {
+
+            this._busy = true;
+
+            exec(shellCommand, (error, stdout, stderr) => {
+                util.debug('error', error);
+                util.debug('stdout', stdout);
+                util.debug('stderr', stderr);
+
+                this._busy = false;
+
+            });
+
+        }
 
     }
 
     outputCommand(device, command, onSucces) {
 
-        let invertedState = device.state === 'off' ? 'on' : 'off';
-        let shellCommand = device.protocol.actions[invertedState];
+        if (!this._busy) {
 
-        exec(shellCommand, (error, stdout, stderr) => {
-            util.debug('error', error);
-            util.debug('stdout', stdout);
-            util.debug('stderr', stderr);
-        });
+            let invertedState = device.state === 'off' ? 'on' : 'off';
+            let shellCommand = device.protocol.actions[invertedState];
 
-        if (onSucces) {
-            onSucces({ state: invertedState });
+            this._busy = true;
+
+            if (shellCommand) {
+
+                exec(shellCommand, (error, stdout, stderr) => {
+                    util.debug('error', error);
+                    util.debug('stdout', stdout);
+                    util.debug('stderr', stderr);
+
+                    this._busy = false;
+
+                    if (onSucces) {
+                        onSucces({ state: invertedState });
+                    }
+                });
+
+            } else {
+                util.error('No action defined for', device.name, device.state === 'off' ? 'on' : 'off');
+            }
         }
 
     }

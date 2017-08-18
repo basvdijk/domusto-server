@@ -326,6 +326,7 @@ Domusto.initInput = function (input) {
  */
 Domusto.initOutput = function (output) {
     output.state = 'off';
+    output.busy = false;
     output.hasTimers = false;
     output.lastUpdated = new Date();
 
@@ -361,29 +362,36 @@ Domusto.initOutput = function (output) {
 Domusto.outputCommand = function (deviceId, command, onSuccess) {
 
     let device = Domusto.devices[deviceId];
-    let hardware = Domusto.pluginInstanceByPluginId(device.protocol.pluginId);
+    let pluginInstance = Domusto.pluginInstanceByPluginId(device.protocol.pluginId);
 
-    hardware.outputCommand(device, command, response => {
+    if (!device.busy) {
 
-        console.log('emit', device.id + command);
-        domustoEmitter.emit(device.id + command);
+        device.busy = true;
 
-        util.logSwitchToFile(device.id + ': ' + command);
+        pluginInstance.outputCommand(device, command, response => {
 
-        device.state = response.state;
-        device.lastUpdated = new Date();
+            console.log('emit', device.id + command);
+            domustoEmitter.emit(device.id + command);
 
-        // check if a callback is provided
-        if (onSuccess) {
-            onSuccess(device);
-        }
+            util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
 
-        // outputDeviceUpdate channel only takes arrays
-        let devices = [];
-        devices.push(device);
-        Domusto.io.emit('outputDeviceUpdate', devices);
+            device.busy = false;
+            device.state = response.state;
+            device.lastUpdated = new Date();
 
-    });
+            // check if a callback is provided
+            if (onSuccess) {
+                onSuccess(device);
+            }
+
+            // outputDeviceUpdate channel only takes arrays
+            let devices = [];
+            devices.push(device);
+            Domusto.io.emit('outputDeviceUpdate', devices);
+
+        });
+
+    }
 
 }
 
