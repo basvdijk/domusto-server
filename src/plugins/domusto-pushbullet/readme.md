@@ -1,7 +1,7 @@
-# Shell executer
+# Pushbullet
 
 ```
-plugin:    Shell executer
+plugin:    Pushbullet push messages
 author:    Bas van Dijk
 category:  system
 version:   0.0.1
@@ -12,8 +12,7 @@ website:   http://domusto.com
 - none
 
 ## Tested with
- - `ls`
- - `aplay`
+ - RFXcom events
  
 ## Configuration
 
@@ -23,27 +22,27 @@ website:   http://domusto.com
 ```js
 {
     enabled: true,
-    type: 'SHELL',
-}
-```
-
-## Example device
-
-```
-{
-    id: 'SHELL1',
-    enabled: true,
-    role: 'output',
-    name: 'shell test',
-    type: 'switch',
-    subtype: 'on/off',
-    protocol: {
-        pluginId: 'SHELL',
-        id: 'SHELL1',
-        actions: {
-            on: 'aplay assets/audio/doorbell.wav',
-            off: 'pwd'
-        }
-    }
+    type: 'PUSHBULLET',
+    settings: {
+        apiKeys: [
+            'APIKEY1',
+            'APIKEY2'
+        ],
+    },
+    triggers: [
+        {
+            listenToEvent: {
+                deviceId: 'CHIME1',
+                events: ['trigger'],
+            },
+            execute: {
+                event: 'sendMessageToAll',
+                parameters: [
+                    'Doorbell',    // Title
+                    'Ding Dong!'   // Message
+                ]
+            }
+        },
+    ],
 }
 ```
