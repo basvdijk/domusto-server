@@ -227,7 +227,8 @@ Domusto.scheduleSunTimer = function (device, timer) {
     util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
 
     schedule.scheduleJob(date, () => {
-        util.log('Timer activated for', _device.id, 'state', _timer.state);
+        util.log('Timer (sun) activated for', _device.id, 'state', _timer.state);
+        util.logTimersToFile('Timer (sun) activated for', _device.id, 'state', timer.state);
         Domusto.outputCommand(_device.id, _timer.state);
 
         // Reschedule for next day
@@ -249,10 +250,11 @@ Domusto.initTimers = function (device) {
             switch (timer.type) {
 
                 case 'time':
-                    util.log('Timer (timed) set for', _device.id, 'state', timer.state, 'at', timer.time);
+                    util.log('Timer (time) set for', _device.id, 'state', timer.state, 'at', timer.time);
 
                     schedule.scheduleJob(timer.time, function () {
-                        util.log('Timer activated for', _device.id, 'state', timer.state);
+                        util.log('Timer (time) activated for', _device.id, 'state', timer.state);
+                        util.logTimersToFile('Timer (time) activated for', _device.id, 'state', timer.state);
                         Domusto.outputCommand(_device.id, timer.state);
                     });
                     break;
