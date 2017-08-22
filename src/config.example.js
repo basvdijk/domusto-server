@@ -133,6 +133,24 @@ module.exports = {
                     type: 'sun',
                     condition: 'sunrise',
                     offset: '* * 2 * * *',   // Two hours after sunrise
+                },
+                {
+                    enabled: true,
+                    type: 'sun',
+                    condition: 'sunset',
+                    state: 'on'
+                },
+                {
+                    enabled: true,
+                    type: 'time',
+                    time: '0 0 23 * * SUN-THU', // Every Sunday till Thursday om 23:00h switch off
+                    state: 'off'
+                },
+                {
+                    enabled: true,
+                    type: 'time',
+                    time: '0 30 0 * * SAT-SUN', // Every Saturday and Sunday switch off at 0:30h
+                    state: 'off'
                 }
             ]
         },
