@@ -15,6 +15,33 @@ At first sight the timers defined below look weird, Sunday is defined twice and 
 
 ```js
 
+// Switch on every day at sunset
+{
+    enabled: true,
+    type: 'sun',
+    condition: 'sunset',
+    state: 'on'
+},
+
+// Switch o
+{
+    enabled: true,
+    type: 'time',
+    time: '0 0 23 * * SUN-THU',
+    state: 'off'
+},
+
+{
+    enabled: true,
+    type: 'time',
+    time: '0 30 0 * * SAT-SUN',
+    state: 'off'
+}
+```
+
+## Other timer examples
+
+```js
 // Switch off every day at 22:00h
 {
     enabled: false,
