@@ -35,6 +35,8 @@ module.exports = {
             enabled: true,
             type: 'SHELL',
             triggers: [
+
+                // Play doorbell.wav when CHIME1 broadcasts it is being triggered
                 {
                     listenToEvent: {
                         deviceId: 'CHIME1',
@@ -108,18 +110,24 @@ module.exports = {
             // TIMERS
             // timers which control the device based on time or sun      
             timers: [
+
+                // Switch on every 10 seconds
                 {
                     enabled: false,         // boolean         enables or disables a timer
                     state: 'on',            // on | off        state to which the timer switched on timer hit
                     type: 'time',           // time | sun      sets the type of timer
                     time: '10 * * * * *'    // cron notation   define the timer in the cron format seconds - minute - hours - day - month - year. Use * as wildcard
                 },
+
+                // Switch off every day at 22:00h
                 {
                     enabled: false,
                     state: 'off',
                     type: 'time',
-                    time: '0 0 22 * * *'     // Every day at 22:00 (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
+                    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
                 },
+
+                // Switch on every day 1h _before_ sunset
                 {
                     enabled: true,
                     type: 'sun',
@@ -127,29 +135,37 @@ module.exports = {
                     condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
                     offset: '* * -1 * * *',  // One hour before sunset
                 },
+
+                // Switch off 2h after sunrise
                 {
                     enabled: true,
                     state: 'off',
                     type: 'sun',
                     condition: 'sunrise',
-                    offset: '* * 2 * * *',   // Two hours after sunrise
+                    offset: '* * 2 * * *',
                 },
+
+                // Switch on every day on sunset
                 {
                     enabled: true,
                     type: 'sun',
                     condition: 'sunset',
                     state: 'on'
                 },
+
+                // Switch off every Sunday till Thursday at 23:00h
                 {
                     enabled: true,
                     type: 'time',
-                    time: '0 0 23 * * SUN-THU', // Every Sunday till Thursday om 23:00h switch off
+                    time: '0 0 23 * * SUN-THU',
                     state: 'off'
                 },
+
+                // Switch off every Saturday and Sunday at 0:30h
                 {
                     enabled: true,
                     type: 'time',
-                    time: '0 30 0 * * SAT-SUN', // Every Saturday and Sunday switch off at 0:30h
+                    time: '0 30 0 * * SAT-SUN',
                     state: 'off'
                 },
 
