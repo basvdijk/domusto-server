@@ -6,10 +6,10 @@ Timers switch on or off on a certain time. There are three types of timers `time
 
 | Property        | Type     | Description                                                   |
 | --------------- | ---------|---------------------------------------------------------------|
-| `enabled`       | boolean  | defines if timer is enabled                                   |
-| `type`          | string   | type of timer: "time"                                         |
-| `time`          | string   | time cron pattern to fire timer                               |
-| `state`         | string   | state to switch to when timer fires e.g. on, off etc.         |
+| enabled       | boolean  | defines if timer is enabled                                   |
+| type          | string   | type of timer: "time"                                         |
+| time          | string   | time cron pattern to fire timer                               |
+| state         | string   | state to switch to when timer fires e.g. on, off etc.         |
 
 The cron format consists of:
 ```
@@ -42,29 +42,29 @@ Source: https://github.com/node-schedule/node-schedule/blob/master/README.md
 
 | Property        | Type     | Description                                                   |
 | --------------- | ---------|---------------------------------------------------------------|
-| `enabled`       | boolean  | defines if timer is enabled                                   |
-| `type`          | string   | type of timer: "sun"                                          |
-| `offset`        | string   | time offset in: sec min hour day month year                   |
-| `condition`     | string   | type of sun condition see table below e.g. "sunset"           |
-| `state`         | string   | state to switch to after timer fires e.g. on, off etc.        |
+| enabled       | boolean  | defines if timer is enabled                                   |
+| type          | string   | type of timer: "sun"                                          |
+| offset        | string   | time offset in: sec min hour day month year                   |
+| condition     | string   | type of sun condition see table below e.g. "sunset"           |
+| state         | string   | state to switch to after timer fires e.g. on, off etc.        |
 
 
 | Property        | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |
-| `sunrise`       | sunrise (top edge of the sun appears on the horizon)                     |
-| `sunriseEnd`    | sunrise ends (bottom edge of the sun touches the horizon)                |
-| `goldenHourEnd` | morning golden hour (soft light, best time for photography) ends         |
-| `solarNoon`     | solar noon (sun is in the highest position)                              |
-| `goldenHour`    | evening golden hour starts                                               |
-| `sunsetStart`   | sunset starts (bottom edge of the sun touches the horizon)               |
-| `sunset`        | sunset (sun disappears below the horizon, evening civil twilight starts) |
-| `dusk`          | dusk (evening nautical twilight starts)                                  |
-| `nauticalDusk`  | nautical dusk (evening astronomical twilight starts)                     |
-| `night`         | night starts (dark enough for astronomical observations)                 |
-| `nadir`         | nadir (darkest moment of the night, sun is in the lowest position)       |
-| `nightEnd`      | night ends (morning astronomical twilight starts)                        |
-| `nauticalDawn`  | nautical dawn (morning nautical twilight starts)                         |
-| `dawn`          | dawn (morning nautical twilight ends, morning civil twilight starts)     |
+| sunrise       | sunrise (top edge of the sun appears on the horizon)                     |
+| sunriseEnd    | sunrise ends (bottom edge of the sun touches the horizon)                |
+| goldenHourEnd | morning golden hour (soft light, best time for photography) ends         |
+| solarNoon     | solar noon (sun is in the highest position)                              |
+| goldenHour    | evening golden hour starts                                               |
+| sunsetStart   | sunset starts (bottom edge of the sun touches the horizon)               |
+| sunset        | sunset (sun disappears below the horizon, evening civil twilight starts) |
+| dusk          | dusk (evening nautical twilight starts)                                  |
+| nauticalDusk  | nautical dusk (evening astronomical twilight starts)                     |
+| night         | night starts (dark enough for astronomical observations)                 |
+| nadir         | nadir (darkest moment of the night, sun is in the lowest position)       |
+| nightEnd      | night ends (morning astronomical twilight starts)                        |
+| nauticalDawn  | nautical dawn (morning nautical twilight starts)                         |
+| dawn          | dawn (morning nautical twilight ends, morning civil twilight starts)     |
 
 Source: https://raw.githubusercontent.com/mourner/suncalc/master/README.md
 
@@ -85,11 +85,11 @@ Source: https://raw.githubusercontent.com/mourner/suncalc/master/README.md
 
 | Property        | Type     | Description                                                   |
 | --------------- | ---------|---------------------------------------------------------------|
-| `enabled`       | boolean  | defines if timer is enabled                                   |
-| `type`          | string   | type of timer: "event"                                        |
-| `offset`        | string   | time offset in: sec min hour day month year                   |
-| `event`         | string   | event to listen to on | off | trigger                         |
-| `state`         | string   | state to switch to after timer fires e.g. on, off etc.        |
+| enabled       | boolean  | defines if timer is enabled                                   |
+| type          | string   | type of timer: "event"                                        |
+| offset        | string   | time offset in: sec min hour day month year                   |
+| event         | string   | event to listen to on | off | trigger                         |
+| state         | string   | state to switch to after timer fires e.g. on, off etc.        |
 
 ### Example
 
