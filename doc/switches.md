@@ -56,8 +56,8 @@ If you want to control the wall sockets with DOMUSTO you first need to learn the
         subType: 'AC',
         outputId: '0x0E24B7E/10',
         inputIds: [
-            '0x010CE4C6/2',
-            '0x010CE4C6/1'
+            '0x010CE4C6/2',  // bedroom remote
+            '0x010CE4C6/1'   // bedroom wall button
         ]
     },
 }

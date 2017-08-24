@@ -4,12 +4,12 @@ Timers switch on or off on a certain time. There are three types of timers `time
 
 ## Time timer options
 
-| Property        | Type     | Description                                                   |
-| --------------- | ---------|---------------------------------------------------------------|
-| enabled       | boolean  | defines if timer is enabled                                   |
-| type          | string   | type of timer: "time"                                         |
-| time          | string   | time cron pattern to fire timer                               |
-| state         | string   | state to switch to when timer fires e.g. on, off etc.         |
+| Property | Type    | Description                                           |
+|----------|---------|-------------------------------------------------------|
+| enabled  | boolean | defines if timer is enabled                           |
+| type     | string  | type of timer: "time"                                 |
+| time     | string  | time cron pattern to fire timer                       |
+| state    | string  | state to switch to when timer fires e.g. on, off etc. |
 
 The cron format consists of:
 ```
@@ -40,17 +40,17 @@ Source: https://github.com/node-schedule/node-schedule/blob/master/README.md
 
 ## Sun timer options
 
-| Property        | Type     | Description                                                   |
-| --------------- | ---------|---------------------------------------------------------------|
-| enabled       | boolean  | defines if timer is enabled                                   |
-| type          | string   | type of timer: "sun"                                          |
-| offset        | string   | time offset in: sec min hour day month year                   |
-| condition     | string   | type of sun condition see table below e.g. "sunset"           |
-| state         | string   | state to switch to after timer fires e.g. on, off etc.        |
+| Property  | Type    | Description                                            |
+|-----------|---------|--------------------------------------------------------|
+| enabled   | boolean | defines if timer is enabled                            |
+| type      | string  | type of timer: "sun"                                   |
+| offset    | string  | time offset in: sec min hour day month year            |
+| condition | string  | type of sun condition see table below e.g. "sunset"    |
+| state     | string  | state to switch to after timer fires e.g. on, off etc. |
 
 
-| Property        | Description                                                              |
-| --------------- | ------------------------------------------------------------------------ |
+| Property      | Description                                                              |
+|---------------|--------------------------------------------------------------------------|
 | sunrise       | sunrise (top edge of the sun appears on the horizon)                     |
 | sunriseEnd    | sunrise ends (bottom edge of the sun touches the horizon)                |
 | goldenHourEnd | morning golden hour (soft light, best time for photography) ends         |
@@ -83,13 +83,13 @@ Source: https://raw.githubusercontent.com/mourner/suncalc/master/README.md
 
 ## Event timer options
 
-| Property        | Type     | Description                                                   |
-| --------------- | ---------|---------------------------------------------------------------|
-| enabled       | boolean  | defines if timer is enabled                                   |
-| type          | string   | type of timer: "event"                                        |
-| offset        | string   | time offset in: sec min hour day month year                   |
-| event         | string   | event to listen to on | off | trigger                         |
-| state         | string   | state to switch to after timer fires e.g. on, off etc.        |
+| Property | Type    | Description                                            |     |         |
+|----------|---------|--------------------------------------------------------|-----|---------|
+| enabled  | boolean | defines if timer is enabled                            |     |         |
+| type     | string  | type of timer: "event"                                 |     |         |
+| offset   | string  | time offset in: sec min hour day month year            |     |         |
+| event    | string  | event to listen to on                                  | off | trigger |
+| state    | string  | state to switch to after timer fires e.g. on, off etc. |     |         |
 
 ### Example
 
