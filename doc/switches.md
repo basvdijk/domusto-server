@@ -22,26 +22,38 @@ If you want to control the wall sockets with DOMUSTO you first need to learn the
  ## Optional
  Optionally you can add inputIds. These ids also trigger the switch. Here you can put the identifiers of your remote control so DOMUSTO stays in sync when you use your remote.
 
+| Property | Type    | Description                                         |
+|----------|---------|-----------------------------------------------------|
+| id       | string  | name in capitals, no spaces or special characters   |
+| enabled  | boolean | defines if switch is enabled                        |
+| role     | string  | "output"                                            |
+| name     | string  | name of the device as shown in the frond-end        |
+| type     | string  | "switch"                                            |
+| subtype  | string  | subtype of switch: "on/off", "up/down", "momentary" |
+| protocol | object  | see protocol table                                  |
+
+**Protocol**
+| Property | Type     | Description                                                                  |
+|----------|----------|------------------------------------------------------------------------------|
+| pluginId | string   | id of the plugin which handles the switch e.g. RFXCOM                        |
+| type     | string   | protocol type e.g. Lighting2                                                 |
+| subType  | string   | protocol subtype e.g. AC                                                     |
+| outputId | string   | hex id / unit code to send when button is pressed formatted as 0x0......./.. |
+| inputIds | [string] | array of inputIds to listen to e.g. hardware button codes                    |
+
 ```js
 {
-    id: 'KAKU1',                        // string                          DOMUSTO wide unique device identifier (no spaces or special characers)
-    enabled: true,                      // boolean                         enables or disables a device
-    role: 'output',                     // input | output                  specify the role of the device
-    name: 'modem',                      // string                          name of the device which is used in the frontend 
-    type: 'switch',                     // switch | temperature | power    kind of device
-    subtype: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subtype of switch
+    id: 'KAKU1',
+    enabled: true,
+    role: 'output',
+    name: 'modem', 
+    type: 'switch',
+    subtype: 'on/off',
     protocol: {
-        pluginId: 'RFXCOM',           // string   id of the hardware device
-        type: 'Lighting2',              // string   protocol type
-        subType: 'AC',                  // string   protocol subtype 
-
-        // OUTPUTS
-        // Code which is broadcasted when the button in DOMUSTO is pressed
-        outputId: '0x0E24B7E/10',          // hex id / unit code - id and unit code separated with a slash /, is broadcasted when button in DOMUSTO is pressed
-
-        // ALIAS INPUTS
-        // ids where the button needs to listen to. Often hardware buttons which also switch the state of the device
-        // or for example a remote which is not bound via hardware, but needs to control the device
+        pluginId: 'RFXCOM',
+        type: 'Lighting2',
+        subType: 'AC',
+        outputId: '0x0E24B7E/10',
         inputIds: [
             '0x010CE4C6/2',
             '0x010CE4C6/1'
