@@ -2,107 +2,14 @@
 
 Timers switch on or off on a certain time. There are three types of timers `time`, `sun` and `action`. `Time` is time related and uses cron notation, while the `sun` is sun related e.g. sunset, sunrise etc. `Event` sets a timer based on an event like `on` or `off` and executes another action after a specified time.
 
-## Example timer 1
-
-### Conditions
-- We want the lights to turn on at sunset every day.
-- During the normal days we want to turn off the lights at 23:00h. 
-- On Friday and Saturday we are going to sleep late around 0:30h, therefore we want to have the garden lights to be turned off later. 
-
-One thing is very important to note here. The mentioned 0:30h is actually already in the next day. So to turn off our lights correctly we have to turn them off late on *Saturday and Sunday morning*.
-
-At first sight the timers defined below look weird, Sunday is defined twice and Monday is missing. Actually this is correct. On Sunday morning at 0:30h the light goes off which we switched on after sunset on Saturday evening. However on this same Sunday the go on at sunset and off on 23:00h.
-
-```js
-
-// Switch on every day at sunset
-{
-    enabled: true,
-    type: 'sun',
-    condition: 'sunset',
-    state: 'on'
-},
-
-// Switch o
-{
-    enabled: true,
-    type: 'time',
-    time: '0 0 23 * * SUN-THU',
-    state: 'off'
-},
-
-{
-    enabled: true,
-    type: 'time',
-    time: '0 30 0 * * SAT-SUN',
-    state: 'off'
-}
-```
-
-## Other timer examples
-
-```js
-// Switch off every day at 22:00h
-{
-    enabled: false,
-    state: 'off',
-    type: 'time',
-    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
-},
-
-// Switch on every day 1h _before_ sunset
-{
-    enabled: true,
-    type: 'sun',
-    state: 'on',
-    condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
-    offset: '* * -1 * * *',  // One hour before sunset
-},
-
-// Switch off 2h after sunrise
-{
-    enabled: true,
-    state: 'off',
-    type: 'sun',
-    condition: 'sunrise',
-    offset: '* * 2 * * *',
-},
-
-// Switch on every day on sunset
-{
-    enabled: true,
-    type: 'sun',
-    condition: 'sunset',
-    state: 'on'
-},
-
-// Switch off every Sunday till Thursday at 23:00h
-{
-    enabled: true,
-    type: 'time',
-    time: '0 0 23 * * SUN-THU',
-    state: 'off'
-},
-
-// Switch off every Saturday and Sunday at 0:30h
-{
-    enabled: true,
-    type: 'time',
-    time: '0 30 0 * * SAT-SUN',
-    state: 'off'
-},
-
-// Execute off 5 seconds after on
-{
-    enabled: true,
-    type: 'event',
-    offset: '5 * * * * *',
-    event: 'on',
-    state: 'off'
-},
-```
-
 ## Time timer options
+
+| Property        | Type     | Description                                                   |
+| --------------- | ---------|---------------------------------------------------------------|
+| `enabled`       | boolean  | defines if timer is enabled                                   |
+| `type`          | string   | type of timer: "time"                                         |
+| `time`          | string   | time cron pattern to fire timer                               |
+| `state`         | string   | state to switch to when timer fires e.g. on, off etc.         |
 
 The cron format consists of:
 ```
@@ -119,7 +26,28 @@ The cron format consists of:
 
 Source: https://github.com/node-schedule/node-schedule/blob/master/README.md
 
+### Example
+
+**Switch off every day at 22:00h**
+```js
+{
+    enabled: false,
+    state: 'off',
+    type: 'time',
+    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
+},
+```
+
 ## Sun timer options
+
+| Property        | Type     | Description                                                   |
+| --------------- | ---------|---------------------------------------------------------------|
+| `enabled`       | boolean  | defines if timer is enabled                                   |
+| `type`          | string   | type of timer: "sun"                                          |
+| `offset`        | string   | time offset in: sec min hour day month year                   |
+| `condition`     | string   | type of sun condition see table below e.g. "sunset"           |
+| `state`         | string   | state to switch to after timer fires e.g. on, off etc.        |
+
 
 | Property        | Description                                                              |
 | --------------- | ------------------------------------------------------------------------ |
@@ -139,3 +67,153 @@ Source: https://github.com/node-schedule/node-schedule/blob/master/README.md
 | `dawn`          | dawn (morning nautical twilight ends, morning civil twilight starts)     |
 
 Source: https://raw.githubusercontent.com/mourner/suncalc/master/README.md
+
+### Example
+
+**Switch on every day two hours before sunset**
+```js
+{
+    enabled: true,
+    type: 'sun',
+    condition: 'sunset',
+    state: 'on',
+    offset: '* * -2 * * *'
+}
+```
+
+## Event timer options
+
+| Property        | Type     | Description                                                   |
+| --------------- | ---------|---------------------------------------------------------------|
+| `enabled`       | boolean  | defines if timer is enabled                                   |
+| `type`          | string   | type of timer: "event"                                        |
+| `offset`        | string   | time offset in: sec min hour day month year                   |
+| `event`         | string   | event to listen to on | off | trigger                         |
+| `state`         | string   | state to switch to after timer fires e.g. on, off etc.        |
+
+### Example
+
+```js
+{
+    enabled: true,
+    type: 'event',
+    offset: '5 * * * * *',
+    event: 'on',
+    state: 'off',
+},
+```
+
+
+## Example scenario 1
+
+- We want the lights to turn on at sunset every day.
+- During the normal days we want to turn off the lights at 23:00h. 
+- On Friday and Saturday we are going to sleep late around 0:30h, therefore we want to have the garden lights to be turned off later. 
+
+One thing is very important to note here. The mentioned 0:30h is actually already in the next day. So to turn off our lights correctly we have to turn them off late on *Saturday and Sunday morning*.
+
+At first sight the timers defined below look weird, Sunday is defined twice and Monday is missing. Actually this is correct. On Sunday morning at 0:30h the light goes off which we switched on after sunset on Saturday evening. However on this same Sunday the go on at sunset and off on 23:00h.
+
+### Config
+
+```js
+
+// Switch on every day at sunset
+{
+    enabled: true,
+    type: 'sun',
+    condition: 'sunset',
+    state: 'on'
+},
+
+// Switch off Sunday till Thursday at 23:00h
+{
+    enabled: true,
+    type: 'time',
+    time: '0 0 23 * * SUN-THU',
+    state: 'off'
+},
+
+// Switch off Saturday till Sunday at 0:30h
+{
+    enabled: true,
+    type: 'time',
+    time: '0 30 0 * * SAT-SUN',
+    state: 'off'
+}
+```
+
+## Other timer examples
+
+**Switch off every day at 22:00h**
+```js
+{
+    enabled: false,
+    state: 'off',
+    type: 'time',
+    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
+},
+```
+
+**Switch on every day 1h _before_ sunset**
+```js
+{
+    enabled: true,
+    type: 'sun',
+    state: 'on',
+    condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
+    offset: '* * -1 * * *',  // One hour before sunset
+},
+```
+
+**Switch off 2h after sunrise**
+```js
+{
+    enabled: true,
+    state: 'off',
+    type: 'sun',
+    condition: 'sunrise',
+    offset: '* * 2 * * *',
+},
+```
+
+**Switch on every day on sunset**
+```js
+{
+    enabled: true,
+    type: 'sun',
+    condition: 'sunset',
+    state: 'on'
+},
+```
+
+**Switch off every Sunday till Thursday at 23:00h**
+```js
+{
+    enabled: true,
+    type: 'time',
+    time: '0 0 23 * * SUN-THU',
+    state: 'off'
+},
+```
+
+**Switch off every Saturday and Sunday at 0:30h**
+```js
+{
+    enabled: true,
+    type: 'time',
+    time: '0 30 0 * * SAT-SUN',
+    state: 'off'
+},
+```
+
+**Execute off 5 seconds after on**
+```js
+{
+    enabled: true,
+    type: 'event',
+    offset: '5 * * * * *',
+    event: 'on',
+    state: 'off'
+},
+```
