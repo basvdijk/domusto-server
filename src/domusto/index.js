@@ -228,11 +228,35 @@ Domusto.scheduleSunTimer = function (device, timer) {
 
     schedule.scheduleJob(date, () => {
         util.log('Timer (sun) activated for', _device.id, 'state', _timer.state);
-        util.logTimersToFile('Timer (sun) activated for', _device.id, 'state', timer.state);
+        util.logTimersToFile('Timer (sun) activated for ' + _device.id + ' state: ' + timer.state);
         Domusto.outputCommand(_device.id, _timer.state);
 
         // Reschedule for next day
         Domusto.scheduleSunTimer(_device, _timer);
+    });
+
+}
+
+/**
+ * Schedules a timer according to sunset, sunrise etc
+ * @param {object} device The device who executes the command
+ * @param {object} timer The timer object which contains the timer information
+ */
+Domusto.initEventTimer = function (device, timer) {
+
+    var _device = device;
+    var _timer = timer;
+
+    domustoEmitter.on(device.id + _timer.event, () => {
+
+        let date = util.offsetDate(new Date(), _timer.offset);
+
+        schedule.scheduleJob(date, () => {
+            util.log('Timer (event) activated for', _device.id, 'state', _timer.state);
+            util.logTimersToFile('Timer (event) activated for ' + _device.id + ' state: ' + timer.state);
+            Domusto.outputCommand(_device.id, _timer.state);
+        });
+
     });
 
 }
@@ -254,13 +278,17 @@ Domusto.initTimers = function (device) {
 
                     schedule.scheduleJob(timer.time, function () {
                         util.log('Timer (time) activated for', _device.id, 'state', timer.state);
-                        util.logTimersToFile('Timer (time) activated for', _device.id, 'state', timer.state);
+                        util.logTimersToFile('Timer (time) activated for ' + _device.id + ' state: ' + timer.state);
                         Domusto.outputCommand(_device.id, timer.state);
                     });
                     break;
 
                 case 'sun':
                     Domusto.scheduleSunTimer(_device, timer);
+                    break;
+
+                case 'event':
+                    Domusto.initEventTimer(_device, timer);
                     break;
 
             }
@@ -272,6 +300,7 @@ Domusto.initTimers = function (device) {
     }, this);
 
 };
+
 
 /**
  * Initialises an input device with its default DOMUSTO device properties

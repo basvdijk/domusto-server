@@ -151,7 +151,16 @@ module.exports = {
                     type: 'time',
                     time: '0 30 0 * * SAT-SUN', // Every Saturday and Sunday switch off at 0:30h
                     state: 'off'
-                }
+                },
+
+                // Execute off 5 seconds after on
+                {
+                    enabled: true,
+                    type: 'event',
+                    offset: '5 * * * * *',
+                    event: 'on',
+                    state: 'off'
+                },
             ]
         },
 

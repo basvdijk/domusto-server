@@ -1,6 +1,6 @@
 # Timers
 
-Timers switch on or off on a certain time. There are two types of timers `time` and `sun`. `Time` is time related and uses cron notation, while the `sun` is sun related e.g. sunset, sunrise etc.
+Timers switch on or off on a certain time. There are three types of timers `time`, `sun` and `action`. `Time` is time related and uses cron notation, while the `sun` is sun related e.g. sunset, sunrise etc. `Event` sets a timer based on an event like `on` or `off` and executes another action after a specified time.
 
 ## Example timer 1
 
@@ -34,6 +34,15 @@ At first sight the timers defined below look weird, Sunday is defined twice and 
     time: '0 30 0 * * SAT-SUN',
     state: 'off'
 }
+
+// Execute off 5 seconds after on
+{
+    enabled: true,
+    type: 'action',
+    offset: '5 * * * * *',
+    event: 'on',
+    state: 'off'
+},
 ```
 
 ## Time timer options
