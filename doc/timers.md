@@ -14,6 +14,34 @@ One thing is very important to note here. The mentioned 0:30h is actually alread
 At first sight the timers defined below look weird, Sunday is defined twice and Monday is missing. Actually this is correct. On Sunday morning at 0:30h the light goes off which we switched on after sunset on Saturday evening. However on this same Sunday the go on at sunset and off on 23:00h.
 
 ```js
+
+// Switch off every day at 22:00h
+{
+    enabled: false,
+    state: 'off',
+    type: 'time',
+    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
+},
+
+// Switch on every day 1h _before_ sunset
+{
+    enabled: true,
+    type: 'sun',
+    state: 'on',
+    condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
+    offset: '* * -1 * * *',  // One hour before sunset
+},
+
+// Switch off 2h after sunrise
+{
+    enabled: true,
+    state: 'off',
+    type: 'sun',
+    condition: 'sunrise',
+    offset: '* * 2 * * *',
+},
+
+// Switch on every day on sunset
 {
     enabled: true,
     type: 'sun',
@@ -21,6 +49,7 @@ At first sight the timers defined below look weird, Sunday is defined twice and 
     state: 'on'
 },
 
+// Switch off every Sunday till Thursday at 23:00h
 {
     enabled: true,
     type: 'time',
@@ -28,17 +57,18 @@ At first sight the timers defined below look weird, Sunday is defined twice and 
     state: 'off'
 },
 
+// Switch off every Saturday and Sunday at 0:30h
 {
     enabled: true,
     type: 'time',
     time: '0 30 0 * * SAT-SUN',
     state: 'off'
-}
+},
 
 // Execute off 5 seconds after on
 {
     enabled: true,
-    type: 'action',
+    type: 'event',
     offset: '5 * * * * *',
     event: 'on',
     state: 'off'
