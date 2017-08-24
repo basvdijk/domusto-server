@@ -33,6 +33,7 @@ If you want to control the wall sockets with DOMUSTO you first need to learn the
 | protocol | object  | see protocol table                                  |
 
 **Protocol**
+
 | Property | Type     | Description                                                                  |
 |----------|----------|------------------------------------------------------------------------------|
 | pluginId | string   | id of the plugin which handles the switch e.g. RFXCOM                        |
