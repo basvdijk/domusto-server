@@ -4,6 +4,7 @@ let util = require('../util');
 let core = require('../core.js');
 let config = require('../config');
 let domustoEmitter = require('./domusto-emitter');
+let DomustoTimer = require('./domusto-timer');
 
 let io;
 
@@ -39,7 +40,6 @@ Domusto.init = function (io) {
     Domusto.initDeviceTriggers();
 
 }
-
 
 
 /**
@@ -182,7 +182,17 @@ Domusto.initDevices = function () {
 
                     // Initialise timers when specified
                     if (output.timers) {
-                        Domusto.initTimers(output);
+
+                        output.timers.forEach((timer) => {
+
+                            new DomustoTimer(output, timer, (device, timer) => {
+                                Domusto.outputCommand(device, timer);
+                            });
+
+                            output.hasTimers = true;
+
+                        });
+
                     }
 
                     let pluginId = output.protocol.pluginId;
@@ -202,104 +212,6 @@ Domusto.initDevices = function () {
     }
 
 }
-
-/**
- * Schedules a timer according to sunset, sunrise etc
- * @param {object} device The device who executes the command
- * @param {object} timer The timer object which contains the timer information
- */
-Domusto.scheduleSunTimer = function (device, timer) {
-
-    var _device = device;
-    var _timer = timer;
-
-    let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
-    let date = util.offsetDate(times[_timer.condition], _timer.offset);
-
-    // If the next event is tomorrow
-    if (date < new Date()) {
-        let today = new Date();
-        let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-        times = SunCalc.getTimes(tomorrow, config.location.latitude, config.location.longitude);
-        date = util.offsetDate(times[_timer.condition], _timer.offset);
-    }
-
-    util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
-
-    schedule.scheduleJob(date, () => {
-        util.log('Timer (sun) activated for', _device.id, 'state', _timer.state);
-        util.logTimersToFile('Timer (sun) activated for ' + _device.id + ' state: ' + timer.state);
-        Domusto.outputCommand(_device.id, _timer.state);
-
-        // Reschedule for next day
-        Domusto.scheduleSunTimer(_device, _timer);
-    });
-
-}
-
-/**
- * Schedules a timer according to sunset, sunrise etc
- * @param {object} device The device who executes the command
- * @param {object} timer The timer object which contains the timer information
- */
-Domusto.initEventTimer = function (device, timer) {
-
-    var _device = device;
-    var _timer = timer;
-
-    domustoEmitter.on(device.id + _timer.event, () => {
-
-        let date = util.offsetDate(new Date(), _timer.offset);
-
-        schedule.scheduleJob(date, () => {
-            util.log('Timer (event) activated for', _device.id, 'state', _timer.state);
-            util.logTimersToFile('Timer (event) activated for ' + _device.id + ' state: ' + timer.state);
-            Domusto.outputCommand(_device.id, _timer.state);
-        });
-
-    });
-
-}
-
-Domusto.initTimers = function (device) {
-
-    var _device = device;
-
-    device.timers.forEach((timer) => {
-
-        if (timer.enabled) {
-
-            _device.hasTimers = true;
-
-            switch (timer.type) {
-
-                case 'time':
-                    util.log('Timer (time) set for', _device.id, 'state', timer.state, 'at', timer.time);
-
-                    schedule.scheduleJob(timer.time, function () {
-                        util.log('Timer (time) activated for', _device.id, 'state', timer.state);
-                        util.logTimersToFile('Timer (time) activated for ' + _device.id + ' state: ' + timer.state);
-                        Domusto.outputCommand(_device.id, timer.state);
-                    });
-                    break;
-
-                case 'sun':
-                    Domusto.scheduleSunTimer(_device, timer);
-                    break;
-
-                case 'event':
-                    Domusto.initEventTimer(_device, timer);
-                    break;
-
-            }
-
-        } else {
-            util.log('Timer disabled for', timer.time, 'state', timer.state, '-> Set enabled to true to enable');
-        }
-
-    }, this);
-
-};
 
 
 /**

@@ -42,8 +42,13 @@ class DomustoRfxCom extends DomustoPlugin {
             });
 
             this.hardwareInstance.initialise(() => {
-                this._initialisePlugin();
-                // this._listenAll();
+
+                if (pluginConfiguration.settings.listenOnly) {
+                    this._listenAll();
+                    util.log('Listen mode active');
+                } else {
+                    this._initialisePlugin();
+                }
                 util.debug('RFXtrx ready');
             });
 
@@ -55,40 +60,44 @@ class DomustoRfxCom extends DomustoPlugin {
 
     outputCommand(device, command, onSucces) {
 
-        let protocol = device.protocol;
+        if (!this.pluginConfiguration.settings.listenOnly) {
 
-        // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.
-        let rfxConstructor = rfxcom[protocol.type];
+            let protocol = device.protocol;
 
-        let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
+            // e.g. rfxcom.Lighting2, rfxcom.Lighting3 etc.
+            let rfxConstructor = rfxcom[protocol.type];
 
-        let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);
+            let rfxProtocolType = rfxcom[protocol.type.toLowerCase()];
 
-        let rfxCommand = null;
+            let rfxSwitch = new rfxConstructor(this.hardwareInstance, rfxProtocolType[protocol.subType]);
 
-        // Convert DOMUSTO command to RfxCom command
-        switch (command) {
-            case 'on':
-                rfxCommand = 'switchOn';
-                break;
-            case 'off':
-                rfxCommand = 'switchOff';
-                break;
-            case 'trigger':
-                rfxCommand = 'chime';
-                break;
+            let rfxCommand = null;
+
+            // Convert DOMUSTO command to RfxCom command
+            switch (command) {
+                case 'on':
+                    rfxCommand = 'switchOn';
+                    break;
+                case 'off':
+                    rfxCommand = 'switchOff';
+                    break;
+                case 'trigger':
+                    rfxCommand = 'chime';
+                    break;
+            }
+
+            util.debug('Sending command:');
+            util.prettyJson({
+                id: protocol.outputId,
+                command: rfxCommand
+            });
+
+            // Execute command
+            rfxSwitch[rfxCommand](protocol.outputId, (res) => {
+                onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
+            });
+
         }
-
-        util.debug('Sending command:');
-        util.prettyJson({
-            id: protocol.outputId,
-            command: rfxCommand
-        });
-
-        // Execute command
-        rfxSwitch[rfxCommand](protocol.outputId, (res) => {
-            onSucces({ state: rfxCommand === 'switchOn' ? 'on' : 'off' });
-        });
     }
 
     _initialisePlugin() {

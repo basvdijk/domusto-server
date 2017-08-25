@@ -17,6 +17,7 @@ module.exports = {
             type: 'RFXCOM',
             settings: {
                 port: '/dev/ttyUSB-RFX433',         // [string]  enabled protocols AC | ARC | ATI | BLINDST14 | BLYSS | BYRONSX | FINEOFFSET | FS20 | HIDEKI | HOMEEASY | LACROSSE | LIGHTING4 | LIGHTWAVERF | MEIANTECH | MERTIK | OREGON | PROGUARD | RFU6 | ROLLERTROL | RSL | RUBICSON | VISONIC | X10
+                listenOnly: false,                  // set true to see all received data in the terminal
                 enabledProtocols: [
                     'AC',       // KaKu
                     'BYRONSX',  // Doorbell
