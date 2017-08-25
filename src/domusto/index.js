@@ -4,6 +4,7 @@ let util = require('../util');
 let core = require('../core.js');
 let config = require('../config');
 let domustoEmitter = require('./domusto-emitter');
+let domustoTriggers = require('./domusto-triggers');
 let DomustoTimer = require('./domusto-timer');
 
 let io;
@@ -37,7 +38,7 @@ Domusto.init = function (io) {
 
     Domusto.initDevices();
 
-    Domusto.initDeviceTriggers();
+    domustoTriggers.initDeviceTriggers(Domusto.devices, this.outputCommand);
 
 }
 
@@ -92,7 +93,7 @@ Domusto.initHardware = function () {
                 domustoPluginInstance.onNewInputData = Domusto.onNewInputData;
 
                 if (plugin.triggers) {
-                    Domusto.initPluginTriggers(domustoPluginInstance, plugin);
+                    domustoTriggers.initPluginTriggers(domustoPluginInstance, plugin);
                 }
 
             } catch (error) {
@@ -104,51 +105,7 @@ Domusto.initHardware = function () {
 
 }
 
-Domusto.initPluginTriggers = function (domustoPluginInstance, pluginConfiguration) {
 
-    pluginConfiguration.triggers.forEach(trigger => {
-
-        trigger.listenToEvent.events.forEach(triggerEvent => {
-
-            let listen = trigger.listenToEvent;
-
-            domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
-            });
-
-        });
-
-    });
-
-}
-
-Domusto.initDeviceTriggers = function () {
-
-    for (let i in Domusto.devices) {
-
-        let device = Domusto.devices[i];
-
-        if (device.triggers) {
-
-            device.triggers.forEach(trigger => {
-
-                trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                    let listen = trigger.listenToEvent;
-
-                    domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                        this.outputCommand(device.id, trigger.execute.event);
-                    });
-
-                });
-
-            });
-
-        }
-
-    };
-
-}
 
 /**
  * Initialises configured devices
