@@ -79,7 +79,7 @@ class DomustoTimer {
             this.callback(_device.id, _timer.state);
 
             // Reschedule for next day
-            this.scheduleSunTimer(_device, _timer);
+            this._scheduleSunTimer(_device, _timer);
         });
 
     }
