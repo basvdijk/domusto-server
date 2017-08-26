@@ -1,7 +1,11 @@
 let config = require('../config');
 let util = require('../util');
 let DomustoInput = require('./DomustoInput');
+let DomustoOutput = require('./DomustoOutput');
+let DomustoTimer = require('./DomustoTimer');
+let domustoEmitter = require('./domusto-emitter');
 let domustoPluginsManager = require('./domustoPluginsManager');
+let domustoSocketIO = require('./domustoSocketIO');
 
 class DomustoDevicesManager {
 
@@ -31,43 +35,87 @@ class DomustoDevicesManager {
                         }
                         break;
                     }
-                    // case 'output': {
-                    //     let output = Domusto.initOutput(Object.assign({}, device));
-                    //     this.devices[output.id] = output;
+                    case 'output': {
 
-                    //     // Initialise timers when specified
-                    //     if (output.timers) {
+                        let output = new DomustoOutput(Object.assign({}, device));
+                        this.devices[output.id] = output;
 
-                    //         output.timers.forEach((timer) => {
+                        // Initialise timers when specified
+                        if (output.timers) {
 
-                    //             new DomustoTimer(output, timer, (device, timer) => {
-                    //                 Domusto.outputCommand(device, timer);
-                    //             });
+                            output.timers.forEach((timer) => {
 
-                    //             output.hasTimers = true;
+                                new DomustoTimer(output, timer, (device, timer) => {
+                                    Domusto.outputCommand(device, timer);
+                                });
 
-                    //         });
+                                output.hasTimers = true;
 
-                    //     }
+                            });
 
-                    //     let pluginId = output.protocol.pluginId;
-                    //     let pluginInstance = Domusto.pluginInstanceByPluginId(pluginId);
+                        }
 
-                    //     if (pluginInstance) {
-                    //         pluginInstance.addRegisteredDevice(output);
-                    //     } else {
-                    //         util.debug('No plugin found for hardware id', output.protocol.pluginId);
-                    //     }
+                        let pluginId = output.protocol.pluginId;
+                        let pluginInstance = domustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
-                    //     break;
-                    // }
+                        if (pluginInstance) {
+                            pluginInstance.addRegisteredDevice(output);
+                        } else {
+                            util.debug('No plugin found for hardware id', output.protocol.pluginId);
+                        }
+
+                        break;
+                    }
 
                 }
             }
         }
 
+        // Update the client with the latest known states / data
+        domustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
+        domustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
 
+    }
 
+    /**
+     * Sends an output command to the hardware of an output device
+     * @param {string} deviceId Id of the device
+     * @param {string} command Command to send
+     * @param {function} onSucces Fired when the command is successfully executed
+     */
+    outputCommand(deviceId, command, onSuccess) {
+
+        let device = this.devices[deviceId];
+        let pluginInstance = domustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
+
+        if (!device.busy) {
+
+            device.busy = true;
+
+            pluginInstance.outputCommand(device, command, response => {
+
+                console.log('emit', device.id + command);
+                domustoEmitter.emit(device.id + command);
+
+                util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
+
+                device.busy = false;
+                device.state = response.state;
+                device.lastUpdated = new Date();
+
+                // check if a callback is provided
+                if (onSuccess) {
+                    onSuccess(device);
+                }
+
+                // outputDeviceUpdate channel only takes arrays
+                let devices = [];
+                devices.push(device);
+                domustoSocketIO.emit('outputDeviceUpdate', devices);
+
+            });
+
+        }
 
     }
 

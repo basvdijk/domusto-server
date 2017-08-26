@@ -1,15 +1,13 @@
 'use strict';
 
-let DomustoRfxCom = require('../plugins/domusto-rfxcom');
-let Domusto = require('../domusto');
+let domustoDevicesManager = require('../domusto/domustoDevicesManager');
 
 exports.list = function (req, res) {   
     res.json(Domusto.getDevicesByRole('output'));
 };
 
 exports.command = function(req, res) {
-
-    Domusto.outputCommand(req.params.deviceId, req.params.state, result => {
+    domustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
         res.json(result);
     });
 }

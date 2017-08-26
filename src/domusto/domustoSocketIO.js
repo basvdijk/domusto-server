@@ -1,16 +1,19 @@
-let devicesManager = require('domustoDevicesManager');
+let util = require('../util');
 
 class DomustSocketIO {
 
     constructor() {
 
-        io.on('connection', function (socket) {
+    }
+
+    setIO(io) {
+        this._io = io;
+
+        this._io.on('connection', function (socket) {
 
             util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
 
-            // Update the client with the latest known states / data
-            socket.emit('inputDeviceUpdate', devicesManager.getDevicesByRole('input'));
-            socket.emit('outputDeviceUpdate', devicesManager.getDevicesByRole('output'));
+
 
             // // send data to client
             // setInterval(function () {
@@ -20,7 +23,13 @@ class DomustSocketIO {
 
         });
     }
-    
+
+    emit() {
+        if(this._io) {
+            this._io.emit(arguments);
+        }
+    }
+
 }
 
 let domustoSocketIO = new DomustSocketIO();

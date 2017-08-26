@@ -1,15 +1,15 @@
 class DomustoDevice {
 
-    constructor(input) {
-
-        this._id = input.id;
-        this._enabled = input.enabled;
-        this._name = input.name;
-        this._type = input.type;
-        this._subType = input.type;
-        this._role = input.role;
-        this._protocol = input.protocol;
-        this._data = input.data;
+    constructor(device) {
+        this._id = device.id;
+        this._enabled = device.enabled;
+        this._name = device.name;
+        this._type = device.type;
+        this._subType = device.subType;
+        this._role = device.role;
+        this._protocol = device.protocol;
+        this._data = device.data;
+        this._lastUpdated = new Date();
 
     }
 
@@ -19,7 +19,7 @@ class DomustoDevice {
             enabled: this._enabled,
             name: this._name,
             type: this._type,
-            subType: this._type,
+            subType: this._subType,
             role: this._role,
             protocol: this._protocol,
             data: this._data,
@@ -73,6 +73,13 @@ class DomustoDevice {
     }
     set protocol(protocol) {
         this._protocol = protocol;
+    }
+
+    get lastUpdated() {
+        return this._lastUpdated;
+    }
+    set lastUpdated(lastUpdated) {
+        this._lastUpdated = lastUpdated;
     }
     
     get data() {

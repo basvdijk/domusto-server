@@ -89,11 +89,11 @@ module.exports = {
             role: 'output',                     // input | output                  specify the role of the device
             name: 'modem',                      // string                          name of the device which is used in the frontend 
             type: 'switch',                     // switch | temperature | power    kind of device
-            subtype: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subtype of switch
+            subType: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subType of switch
             protocol: {
                 pluginId: 'RFXCOM',           // string   id of the hardware device
                 type: 'Lighting2',              // string   protocol type
-                subType: 'AC',                  // string   protocol subtype 
+                subType: 'AC',                  // string   protocol subType 
 
                 // OUTPUTS
                 // Code which is broadcasted when the button in DOMUSTO is pressed
@@ -188,7 +188,7 @@ module.exports = {
             role: 'output',
             name: 'shell test',
             type: 'switch',
-            subtype: 'on/off',
+            subType: 'on/off',
             protocol: {
                 pluginId: 'SHELL',
                 id: 'SHELL1',

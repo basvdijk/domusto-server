@@ -1,39 +1,41 @@
-let schedule = require('node-schedule');
-let SunCalc = require('suncalc');
 let util = require('../util');
 let core = require('../core.js');
 let config = require('../config');
+
 let domustoEmitter = require('./domusto-emitter');
 let domustoTriggers = require('./domusto-triggers');
-let DomustoTimer = require('./domusto-timer');
+let DomustoTimer = require('./DomustoTimer');
 let domustoDevicesManager = require('./domustoDevicesManager');
 let domustoPluginsManager = require('./domustoPluginsManager');
+let domustoSocketIO = require('./domustoSocketIO');
 
 class Domusto {
 
     constructor(io) {
 
-        this.io = io;
+        // this.io = io;
 
-        // We need to bind the this of the current class otherwise this referrs to domustoPluginsManager
-        domustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
+        domustoSocketIO.setIO(io);
 
-        io.on('connection', function (socket) {
+        // // We need to bind the this of the current class otherwise this referrs to domustoPluginsManager
+        // domustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
 
-            util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
+        // io.on('connection', function (socket) {
 
-            // Update the client with the latest known states / data
-            socket.emit('inputDeviceUpdate', domustoDevicesManager.getDevicesByRole('input'));
-            socket.emit('outputDeviceUpdate', domustoDevicesManager.getDevicesByRole('output'));
+        //     util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
+
+        //     // Update the client with the latest known states / data
+        //     socket.emit('inputDeviceUpdate', domustoDevicesManager.getDevicesByRole('input'));
+        //     socket.emit('outputDeviceUpdate', domustoDevicesManager.getDevicesByRole('output'));
 
 
-            // // send data to client
-            // setInterval(function () {
-            //     console.log('emit');
-            //     Domusto.io.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
-            // }, 10000);
+        //     // // send data to client
+        //     // setInterval(function () {
+        //     //     console.log('emit');
+        //     //     Domusto.io.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
+        //     // }, 10000);
 
-        });
+        // });
 
     }
 

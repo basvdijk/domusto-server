@@ -18,12 +18,12 @@ class DomustoInput extends DomustoDevice {
                     batteryLevel: null,
                     rssi: null,
                 }
-                input.lastUpdated = new Date()
+                this._lastUpdated = new Date()
                 break;
             }
             case 'power': {
 
-                input.data = {
+                this._data = {
                     electricity: {
                         received: {
                             tariff1: {
@@ -41,7 +41,7 @@ class DomustoInput extends DomustoDevice {
                         }
                     }
                 }
-                input.lastUpdated = new Date()
+                this._lastUpdated = new Date()
                 break;
             }
         }
