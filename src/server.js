@@ -2,7 +2,7 @@ let app = require('express')();
 let server = require('http').Server(app);
 let io = require('socket.io')(server);
 
-let domusto = require('./domusto');
+let Domusto = require('./domusto');
 let util = require('./util');
 let core = require('./core');
 
@@ -40,7 +40,7 @@ core.getNetworkIPs(function callback(error, ip) {
     core.data.ip = ip[0];
     core.data.serverAddress = 'http://' + ip[0] + ':' + core.data.port + '/'
 
-    domusto.init(io);
+    new Domusto(io);
 
     if (error) {
         console.log('error:', error);
