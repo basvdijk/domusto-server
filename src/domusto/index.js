@@ -17,8 +17,8 @@ class Domusto {
 
         domustoSocketIO.setIO(io);
 
-        // // We need to bind the this of the current class otherwise this referrs to domustoPluginsManager
-        // domustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
+        // We need to bind the this of the current class otherwise this referrs to domustoPluginsManager
+        domustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
 
         // io.on('connection', function (socket) {
 
@@ -68,7 +68,7 @@ class Domusto {
                     // inputDeviceUpdate channel only takes arrays
                     let devices = [];
                     devices.push(device);
-                    this.io.emit('inputDeviceUpdate', devices);
+                    domustoSocketIO.emit('inputDeviceUpdate', devices);
 
                     break;
             }

@@ -43,15 +43,15 @@ class DomustoDevicesManager {
                         // Initialise timers when specified
                         if (output.timers) {
 
-                            output.timers.forEach((timer) => {
+                            // output.timers.forEach((timer) => {
 
-                                new DomustoTimer(output, timer, (device, timer) => {
-                                    Domusto.outputCommand(device, timer);
-                                });
+                            //     new DomustoTimer(output, timer, (device, timer) => {
+                            //         Domusto.outputCommand(device, timer);
+                            //     });
 
-                                output.hasTimers = true;
+                            //     output.hasTimers = true;
 
-                            });
+                            // });
 
                         }
 
@@ -70,6 +70,8 @@ class DomustoDevicesManager {
                 }
             }
         }
+
+        console.log(domustoSocketIO);
 
         // Update the client with the latest known states / data
         domustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
