@@ -37,7 +37,8 @@ class DomustoDevicesManager {
                     }
                     case 'output': {
 
-                        let output = new DomustoOutput(Object.assign({}, device));
+                        // let output = new DomustoOutput(Object.assign({}, device));
+                        let output = new DomustoOutput(device);
                         this.devices[output.id] = output;
 
                         // Initialise timers when specified

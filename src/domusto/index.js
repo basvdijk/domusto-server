@@ -1,5 +1,4 @@
 let util = require('../util');
-let core = require('../core.js');
 let config = require('../config');
 
 let domustoEmitter = require('./DomustoEmitter');
@@ -67,6 +66,7 @@ class Domusto {
 
                     // inputDeviceUpdate channel only takes arrays
                     let devices = [];
+
                     devices.push(device);
                     DomustoSocketIO.emit('inputDeviceUpdate', devices);
 

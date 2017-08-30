@@ -21,19 +21,17 @@ class DomustSocketIO {
             // }, 10000);
 
             for(let message of this._sendQueue) {
-                this._io.emit(message[0], message[1]);
+                this._io.emit(message.channel, message.data);
             }
         });
 
     }
 
-    emit() {
-
-        // console.log('emitttt', arguments[1]);
+    emit(channel, data) {
         if(this._io) {
-            this._io.emit(arguments);
+            this._io.emit(channel, data);
         } else {
-            this._sendQueue.push(arguments);
+            this._sendQueue.push({ channel: channel, data: data });
         }
     }
 

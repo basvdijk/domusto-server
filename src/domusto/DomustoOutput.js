@@ -1,5 +1,5 @@
 let DomustoDevice = require('./DomustoDevice');
-let core = require('../core.js');
+let config = require('../config');
 
 class DomustoOutput extends DomustoDevice {
 
@@ -16,38 +16,29 @@ class DomustoOutput extends DomustoDevice {
         this._hasTimers = false;
         this._timers = output.timers || null;
 
-        core.getNetworkIPs((error, ip) => {
+        let serverAddress = 'http://' + config.server.ip + ':' + config.server.port + '/'
 
-            core.data.ip = ip[0];
-            core.data.serverAddress = 'http://' + ip[0] + ':' + core.data.port + '/'
+        switch (output.subType) {
 
-            switch (output.subType) {
+            case 'on/off':
+            case 'up/down':
 
-                case 'on/off':
-                case 'up/down':
+                this._actions = {
+                    on: serverAddress + 'output/command/' + this._id + '/on',
+                    off: serverAddress + 'output/command/' + this._id + '/off'
+                }
+                break;
 
-                    this._actions = {
-                        on: core.data.serverAddress + 'output/command/' + this._id + '/on',
-                        off: core.data.serverAddress + 'output/command/' + this._id + '/off'
-                    }
-                    break;
+            case 'momentary':
 
-                case 'momentary':
-
-                    this._actions = {
-                        trigger: core.data.serverAddress + 'output/command/' + this._id + '/trigger'
-                    }
-                    break;
-            }
-
-
-            if (error) {
-                console.log('error:', error);
-            }
-        }, false);
-
+                this._actions = {
+                    trigger: serverAddress + 'output/command/' + this._id + '/trigger'
+                }
+                break;
+        }
 
     }
+
 
     toJSON() {
 

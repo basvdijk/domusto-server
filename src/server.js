@@ -4,7 +4,8 @@ let io = require('socket.io')(server);
 
 let Domusto = require('./domusto');
 let util = require('./util');
-let core = require('./core');
+let config = require('./config');
+// let core = require('./core');
 
 
 // Add headers
@@ -34,31 +35,17 @@ let inputRoutes = require('./input/inputRoutes');
 let outputRoutes = require('./output/outputRoutes');
 let coreRoutes = require('./core/coreRoutes');
 
-// We can only start DOMUSTO server if we know the server ip address
-core.getNetworkIPs(function callback(error, ip) {
+new Domusto(io);
 
-    core.data.ip = ip[0];
-    core.data.serverAddress = 'http://' + ip[0] + ':' + core.data.port + '/'
-
-    new Domusto(io);
-
-    if (error) {
-        console.log('error:', error);
-    }
-}, false);
-
-let port = process.env.PORT || 3000;
 
 switchRoutes(app);
 inputRoutes(app);
 outputRoutes(app);
 coreRoutes(app);
 
-server.listen(port, function () {
-    util.log('Domusto REST api server started on: ' + port);
+server.listen(config.server.port, function () {
+    util.log('Domusto REST api server started on: ' + config.server.port);
 });
-
-core.data.port = port;
 
 // io.on('connection', function (socket) {
 //     socket.emit('inputDevices', { hello: 'world' });
