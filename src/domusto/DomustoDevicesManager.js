@@ -3,9 +3,9 @@ let util = require('../util');
 let DomustoInput = require('./DomustoInput');
 let DomustoOutput = require('./DomustoOutput');
 let DomustoTimer = require('./DomustoTimer');
-let domustoEmitter = require('./domusto-emitter');
-let domustoPluginsManager = require('./domustoPluginsManager');
-let domustoSocketIO = require('./domustoSocketIO');
+let domustoEmitter = require('./DomustoEmitter');
+let DomustoPluginsManager = require('./DomustoPluginsManager');
+let DomustoSocketIO = require('./DomustoSocketIO');
 
 class DomustoDevicesManager {
 
@@ -26,7 +26,7 @@ class DomustoDevicesManager {
                         this.devices[input.id] = input;
 
                         let pluginId = input.protocol.pluginId;
-                        let pluginInstance = domustoPluginsManager.getPluginInstanceByPluginId(pluginId);
+                        let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
                         if (pluginInstance) {
                             pluginInstance.addRegisteredDevice(input);
@@ -56,7 +56,7 @@ class DomustoDevicesManager {
                         }
 
                         let pluginId = output.protocol.pluginId;
-                        let pluginInstance = domustoPluginsManager.getPluginInstanceByPluginId(pluginId);
+                        let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
                         if (pluginInstance) {
                             pluginInstance.addRegisteredDevice(output);
@@ -71,11 +71,9 @@ class DomustoDevicesManager {
             }
         }
 
-        console.log(domustoSocketIO);
-
         // Update the client with the latest known states / data
-        domustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
-        domustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
+        DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
+        DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
 
     }
 
@@ -88,7 +86,7 @@ class DomustoDevicesManager {
     outputCommand(deviceId, command, onSuccess) {
 
         let device = this.devices[deviceId];
-        let pluginInstance = domustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
+        let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
 
         if (!device.busy) {
 
@@ -113,7 +111,7 @@ class DomustoDevicesManager {
                 // outputDeviceUpdate channel only takes arrays
                 let devices = [];
                 devices.push(device);
-                domustoSocketIO.emit('outputDeviceUpdate', devices);
+                DomustoSocketIO.emit('outputDeviceUpdate', devices);
 
             });
 
@@ -197,6 +195,6 @@ class DomustoDevicesManager {
 
 }
 
-let domustoDevicesManager = new DomustoDevicesManager();
+let DomustoDevicesManagerInstance = new DomustoDevicesManager();
 
-module.exports = domustoDevicesManager;
+module.exports = DomustoDevicesManagerInstance;

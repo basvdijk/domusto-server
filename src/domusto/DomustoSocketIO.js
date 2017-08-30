@@ -25,8 +25,6 @@ class DomustSocketIO {
             }
         });
 
-        console.log(this._sendQueue.length);
-
     }
 
     emit() {
@@ -35,13 +33,12 @@ class DomustSocketIO {
         if(this._io) {
             this._io.emit(arguments);
         } else {
-            console.log('no emitter');
             this._sendQueue.push(arguments);
         }
     }
 
 }
 
-let domustoSocketIO = new DomustSocketIO();
+let DomustoSocketIO = new DomustSocketIO();
 
-module.exports = domustoSocketIO;
+module.exports = DomustoSocketIO;

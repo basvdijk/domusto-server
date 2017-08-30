@@ -53,6 +53,6 @@ class DomustoPluginsManager {
 
 }
 
-let domustoPluginsManager = new DomustoPluginsManager();
+let DomustoPluginsManagerInstance = new DomustoPluginsManager();
 
-module.exports = domustoPluginsManager;
+module.exports = DomustoPluginsManagerInstance;

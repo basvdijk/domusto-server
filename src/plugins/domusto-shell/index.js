@@ -2,8 +2,8 @@ let exec = require('child_process').exec;
 let util = require('../../util');
 let config = require('../../config');
 
-let DomustoPlugin = require('../../domusto/domusto-plugin');
-let domustoEmitter = require('../../domusto/domusto-emitter');
+let DomustoPlugin = require('../../domusto/DomustoPlugin');
+let domustoEmitter = require('../../domusto/DomustoEmitter');
 
 /**
  * Shell plugin for DOMUSTO

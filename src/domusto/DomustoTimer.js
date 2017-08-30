@@ -7,7 +7,7 @@ let SunCalc = require('suncalc');
 let schedule = require('node-schedule');
 let util = require('../util');
 let config = require('../config');
-let domustoEmitter = require('./domusto-emitter');
+let domustoEmitter = require('./DomustoEmitter');
 
 class DomustoTimer {
 

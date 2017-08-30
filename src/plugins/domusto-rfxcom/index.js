@@ -2,7 +2,7 @@ let rfxcom = require('rfxcom');
 let util = require('../../util');
 let config = require('../../config');
 
-let DomustoPlugin = require('../../domusto/domusto-plugin');
+let DomustoPlugin = require('../../domusto/DomustoPlugin');
 
 /**
  * RFXcom plugin for DOMUSTO

@@ -2,7 +2,7 @@ let exec = require('child_process').exec;
 let util = require('../../util');
 let config = require('../../config');
 
-let DomustoPlugin = require('../../domusto/domusto-plugin');
+let DomustoPlugin = require('../../domusto/DomustoPlugin');
 
 let PushBullet = require('pushbullet');
 

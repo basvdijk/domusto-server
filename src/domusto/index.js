@@ -2,12 +2,12 @@ let util = require('../util');
 let core = require('../core.js');
 let config = require('../config');
 
-let domustoEmitter = require('./domusto-emitter');
-let domustoTriggers = require('./domusto-triggers');
+let domustoEmitter = require('./DomustoEmitter');
+let domustoTriggers = require('./DomustoTriggers');
 let DomustoTimer = require('./DomustoTimer');
-let domustoDevicesManager = require('./domustoDevicesManager');
-let domustoPluginsManager = require('./domustoPluginsManager');
-let domustoSocketIO = require('./domustoSocketIO');
+let DomustoDevicesManager = require('./DomustoDevicesManager');
+let DomustoPluginsManager = require('./DomustoPluginsManager');
+let DomustoSocketIO = require('./DomustoSocketIO');
 
 class Domusto {
 
@@ -15,18 +15,18 @@ class Domusto {
 
         // this.io = io;
 
-        domustoSocketIO.setIO(io);
+        DomustoSocketIO.setIO(io);
 
-        // We need to bind the this of the current class otherwise this referrs to domustoPluginsManager
-        domustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
+        // We need to bind the this of the current class otherwise this referrs to DomustoPluginsManager
+        DomustoPluginsManager.onNewInputData = this._onNewInputData.bind(this);
 
         // io.on('connection', function (socket) {
 
         //     util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
 
         //     // Update the client with the latest known states / data
-        //     socket.emit('inputDeviceUpdate', domustoDevicesManager.getDevicesByRole('input'));
-        //     socket.emit('outputDeviceUpdate', domustoDevicesManager.getDevicesByRole('output'));
+        //     socket.emit('inputDeviceUpdate', DomustoDevicesManager.getDevicesByRole('input'));
+        //     socket.emit('outputDeviceUpdate', DomustoDevicesManager.getDevicesByRole('output'));
 
 
         //     // // send data to client
@@ -48,7 +48,7 @@ class Domusto {
         util.log('Received new input data:');
         util.prettyJson(inputData);
 
-        let device = domustoDevicesManager.getDeviceByPluginId(inputData.pluginId);
+        let device = DomustoDevicesManager.getDeviceByPluginId(inputData.pluginId);
 
         // Check if the updated data comes from a registered device
         if (device) {
@@ -68,7 +68,7 @@ class Domusto {
                     // inputDeviceUpdate channel only takes arrays
                     let devices = [];
                     devices.push(device);
-                    domustoSocketIO.emit('inputDeviceUpdate', devices);
+                    DomustoSocketIO.emit('inputDeviceUpdate', devices);
 
                     break;
             }

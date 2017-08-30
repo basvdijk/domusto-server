@@ -2,7 +2,7 @@ let P1Reader = require('p1-reader');
 let util = require('../../util');
 let config = require('../../config');
 
-let DomustoPlugin = require('../../domusto/domusto-plugin');
+let DomustoPlugin = require('../../domusto/DomustoPlugin');
 
 /**
  * P1 plugin for DOMUSTO
