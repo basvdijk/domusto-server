@@ -30,6 +30,7 @@ class DomustoDevicesManager {
 
                         if (pluginInstance) {
                             pluginInstance.addRegisteredDevice(input);
+                            pluginInstance.onNewInputData = this.onNewInputData.bind(this);
                         } else {
                             util.debug('No plugin found for hardware id', input.protocol.pluginId);
                         }
@@ -120,6 +121,62 @@ class DomustoDevicesManager {
 
     }
 
+
+    /**
+     * Fired when a plugin broadcasts new data
+     * @param {object} input Input device object
+     */
+    onNewInputData(inputData) {
+
+        util.log('Received new input data:');
+        util.prettyJson(inputData);
+
+        let device = this.getDeviceByPluginId(inputData.pluginId);
+
+        // Check if the updated data comes from a registered device
+        if (device) {
+
+            switch (device.type) {
+                case 'switch': {
+                    Domusto.outputCommand(device.id, inputData.command);
+                    break;
+                }
+                default:
+
+                    // Update the device with the new input data
+                    Object.assign(device.data, inputData.data);
+
+                    device.lastUpdated = new Date();
+
+                    // inputDeviceUpdate channel only takes arrays
+                    let devices = [];
+
+                    devices.push(device);
+                    DomustoSocketIO.emit('inputDeviceUpdate', devices);
+
+                    break;
+            }
+
+        }
+
+    }
+
+    getDeviceById(deviceId) {
+
+        for (let i in this.devices) {
+
+            let device = this.devices[i];
+
+            let isTargetDevice = device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
+
+            if (isTargetDevice) {
+                return device;
+            }
+
+        }
+
+    };
+
     /**
      * 
      * 
@@ -132,7 +189,7 @@ class DomustoDevicesManager {
         let devices = [];
 
         for (let i in this.devices) {
-            
+
             let device = this.devices[i];
 
             if (device.role === role) {
