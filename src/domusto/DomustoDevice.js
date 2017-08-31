@@ -1,3 +1,10 @@
+
+/**
+ * Model class for a DOMUSTO device
+ * 
+ * @author Bas van Dijk 
+ * @class DomustoDevice
+ */
 class DomustoDevice {
 
     constructor(device) {

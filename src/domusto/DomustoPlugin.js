@@ -1,9 +1,9 @@
 let util = require('../util');
 
-
 /**
  * Base class for DOMUSTO plugins
  * 
+ * @author Bas van Dijk 
  * @class DomustoPlugin
  */
 class DomustoPlugin {
@@ -18,10 +18,22 @@ class DomustoPlugin {
         this._busy = false;
     }
 
+    /**
+     * Convert the plugin to a string
+     * 
+     * @returns 
+     * @memberof DomustoPlugin
+     */
     toString() {
         return this.metaData;
     }
 
+    /**
+     * Registers a device to the plugin
+     * 
+     * @param {any} device 
+     * @memberof DomustoPlugin
+     */
     addRegisteredDevice(device) {
         this._registeredDevices.push(device);
     }

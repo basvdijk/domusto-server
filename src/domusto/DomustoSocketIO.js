@@ -1,13 +1,22 @@
 let util = require('../util');
 let DomustoEmitter = require('./DomustoEmitter');
 
+/**
+ * SocketIO broadcast handler
+ * 
+ * @author Bas van Dijk 
+ * @class DomustSocketIO
+ */
 class DomustSocketIO {
 
-    constructor() {
-        this._sendQueue = [];
+    constructor() {}
 
-    }
-
+    /**
+     * Sets the socketIO instance to use
+     * 
+     * @param {any} io 
+     * @memberof DomustSocketIO
+     */
     setIO(io) {
         this._io = io;
 
@@ -27,6 +36,14 @@ class DomustSocketIO {
 
     }
 
+
+    /**
+     * Emits an object on a broadcast channel
+     * 
+     * @param {any} channel 
+     * @param {any} data 
+     * @memberof DomustSocketIO
+     */
     emit(channel, data) {
         this._io.emit(channel, data);
     }

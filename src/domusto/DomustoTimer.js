@@ -1,14 +1,15 @@
-/**
- * Author:       Bas van Dijk
- * Description:  DOMUSTO timer module handles the sun, time and event timers
- */
-
 let SunCalc = require('suncalc');
 let schedule = require('node-schedule');
 let util = require('../util');
 let config = require('../config');
 let DomustoEmitter = require('./DomustoEmitter');
 
+/**
+ * DOMUSTO timer module handles the sun, time and event tim
+ * 
+ * @author Bas van Dijk 
+ * @class DomustoTimer
+ */
 class DomustoTimer {
 
     constructor(device, timer, callback) {

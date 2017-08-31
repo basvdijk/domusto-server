@@ -2,6 +2,13 @@ let config = require('../config');
 let util = require('../util');
 let DomustoEmitter = require('./DomustoEmitter');
 
+
+/**
+ * Class to manage the plugins
+ * 
+ * @author Bas van Dijk 
+ * @class DomustoPluginsManager
+ */
 class DomustoPluginsManager {
 
     constructor() {
@@ -23,16 +30,11 @@ class DomustoPluginsManager {
                     let domustoPluginInstance = new pluginNodeModule(plugin);
                     this._pluginInstances[plugin.type] = domustoPluginInstance;
 
-                    // if (plugin.triggers) {
-                    //     domustoTriggers.initPluginTriggers(domustoPluginInstance, plugin);
-                    // }
                     if (plugin.triggers) {
 
                         plugin.triggers.forEach(trigger => {
 
                             trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                                let listen = trigger.listenToEvent;
 
                                 DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
                                     domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
@@ -54,7 +56,13 @@ class DomustoPluginsManager {
 
     }
 
-    // Get the hardware instance by device id
+    /**
+     * Get the hardware instance by device id
+     * 
+     * @param {any} pluginId 
+     * @returns 
+     * @memberof DomustoPluginsManager
+     */
     getPluginInstanceByPluginId(pluginId) {
         return this._pluginInstances[pluginId];
     }

@@ -1,6 +1,13 @@
 let DomustoDevice = require('./DomustoDevice');
 let config = require('../config');
 
+/**
+ * Model class for a output device
+ * 
+ * @author Bas van Dijk 
+ * @class DomustoOutput
+ * @extends {DomustoDevice}
+ */
 class DomustoOutput extends DomustoDevice {
 
     /**

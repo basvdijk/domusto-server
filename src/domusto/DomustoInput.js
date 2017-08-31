@@ -1,5 +1,12 @@
 let DomustoDevice = require('./DomustoDevice');
 
+/**
+ * Model class for an input device
+ *
+ * @author Bas van Dijk 
+ * @class DomustoInput
+ * @extends {DomustoDevice}
+ */
 class DomustoInput extends DomustoDevice {
 
     constructor(input) {
