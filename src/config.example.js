@@ -1,6 +1,13 @@
 module.exports = {
     debug: true,
 
+    // SERVER CONFIGURATION
+    // Don't change the port to something other than 3000
+    server: {
+        ip: '192.168.178.72',
+        port: 3000
+    },
+
     // LOCATION OF SERVER
     // used for weather information
     location: {
