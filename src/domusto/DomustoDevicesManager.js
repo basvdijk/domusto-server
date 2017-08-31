@@ -145,7 +145,7 @@ class DomustoDevicesManager {
 
             switch (device.type) {
                 case 'switch': {
-                    Domusto.outputCommand(device.id, inputData.command);
+                    this.outputCommand(device.id, inputData.command);
                     break;
                 }
                 default:
