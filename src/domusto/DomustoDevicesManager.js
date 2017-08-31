@@ -70,7 +70,27 @@ class DomustoDevicesManager {
                     }
 
                 }
+
+                if (device.triggers) {
+
+                    device.triggers.forEach(trigger => {
+
+                        trigger.listenToEvent.events.forEach(triggerEvent => {
+
+                            let listen = trigger.listenToEvent;
+
+                            DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+                                this.outputCommand(device.id, trigger.execute.event);
+                            });
+
+                        });
+
+                    });
+
+                }
+
             }
+
         }
 
         // console.log(DomustoSocketIO);

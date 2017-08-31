@@ -1,5 +1,6 @@
 let config = require('../config');
 let util = require('../util');
+let DomustoEmitter = require('./DomustoEmitter');
 
 class DomustoPluginsManager {
 
@@ -25,10 +26,28 @@ class DomustoPluginsManager {
                     // if (plugin.triggers) {
                     //     domustoTriggers.initPluginTriggers(domustoPluginInstance, plugin);
                     // }
+                    if (plugin.triggers) {
+
+                        plugin.triggers.forEach(trigger => {
+
+                            trigger.listenToEvent.events.forEach(triggerEvent => {
+
+                                let listen = trigger.listenToEvent;
+
+                                DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+                                    domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
+                                });
+
+                            });
+
+                        });
+                    }
 
                 } catch (error) {
                     util.error('Error loading plugin ', plugin.type, error);
                 }
+
+
             }
 
         }
@@ -36,7 +55,7 @@ class DomustoPluginsManager {
     }
 
     // Get the hardware instance by device id
-    getPluginInstanceByPluginId (pluginId) {
+    getPluginInstanceByPluginId(pluginId) {
         return this._pluginInstances[pluginId];
     }
 
