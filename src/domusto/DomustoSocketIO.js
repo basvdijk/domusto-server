@@ -1,4 +1,5 @@
 let util = require('../util');
+let DomustoEmitter = require('./DomustoEmitter');
 
 class DomustSocketIO {
 
@@ -20,19 +21,14 @@ class DomustSocketIO {
             //     Domusto.io.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
             // }, 10000);
 
-            for(let message of this._sendQueue) {
-                this._io.emit(message.channel, message.data);
-            }
+            DomustoEmitter.emit('socketOnConnection');
+
         });
 
     }
 
     emit(channel, data) {
-        if(this._io) {
-            this._io.emit(channel, data);
-        } else {
-            this._sendQueue.push({ channel: channel, data: data });
-        }
+        this._io.emit(channel, data);
     }
 
 }
