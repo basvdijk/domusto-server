@@ -3,7 +3,7 @@ let util = require('../util');
 let DomustoInput = require('./DomustoInput');
 let DomustoOutput = require('./DomustoOutput');
 let DomustoTimer = require('./DomustoTimer');
-let domustoEmitter = require('./DomustoEmitter');
+let DomustoEmitter = require('./DomustoEmitter');
 let DomustoPluginsManager = require('./DomustoPluginsManager');
 let DomustoSocketIO = require('./DomustoSocketIO');
 
@@ -45,15 +45,15 @@ class DomustoDevicesManager {
                         // Initialise timers when specified
                         if (output.timers) {
 
-                            // output.timers.forEach((timer) => {
+                            output.timers.forEach((timer) => {
 
-                            //     new DomustoTimer(output, timer, (device, timer) => {
-                            //         Domusto.outputCommand(device, timer);
-                            //     });
+                                new DomustoTimer(output, timer, (device, timer) => {
+                                    this.outputCommand(device, timer);
+                                });
 
-                            //     output.hasTimers = true;
+                                output.hasTimers = true;
 
-                            // });
+                            });
 
                         }
 
@@ -73,9 +73,16 @@ class DomustoDevicesManager {
             }
         }
 
+        // console.log(DomustoSocketIO);
+
+        DomustoEmitter.on('socketOnConnection', () => {
+            DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
+            DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
+        });
+
         // Update the client with the latest known states / data
-        DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
-        DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
+        // DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
+        // DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
 
     }
 
@@ -97,7 +104,7 @@ class DomustoDevicesManager {
             pluginInstance.outputCommand(device, command, response => {
 
                 console.log('emit', device.id + command);
-                domustoEmitter.emit(device.id + command);
+                DomustoEmitter.emit(device.id + command);
 
                 util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
 

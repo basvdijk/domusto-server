@@ -5,7 +5,7 @@
 
 let util = require('../util');
 let config = require('../config');
-let domustoEmitter = require('./DomustoEmitter');
+let DomustoEmitter = require('./DomustoEmitter');
 
 DomustoTriggers = {};
 
@@ -17,7 +17,7 @@ DomustoTriggers.initPluginTriggers = function (domustoPluginInstance, pluginConf
 
             let listen = trigger.listenToEvent;
 
-            domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+            DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
                 domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
             });
 
@@ -41,7 +41,7 @@ DomustoTriggers.initDeviceTriggers = function (devices, outputCommand) {
 
                     let listen = trigger.listenToEvent;
 
-                    domustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
+                    DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
                         outputCommand(device.id, trigger.execute.event);
                     });
 

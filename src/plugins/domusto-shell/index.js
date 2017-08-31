@@ -3,7 +3,7 @@ let util = require('../../util');
 let config = require('../../config');
 
 let DomustoPlugin = require('../../domusto/DomustoPlugin');
-let domustoEmitter = require('../../domusto/DomustoEmitter');
+let DomustoEmitter = require('../../domusto/DomustoEmitter');
 
 /**
  * Shell plugin for DOMUSTO

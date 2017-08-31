@@ -7,7 +7,7 @@ let SunCalc = require('suncalc');
 let schedule = require('node-schedule');
 let util = require('../util');
 let config = require('../config');
-let domustoEmitter = require('./DomustoEmitter');
+let DomustoEmitter = require('./DomustoEmitter');
 
 class DomustoTimer {
 
@@ -94,7 +94,7 @@ class DomustoTimer {
         var _device = device;
         var _timer = timer;
 
-        domustoEmitter.on(device.id + _timer.event, () => {
+        DomustoEmitter.on(device.id + _timer.event, () => {
 
             let date = util.offsetDate(new Date(), _timer.offset);
 
