@@ -17,7 +17,6 @@ class DomustoDevice {
         this._protocol = device.protocol;
         this._data = device.data;
         this._lastUpdated = new Date();
-
     }
 
     toJSON() {
