@@ -59,6 +59,11 @@ cd src
 ../node_modules/.bin/nodemon server.js
 ```
 
+## Running DOMUSTO tests
+```bash
+npm test
+```
+
 # Setup
 
 ## Installing and upgrading NPM / Nodejs on RPI
