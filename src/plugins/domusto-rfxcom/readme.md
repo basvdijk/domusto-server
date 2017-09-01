@@ -26,14 +26,22 @@ website:   http://domusto.com
 5. Restart DOMUSTO
 
 ```js
-{
     enabled: true,
-    debug: true,
+    debug: false,
     type: 'RFXCOM',
-    port: '/dev/ttyUSB-RFX433',
-    enabledProtocols: ['AC', 'BYRONSX', 'LIGHTING4', 'OREGON', 'RUBICSON']
-},
+    settings: {
+        port: '/dev/ttyUSB-RFX433',
+        listenOnly: false,
+        enabledProtocols: [
+            'AC',       // KaKu
+            'BYRONSX',  // Doorbell
+            'RUBICSON'  // Temp + Humid
+        ]
+    }
 ```
+
+## ListenOnly
+When you enable `listenOnly` the plugin listens to all possible events for the enabled protocols. When new data is received, this data is shown in the terminal.
 
 ## Procols supported (not tested):
 - AC
