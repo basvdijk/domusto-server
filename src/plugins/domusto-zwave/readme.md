@@ -27,7 +27,19 @@ website:   http://domusto.com
     debug: true,
     type: 'ZWAVE',
     settings: {
-        port: '/dev/ttyACM0'
+        port: '/dev/ttyACM0',
+        pairingMode: false
     }
 },
 ```
+
+## Paring mode
+When you enable `pairingMode` the plugin listens for new devices to pair.
+
+## Paring devices
+
+# Fibaro Smoke Sensor 2 FGSD-002
+- Make sure you have `pairing mode` enabled
+- Wait till discovering is complete and *Paring mode active* is shown in the terminal
+- Hold the button on the smoke detector, release when you hear a beep.
+- Press 3x shortly on the button on the smoke detector

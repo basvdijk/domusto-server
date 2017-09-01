@@ -88,7 +88,8 @@ module.exports = {
             debug: true,
             type: 'ZWAVE',
             settings: {
-                port: '/dev/ttyACM0'
+                port: '/dev/ttyACM0',
+                listenOnly: false
             }
         },
     ],

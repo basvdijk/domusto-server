@@ -109,7 +109,7 @@ class DomustoZWave extends DomustoPlugin {
                         nodeinfo.name,
                         nodeinfo.type,
                         nodeinfo.loc);
-                for (comclass in this.nodes['node-' + nodeid]['classes']) {
+                for (let comclass in this.nodes['node-' + nodeid]['classes']) {
                   console.log('node%d: class %d', nodeid, comclass);
                   switch (comclass) {
                     case 0x25: // COMMAND_CLASS_SWITCH_BINARY
@@ -152,19 +152,16 @@ class DomustoZWave extends DomustoPlugin {
             
             this.zwave.on('scan complete', () => {
                 
-                console.log('====> scan complete, hit ^C to finish.');
+                console.log('Scan complete');
                 // set dimmer node 5 to 50%
                 //this.zwave.setValue(5,38,1,0,50);
                 // this.zwave.setValue( {node_id:5, class_id: 38, instance:1, index:0}, 50);
-                // // Add a new device to the ZWave controller
-                // if (this.zwave.hasOwnProperty('beginControllerCommand')) {
-                //   // using legacy mode (OpenZWave version < 1.3) - no security
-                //   this.zwave.beginControllerCommand('AddDevice', true);
-                // } else {
-                //   // using new security API
-                //   // set this to 'true' for secure devices eg. door locks
-                //   this.zwave.addNode(false);
-                // }
+
+                if (pluginConfiguration.settings.pairingMode) {
+                    util.log('Paring mode active');
+                    this._enablePairingMode();
+                } 
+
             });
 
             this.zwave.on('controller command', (r,s) => {
@@ -180,6 +177,18 @@ class DomustoZWave extends DomustoPlugin {
             util.log('Initialisation of RfxCom plugin failed', error);
         }
 
+    }
+
+    _enablePairingMode() {
+        // Add a new device to the ZWave controller
+        if (this.zwave.hasOwnProperty('beginControllerCommand')) {
+            // using legacy mode (OpenZWave version < 1.3) - no security
+            this.zwave.beginControllerCommand('AddDevice', true);
+        } else {
+            // using new security API
+            // set this to 'true' for secure devices eg. door locks
+            this.zwave.addNode(false);
+        }
     }
 
 }
