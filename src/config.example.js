@@ -82,7 +82,15 @@ module.exports = {
                     }
                 },
             ],
-        }
+        },
+        {
+            enabled: true,
+            debug: true,
+            type: 'ZWAVE',
+            settings: {
+                port: '/dev/ttyACM0'
+            }
+        },
     ],
 
     // DEVICES

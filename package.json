@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "node-schedule": "^1.2.3",
+    "openzwave-shared": "^1.4.0",
     "p1-reader": "^1.4.1",
     "prettyjson": "^1.2.1",
     "pushbullet": "^2.0.0",
