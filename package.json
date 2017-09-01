@@ -4,7 +4,7 @@
   "description": "Node home automation rest API for RPI",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.js')"
   },
   "author": "Bas van Dijk",
   "license": "UNLICENSED",
@@ -19,6 +19,10 @@
     "suncalc": "^1.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "mocha": "^3.5.0",
+    "mock-require": "^2.0.2",
+    "nodemon": "^1.11.0",
+    "should": "^12.0.0",
+    "sinon": "^3.2.1"
   }
 }
