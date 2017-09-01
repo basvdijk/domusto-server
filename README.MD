@@ -6,6 +6,7 @@ See [the API docs](API.MD)
 
 # Plugins
 - [RFXcom](src/plugins/domusto-rfxcom)
+- [Z-Wave](src/plugins/domusto-zwave)
 - [P1 smart meter](src/plugins/domusto-p1)
 - [Shell executer](src/plugins/domusto-shell)
 
