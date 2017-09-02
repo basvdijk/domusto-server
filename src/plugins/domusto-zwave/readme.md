@@ -1,7 +1,7 @@
-# RFXcom
+# OpenZWave
 
 ```
-plugin:    RfxCom transceiver
+plugin:    OpenZWave controller
 author:    Bas van Dijk
 category:  radio
 version:   0.0.1
