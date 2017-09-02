@@ -1,5 +1,9 @@
 This project is pre-pre-pre-alpha, so don't expect a working solution.
 
+# DOMUSTO GUI
+
+You find the graphical interface for DOMUSTO at https://github.com/basvdijk/domusto-client-vuejs
+
 # API docs
 
 See [the API docs](API.MD)
