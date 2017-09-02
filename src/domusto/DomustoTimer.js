@@ -28,7 +28,7 @@ class DomustoTimer {
                 case 'time':
                     util.log('Timer (time) set for', _device.id, 'state', timer.state, 'at', timer.time);
 
-                    schedule.scheduleJob(timer.time, function () {
+                    schedule.scheduleJob(timer.time, () => {
                         util.log('Timer (time) activated for', _device.id, 'state', timer.state);
                         util.logTimersToFile('Timer (time) activated for ' + _device.id + ' state: ' + timer.state);
                         this.callback(_device.id, _timer.state);
