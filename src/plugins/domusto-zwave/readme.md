@@ -16,12 +16,12 @@ website:   http://domusto.com
 
 ## Installing
 
-DOMUSTO uses the [`open-zwave-shared`](https://github.com/OpenZWave/node-openzwave-shared) library. This library need you to have Open Z-wave installed:
+DOMUSTO uses the [`node-openzwave-shared`](https://github.com/OpenZWave/node-openzwave-shared) library. This library need you to have OpenZWave installed:
 
 
 ### Raspbian
 
-Install openzwave manually with:
+Install OpenZWave manually with:
 
 ```
 wget "https://github.com/ekarak/openzwave-debs-raspbian/raw/master/v1.4.79/openzwave_1.4.79.gfaea7dd_armhf.deb"
