@@ -13,6 +13,28 @@ website:   http://domusto.com
 
 ## Tested with
  - Fibaro Smoke Sensor 2 FGSD-002 - € 64.95
+
+## Installing
+
+DOMUSTO uses the [`open-zwave-shared`](https://github.com/OpenZWave/node-openzwave-shared) library. This library need you to have Open Z-wave installed:
+
+
+### Raspbian
+
+Install openzwave manually with:
+
+```
+wget "https://github.com/ekarak/openzwave-debs-raspbian/raw/master/v1.4.79/openzwave_1.4.79.gfaea7dd_armhf.deb"
+wget "https://github.com/ekarak/openzwave-debs-raspbian/raw/master/v1.4.79/libopenzwave1.3_1.4.79.gfaea7dd_armhf.deb"
+wget "https://github.com/ekarak/openzwave-debs-raspbian/raw/master/v1.4.79/libopenzwave1.3-dev_1.4.79.gfaea7dd_armhf.deb"
+sudo dpkg -i *openzwave*.deb
+```
+
+More info: https://github.com/OpenZWave/node-openzwave-shared/blob/master/README-raspbian.md
+
+### Ubuntu
+
+More info: https://github.com/OpenZWave/node-openzwave-shared/blob/master/README-ubuntu.md
  
 ## Configuration
 
