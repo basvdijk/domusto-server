@@ -89,7 +89,7 @@ module.exports = {
             type: 'ZWAVE',
             settings: {
                 port: '/dev/ttyACM0',
-                listenOnly: false
+                pairingMode: false
             }
         },
     ],
