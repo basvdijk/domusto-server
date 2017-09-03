@@ -53,6 +53,9 @@ class DomustoZWave extends DomustoPlugin {
             });
             
             this.zwave.on('node added', (nodeid) => {
+
+                console.log('NODE ADDED NODEID:', nodeid);
+
                 this.nodes['node-' + nodeid] = {
                     manufacturer: '',
                     manufacturerid: '',
