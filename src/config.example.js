@@ -92,6 +92,16 @@ module.exports = {
                 pairingMode: false
             }
         },
+		{
+            enabled: false,
+            debug: true,
+            type: 'NEFITEASY',
+            settings: {
+                serialNumber: 'SERIALNUMBER',
+			    accessKey: 'ACCESSKEY',
+			    password: 'PASSWORD'	
+            }
+        },
     ],
 
     // DEVICES
