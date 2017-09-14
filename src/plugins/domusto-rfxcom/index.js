@@ -192,7 +192,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
         this.onNewInputData({
             pluginId: this._pluginConfiguration.type,
-            deviceId: receivedData.unitcode ? receivedData.id + '/' + receivedData.unitcode : receivedData.id,
+            deviceId: receivedData.unitCode ? receivedData.id + '/' + receivedData.unitCode : receivedData.id,
             command: receivedData.command ? receivedData.command.toLowerCase() : 'trigger'
         });
     }
