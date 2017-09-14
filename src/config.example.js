@@ -251,7 +251,7 @@ module.exports = {
             protocol: {
                 pluginId: 'P1',
                 id: 'POWER1',
-                type: 'power-received'          // power-received | power-delivered    set the type of device
+                type: 'received'          // received | delivered    set the type of device
             }
         },
         {
@@ -263,7 +263,7 @@ module.exports = {
             protocol: {
                 pluginId: 'P1',
                 id: 'POWER2',
-                type: 'power-delivered'
+                type: 'delivered'
             }
         }
     ]
