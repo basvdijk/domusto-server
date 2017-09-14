@@ -1,6 +1,6 @@
 _This project is pre-pre-pre-alpha, so don't expect a working solution._
 
-This project is just the DOMUSTO server. You'll find the graphical interface at https://github.com/basvdijk/domusto-client-vuejs
+This project is just the DOMUSTO server. You'll find the graphical interface at https://github.com/basvdijk/domusto-client
 
 # API docs
 
