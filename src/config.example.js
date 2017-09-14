@@ -246,7 +246,7 @@ module.exports = {
             id: 'POWER1',
             enabled: true,
             role: 'input',
-            name: 'Slimme meter',
+            name: 'Power received',
             type: 'power',
             protocol: {
                 pluginId: 'P1',
@@ -258,7 +258,7 @@ module.exports = {
             id: 'POWER2',
             enabled: true,
             role: 'input',
-            name: 'Slimme meter',
+            name: 'Power delivered',
             type: 'power',
             protocol: {
                 pluginId: 'P1',
