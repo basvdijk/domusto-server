@@ -206,6 +206,8 @@ class DomustoDevicesManager {
 
             if (device) {
                 devices = [device];
+            } else {
+                util.debug('No device found for:', inputData.deviceId);
             }
 
         } else {
