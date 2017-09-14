@@ -57,6 +57,11 @@ Util.logTimersToFile = function (data) {
     logStream.end(Util.getLogDate() + '   ' + data + '\n');
 }
 
+Util.logErrorToFile = function (data) {
+    var logStream = fs.createWriteStream('../logs/errors.log', { 'flags': 'a' });
+    logStream.end(Util.getLogDate() + '   ' + data + '\n');
+}
+
 /**
  * Offsets the given date with the specified offset in cron format
  * @param {string} cronData Date in the cron format e.g "* 10 * * * *" to offset 10 minutes

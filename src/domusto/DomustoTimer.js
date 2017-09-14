@@ -12,6 +12,14 @@ let DomustoEmitter = require('./DomustoEmitter');
  */
 class DomustoTimer {
 
+
+    /**
+     * Creates an instance of DomustoTimer.
+     * @param {any} device 
+     * @param {any} timer 
+     * @param {any} callback Callback to execute when timer fires
+     * @memberof DomustoTimer
+     */
     constructor(device, timer, callback) {
 
         var _device = device;
@@ -28,11 +36,18 @@ class DomustoTimer {
                 case 'time':
                     util.log('Timer (time) set for', _device.id, 'state', timer.state, 'at', timer.time);
 
-                    schedule.scheduleJob(timer.time, () => {
+                    let job = schedule.scheduleJob(timer.time, () => {
                         util.log('Timer (time) activated for', _device.id, 'state', timer.state);
                         util.logTimersToFile('Timer (time) activated for ' + _device.id + ' state: ' + timer.state);
                         this.callback(_device.id, _timer.state);
                     });
+
+                    // if (job) {
+                    //     console.log(timer.time, job.nextInvocation());
+                    // }
+
+                    // console.log(' ');
+
                     break;
 
                 case 'sun':

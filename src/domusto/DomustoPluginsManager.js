@@ -28,6 +28,7 @@ class DomustoPluginsManager {
                     let pluginNodeModule = require('../plugins/domusto-' + plugin.type.toLowerCase());
 
                     let domustoPluginInstance = new pluginNodeModule(plugin);
+                    domustoPluginInstance.pluginConfiguration = plugin;
                     this._pluginInstances[plugin.type] = domustoPluginInstance;
 
                     if (plugin.triggers) {

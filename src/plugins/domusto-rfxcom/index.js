@@ -191,7 +191,8 @@ class DomustoRfxCom extends DomustoPlugin {
         util.debug('Hardware switch event detected', receivedData);
 
         this.onNewInputData({
-            pluginId: receivedData.unitcode ? receivedData.id + '/' + receivedData.unitcode : receivedData.id,
+            pluginId: this._pluginConfiguration.type,
+            deviceId: receivedData.unitcode ? receivedData.id + '/' + receivedData.unitcode : receivedData.id,
             command: receivedData.command ? receivedData.command.toLowerCase() : 'trigger'
         });
     }
@@ -213,7 +214,8 @@ class DomustoRfxCom extends DomustoPlugin {
             let typeString = this._subTypeString(device.protocol.type + device.protocol.subType);
 
             this.onNewInputData({
-                pluginId: sensorData.id,
+                pluginId: this._pluginConfiguration.type,
+                deviceId: sensorData.id,
                 data: {
                     deviceTypeString: typeString,                 // Name of device type
                     temperature: sensorData.temperature,          // Temperature

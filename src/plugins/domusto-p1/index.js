@@ -30,7 +30,10 @@ class DomustoP1 extends DomustoPlugin {
         });
 
         try {
-            let p1Reader = new P1Reader({ serialPort: pluginConfiguration.settings.port });
+            let p1Reader = new P1Reader({
+                serialPort: pluginConfiguration.settings.port,
+                emulator: pluginConfiguration.dummyData,
+            });
             this.hardwareInstance = p1Reader;
             this.hardwareInstance.on('reading', this._updatePowerData.bind(this));
         } catch (error) {
@@ -52,37 +55,32 @@ class DomustoP1 extends DomustoPlugin {
 
         let _self = this;
 
-        // util.debug('Currently consuming: ' + data.electricity.received.actual.reading + data.electricity.received.actual.unit);
-
         util.debug('Received new data for P1');
+        util.prettyJson(data);
 
-        // util.prettyJson(data);
-
-        this.registeredDevices.forEach(function (device) {
-
-            _self.onNewInputData({
-                pluginId: device.id,
-                data: {
-                    electricity: {
-                        received: {
-                            tariff1: {
-                                value: data.electricity.received.tariff1.reading,    // Amount of electricity received for tariff1 (LOW)
-                                unit: data.electricity.received.tariff1.unit         // Unit of the electricity reading e.g. kWh
-                            },
-                            tariff2: {
-                                value: data.electricity.received.tariff2.reading,    // Amount of electricity received for tariff2 (NORMAL / HIGH)
-                                unit: data.electricity.received.tariff2.unit         // Unit of the electricity reading e.g. kWh
-                            },
-                            actual: {
-                                value: data.electricity.received.actual.reading,     // Amount of electricity currently consumed
-                                unit: data.electricity.received.actual.unit          // Unit of the electricity reading e.g. kWh
-                            }
+        _self.onNewInputData({
+            pluginId: this._pluginConfiguration.type,
+            deviceId: null,
+            data: {
+                electricity: {
+                    received: {
+                        tariff1: {
+                            value: data.electricity.received.tariff1.reading,    // Amount of electricity received for tariff1 (LOW)
+                            unit: data.electricity.received.tariff1.unit         // Unit of the electricity reading e.g. kWh
+                        },
+                        tariff2: {
+                            value: data.electricity.received.tariff2.reading,    // Amount of electricity received for tariff2 (NORMAL / HIGH)
+                            unit: data.electricity.received.tariff2.unit         // Unit of the electricity reading e.g. kWh
+                        },
+                        actual: {
+                            value: data.electricity.received.actual.reading,     // Amount of electricity currently consumed
+                            unit: data.electricity.received.actual.unit          // Unit of the electricity reading e.g. kWh
                         }
                     }
                 }
-            });
-
+            }
         });
+
 
     }
 

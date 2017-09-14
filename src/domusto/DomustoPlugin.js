@@ -8,7 +8,7 @@ let util = require('../util');
  */
 class DomustoPlugin {
 
-    constructor(metaData, self) {
+    constructor(metaData) {
         util.debug('Initialising plugin for:');
         util.prettyJson(metaData);
 
@@ -59,6 +59,13 @@ class DomustoPlugin {
             util.error('No function defined for ', command, parameters);
         }
         
+    }
+
+    set pluginConfiguration(config) {
+        this._pluginConfiguration = config;
+    }
+    get pluginConfiguration() {
+        return this._pluginConfiguration;
     }
 
     get onNewInputData() {

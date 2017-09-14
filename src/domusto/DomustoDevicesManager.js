@@ -130,7 +130,7 @@ class DomustoDevicesManager {
         let pluginId = output.protocol.pluginId;
         let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
-        if (pluginInstance) {
+        if (!pluginInstance) {
             pluginInstance.addRegisteredDevice(output);
         } else {
             util.debug('No plugin found for hardware id', output.protocol.pluginId);
@@ -146,7 +146,17 @@ class DomustoDevicesManager {
     outputCommand(deviceId, command, onSuccess) {
 
         let device = this.devices[deviceId];
+
         let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
+
+        if (!pluginInstance) {
+            console.error('WARNING! No plugin instance found for:', device.protocol.pluginId);
+            console.error('Make sure the plugin is enabled');
+
+            util.logErrorToFile('WARNING! No plugin instance found for:', device.protocol.pluginId);
+            util.logErrorToFile('Make sure the plugin is enabled');
+            return false;
+        }
 
         if (!device.busy) {
 
@@ -189,30 +199,47 @@ class DomustoDevicesManager {
         util.log('Received new input data:');
         util.prettyJson(inputData);
 
-        let device = this.getDeviceByPluginId(inputData.pluginId);
+        let devices = [];
+        
+        if (inputData.deviceId) {
+            let device = this.getDeviceByDeviceId(inputData.deviceId);
 
+            if (device) {
+                devices = [device];
+            }
+
+        } else {
+            devices = this.getDevicesByPluginId(inputData.pluginId);
+        }
+        
         // Check if the updated data comes from a registered device
-        if (device) {
+        if (devices.length > 0) {
+            
+            for (let i in devices) {
+                
+                let device = devices[i];
 
-            switch (device.type) {
-                case 'switch': {
-                    this.outputCommand(device.id, inputData.command);
-                    break;
+                switch (device.type) {
+                    case 'switch': {
+                        this.outputCommand(device.id, inputData.command);
+                        break;
+                    }
+                    default:
+
+                        // Merge the current device data with the new input data
+                        Object.assign(device.data, inputData.data);
+
+                        device.lastUpdated = new Date();
+
+                        // inputDeviceUpdate channel only takes arrays
+                        let devices = [];
+
+                        devices.push(device);
+                        DomustoSocketIO.emit('inputDeviceUpdate', devices);
+
+                        break;
                 }
-                default:
 
-                    // Merge the current device data with the new input data
-                    Object.assign(device.data, inputData.data);
-
-                    device.lastUpdated = new Date();
-
-                    // inputDeviceUpdate channel only takes arrays
-                    let devices = [];
-
-                    devices.push(device);
-                    DomustoSocketIO.emit('inputDeviceUpdate', devices);
-
-                    break;
             }
 
         }
@@ -227,7 +254,7 @@ class DomustoDevicesManager {
      * @returns 
      * @memberof DomustoDevicesManager
      */
-    getDeviceById(deviceId) {
+    getDeviceByDeviceId(deviceId) {
 
         for (let i in this.devices) {
 
@@ -239,7 +266,27 @@ class DomustoDevicesManager {
                 return device;
             }
 
+            // check if the inputId matches
+            if (device.protocol.inputIds) {
+
+                for (let j in device.protocol.inputIds) {
+
+                    if (device.protocol.inputIds[j] === deviceId) {
+                        return device;
+                    }
+
+                }
+
+            }
+
+            // Check if the protocol outputId matches
+            if (device.protocol.outputId && (device.protocol.outputId === deviceId)) {
+                return device;
+            }
+            
         }
+
+        return null;
 
     };
 
@@ -275,37 +322,22 @@ class DomustoDevicesManager {
      * @returns 
      * @memberof DomustoDevicesManager
      */
-    getDeviceByPluginId(pluginId) {
+    getDevicesByPluginId(pluginId) {
+
+        let devices = [];
 
         for (let i in this.devices) {
 
             let device = this.devices[i];
 
-            // Check if the protcol id matches
-            if (device.protocol.id && (device.protocol.id === pluginId)) {
-                return device;
+            // Check if the protocol id matches
+            if (device.protocol.pluginId && (device.protocol.pluginId === pluginId)) {
+                devices.push(device);
             }
-
-            // Check if the protocol outputId matches
-            if (device.protocol.outputId && (device.protocol.outputId === pluginId)) {
-                return device;
-            }
-
-            // check if the inputId mathces
-            if (device.protocol.inputIds) {
-
-                for (let j in device.protocol.inputIds) {
-
-                    if (device.protocol.inputIds[j] === pluginId) {
-                        return device;
-                    }
-
-                }
-
-            }
+            
         }
 
-        return null;
+        return devices;
     };
 
 }
