@@ -22,9 +22,32 @@ website:   http://domusto.com
 5. Restart DOMUSTO
 
 ```js
+
+// For received power
 {
+    id: 'POWER1',
     enabled: true,
-    type: 'P1',
-    port: '/dev/ttyUSB-P1'
+    role: 'input',
+    name: 'Smart meter',
+    type: 'power',
+    protocol: {
+        pluginId: 'P1',
+        id: 'POWER1',
+        type: 'received'
+    }
+},
+
+// For delivered power
+{
+    id: 'POWER2',
+    enabled: true,
+    role: 'input',
+    name: 'Smart meter',
+    type: 'power',
+    protocol: {
+        pluginId: 'P1',
+        id: 'POWER2',
+        type: 'delivered'
+    }
 },
 ```
