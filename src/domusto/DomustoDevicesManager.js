@@ -127,14 +127,6 @@ class DomustoDevicesManager {
 
         }
 
-        let pluginId = output.protocol.pluginId;
-        let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
-
-        if (!pluginInstance) {
-            pluginInstance.addRegisteredDevice(output);
-        } else {
-            util.debug('No plugin found for hardware id', output.protocol.pluginId);
-        }
     }
 
     /**
