@@ -56,11 +56,10 @@ class DomustoP1 extends DomustoPlugin {
         let _self = this;
 
         util.debug('Received new data for P1');
-        util.prettyJson(data);
+        // util.prettyJson(data);
 
         _self.onNewInputData({
             pluginId: this._pluginConfiguration.type,
-            deviceId: null,
             data: {
                 electricity: {
                     received: {
@@ -75,6 +74,20 @@ class DomustoP1 extends DomustoPlugin {
                         actual: {
                             value: data.electricity.received.actual.reading,     // Amount of electricity currently consumed
                             unit: data.electricity.received.actual.unit          // Unit of the electricity reading e.g. kWh
+                        }
+                    },
+                    delivered: {
+                        tariff1: {
+                            value: data.electricity.delivered.tariff1.reading,    // Amount of electricity delivered for tariff1 (LOW)
+                            unit: data.electricity.delivered.tariff1.unit         // Unit of the electricity reading e.g. kWh
+                        },
+                        tariff2: {
+                            value: data.electricity.delivered.tariff2.reading,    // Amount of electricity delivered for tariff2 (NORMAL / HIGH)
+                            unit: data.electricity.delivered.tariff2.unit         // Unit of the electricity reading e.g. kWh
+                        },
+                        actual: {
+                            value: data.electricity.delivered.actual.reading,     // Amount of electricity currently consumed
+                            unit: data.electricity.delivered.actual.unit          // Unit of the electricity reading e.g. kWh
                         }
                     }
                 }
