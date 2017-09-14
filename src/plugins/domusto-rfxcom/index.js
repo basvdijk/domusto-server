@@ -159,7 +159,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
                 // Temp + Humidity
                 if (device.role === 'input' && device.type === 'temperature') {
-                    protocolEventName = device.protocol.type + device.protocol.subType;
+                    protocolEventName = device.protocol.type;
                     listenerId = device.protocol.pluginId + device.role + device.type;
                     eventHandler = this._onInputTemperature;
                 }
@@ -211,7 +211,7 @@ class DomustoRfxCom extends DomustoPlugin {
         // If the sensorData is from a registered input device
         if (device) {
 
-            let typeString = this._subTypeString(device.protocol.type + device.protocol.subType);
+            let typeString = this._subTypeString(device.protocol.type + '-' + device.protocol.subtype);
 
             this.onNewInputData({
                 pluginId: this._pluginConfiguration.type,
@@ -520,37 +520,37 @@ class DomustoRfxCom extends DomustoPlugin {
                 return ' WT0122';
 
             // TEMPERATURE & HUMIDITY
-            case 'th1':
+            case 'temperaturehumidity1-1':
                 return 'THGN122/123, THGN132, THGR122/228/238/268';
-            case 'th2':
+            case 'temperaturehumidity1-2':
                 return 'THGR810, THGN800';
-            case 'th3':
+            case 'temperaturehumidity1-3':
                 return 'RTGR328';
-            case 'th4':
+            case 'temperaturehumidity1-4':
                 return 'THGR328';
-            case 'th5':
+            case 'temperaturehumidity1-5':
                 return 'WTGR800';
-            case 'th6':
+            case 'temperaturehumidity1-6':
                 return 'THGR918/928, THGRN228, THGN500';
-            case 'th7':
+            case 'temperaturehumidity1-7':
                 return 'TFA TS34C, Cresta';
-            case 'th8':
+            case 'temperaturehumidity1-8':
                 return 'WT260, WT260H, WT440H, WT450, WT450H';
-            case 'th9':
+            case 'temperaturehumidity1-9':
                 return 'Viking 02035, 02038 (02035 has no humidity), Proove TSS320, 311501';
-            case 'th10':
+            case 'temperaturehumidity1-10':
                 return 'Rubicson';
-            case 'th11':
+            case 'temperaturehumidity1-11':
                 return 'EW109';
-            case 'th12':
+            case 'temperaturehumidity1-12':
                 return 'Imagintronix/Opus XT300 Soil sensor';
-            case 'th13':
+            case 'temperaturehumidity1-13':
                 return 'Alecto WS1700 and compatibles';
 
             // TEMPERATURE & HUMIDITY & BAROMETER
-            case 'thb1':
+            case 'temperaturehumidity1-b1':
                 return 'BTHR918, BTHGN129';
-            case 'thb2':
+            case 'temperaturehumidity1-b2':
                 return 'BTHR918N, BTHR968';
 
             default:
