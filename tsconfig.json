@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "rootDir": "src-ts",
+        "outDir": "build",
+        "moduleResolution": "node"
+    },
+    "exclude": [
+        "build",
+        "node_modules",
+        ".AppleDouble"
+    ]
+}
