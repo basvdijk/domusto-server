@@ -49,7 +49,7 @@ class DomustoRfxCom extends DomustoPlugin {
                 } else {
                     this._initialisePlugin();
                 }
-                util.debug('RFXtrx ready');
+                util.header('RFXcom ready for sending / receiving data');
             });
 
         } catch (error) {
