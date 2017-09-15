@@ -2,9 +2,10 @@
   "name": "domusto",
   "version": "0.0.1",
   "description": "Node home automation rest API for RPI",
-  "main": "server.js",
+  "main": "build/server.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.js')"
+    "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.js')",
+    "start": "./node_modules/.bin/tsc-watch ./src-ts/server.ts --outDir ./build --onSuccess \"node ./build/server.js\""
   },
   "author": "Bas van Dijk",
   "license": "UNLICENSED",
@@ -27,6 +28,9 @@
     "nodemon": "^1.11.0",
     "should": "^12.0.0",
     "sinon": "^3.2.1",
+    "tsc-watch": "^1.0.6",
+    "tslint": "^5.7.0",
+    "tslint-eslint-rules": "^4.1.1",
     "typescript": "^2.5.2"
   }
 }

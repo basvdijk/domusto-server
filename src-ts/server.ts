@@ -7,7 +7,14 @@
 // let config = require('./config');
 
 import * as express from 'express';
-// import http = require('http'); 
+import * as http from 'http'; 
+import util from './util';
+import config from './config';
+// import * as config from 'config';
+
+
+// let server = require('http').Server(app);
+
 
 /**
  * The server.
@@ -16,7 +23,9 @@ import * as express from 'express';
  */
 export class Server {
 
-  public app;
+  test: string;
+
+  public app: express.Application;
 
   /**
    * Bootstrap the application.
@@ -31,8 +40,10 @@ export class Server {
   }
 
   constructor() {
-    //create expressjs application
+    // create expressjs application
     this.app = express();
+
+    this.setHeaders();
 
 
   }
@@ -71,15 +82,39 @@ export class Server {
     let router: express.Router;
     router = express.Router();
 
-    //IndexRoute
+    // IndexRoute
     // IndexRoute.create(router);
 
-    //use router middleware
+    // use router middleware
     this.app.use(router);
+
+    this.app.route('/output')
+      .get((req, res) => {
+        // res.json(Domusto.getDevicesByRole('output'));
+        res.json(true);
+      });
   }
+
+
+  // this.app.route('/input').get((req, res) => {
+  //   res.json(Domusto.getDevicesByRole('input'));
+  // });
+
+  // this.app.route('/output/command/:deviceId/:state')
+  //   .get((req, res) => {
+  //     DomustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
+  //       res.json(result);
+  //     });
+  //   });
 
 }
 
+let app = new Server().app;
+let httpServer = http.createServer(app);
+
+httpServer.listen(config.server.port, function () {
+    util.header('DOMUSTO REST api server started on: ' + config.server.port);
+});
 
 // // Add headers
 // app.use(function (req, res, next) {
