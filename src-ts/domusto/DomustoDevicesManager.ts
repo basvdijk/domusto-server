@@ -6,8 +6,7 @@ import DomustoInput from './DomustoInput';
 import DomustoOutput from './DomustoOutput';
 import DomustoSocketIO from './DomustoSocketIO';
 import DomustoTimer from './DomustoTimer';
-
-let DomustoPluginsManager = require('./DomustoPluginsManager');
+import DomustoPluginsManager from './DomustoPluginsManager';
 
 /**
  * Class to mange the DOMUSTO devices

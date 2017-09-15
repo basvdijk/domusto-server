@@ -17,7 +17,7 @@ export default {
     // configuration of the DOMUSTO plugins used
     plugins: [
         {
-            enabled: true,
+            enabled: false,
             debug: true,
             type: 'RFXCOM',
             settings: {
@@ -31,7 +31,7 @@ export default {
             }
         },
         {
-            enabled: false,
+            enabled: true,
             dummyData: false,
             type: 'P1',
             settings: {
@@ -39,7 +39,7 @@ export default {
             }
         },
         {
-            enabled: true,
+            enabled: false,
             type: 'SHELL',
             triggers: [
                 {
@@ -57,7 +57,7 @@ export default {
             ],
         },
         {
-            enabled: true,
+            enabled: false,
             type: 'PUSHBULLET',
             settings: {
                 apiKeys: [

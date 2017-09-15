@@ -1,5 +1,5 @@
-import SunCalc from 'suncalc';
-import schedule from 'node-schedule';
+import * as SunCalc from 'suncalc';
+import * as schedule from 'node-schedule';
 
 import util from '../util';
 import config from '../config';
