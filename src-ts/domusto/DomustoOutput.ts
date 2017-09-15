@@ -1,14 +1,20 @@
-let DomustoDevice = require('./DomustoDevice');
-let config = require('../config');
+import DomustoDevice from './DomustoDevice';
+import config from '../config';
 
 /**
  * Model class for a output device
- * 
- * @author Bas van Dijk 
+ *
+ * @author Bas van Dijk
  * @class DomustoOutput
  * @extends {DomustoDevice}
  */
 class DomustoOutput extends DomustoDevice {
+
+    private _state = 'off';
+    private _busy = false;
+    private _hasTimers = false;
+    private _timers;
+    private _actions;
 
     /**
      * Initialises an output device with its default DOMUSTO device properties
@@ -18,12 +24,9 @@ class DomustoOutput extends DomustoDevice {
 
         super(output);
 
-        this._state = 'off';
-        this._busy = false;
-        this._hasTimers = false;
         this._timers = output.timers || null;
 
-        let serverAddress = 'http://' + config.server.ip + ':' + config.server.port + '/'
+        let serverAddress = 'http://' + config.server.ip + ':' + config.server.port + '/';
 
         switch (output.subType) {
 
@@ -33,14 +36,14 @@ class DomustoOutput extends DomustoDevice {
                 this._actions = {
                     on: serverAddress + 'output/command/' + this._id + '/on',
                     off: serverAddress + 'output/command/' + this._id + '/off'
-                }
+                };
                 break;
 
             case 'momentary':
 
                 this._actions = {
                     trigger: serverAddress + 'output/command/' + this._id + '/trigger'
-                }
+                };
                 break;
         }
 
@@ -97,4 +100,4 @@ class DomustoOutput extends DomustoDevice {
 
 }
 
-module.exports = DomustoOutput;
+export default DomustoOutput;

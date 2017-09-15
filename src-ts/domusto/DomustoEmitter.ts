@@ -1,11 +1,11 @@
-const EventEmitter = require('events');
+import * as EventEmitter from 'events';
 
 /**
  * Custom event emitter for DOMUSTO events
- * 
- * @author Bas van Dijk 
+ *
+ * @author Bas van Dijk
  * @class DomustoEmitter
  * @extends {EventEmitter}
  */
 class DomustoEmitter extends EventEmitter {}
-module.exports = new DomustoEmitter();
+export default new DomustoEmitter();

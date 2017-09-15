@@ -1,11 +1,21 @@
 
 /**
  * Model class for a DOMUSTO device
- * 
- * @author Bas van Dijk 
+ *
+ * @author Bas van Dijk
  * @class DomustoDevice
  */
 class DomustoDevice {
+
+    protected _id: string;
+    protected _enabled: boolean;
+    protected _name: string;
+    protected _type: string;
+    protected _subType: string;
+    protected _role: string;
+    protected _protocol: Object;
+    protected _data: Object;
+    protected _lastUpdated = new Date();
 
     constructor(device) {
         this._id = device.id;
@@ -16,7 +26,6 @@ class DomustoDevice {
         this._role = device.role;
         this._protocol = device.protocol;
         this._data = device.data;
-        this._lastUpdated = new Date();
     }
 
     toJSON() {
@@ -29,7 +38,7 @@ class DomustoDevice {
             role: this._role,
             protocol: this._protocol,
             data: this._data,
-        }
+        };
     }
 
     get id() {
@@ -41,7 +50,7 @@ class DomustoDevice {
 
     get enabled() {
         return this._enabled;
-    }        
+    }
     set enabled(enabled) {
         this._enabled = enabled;
     }
@@ -55,25 +64,25 @@ class DomustoDevice {
 
     get type() {
         return this._type;
-    }  
+    }
     set type(type) {
         this._type = type;
     }
 
     get subType() {
         return this._subType;
-    }        
+    }
     set subType(subType) {
         this._subType = subType;
     }
-    
+
     get role() {
         return this._role;
     }
     set role(role) {
         this._role = role;
     }
-    
+
     get protocol() {
         return this._protocol;
     }
@@ -87,11 +96,11 @@ class DomustoDevice {
     set lastUpdated(lastUpdated) {
         this._lastUpdated = lastUpdated;
     }
-    
+
     get data() {
         return this._data;
     }
 
 }
 
-module.exports = DomustoDevice;
+export default DomustoDevice;

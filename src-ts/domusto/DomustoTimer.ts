@@ -1,28 +1,32 @@
-let SunCalc = require('suncalc');
-let schedule = require('node-schedule');
-let util = require('../util');
-let config = require('../config');
-let DomustoEmitter = require('./DomustoEmitter');
+import SunCalc from 'suncalc';
+import schedule from 'node-schedule';
+
+import util from '../util';
+import config from '../config';
+
+import DomustoEmitter from './DomustoEmitter';
 
 /**
  * DOMUSTO timer module handles the sun, time and event tim
- * 
- * @author Bas van Dijk 
+ *
+ * @author Bas van Dijk
  * @class DomustoTimer
  */
 class DomustoTimer {
 
+    private callback;
+
     /**
      * Creates an instance of DomustoTimer.
-     * @param {any} device 
-     * @param {any} timer 
+     * @param {any} device
+     * @param {any} timer
      * @param {any} callback Callback to execute when timer fires
      * @memberof DomustoTimer
      */
     constructor(device, timer, callback) {
 
-        var _device = device;
-        var _timer = timer;
+        let _device = device;
+        let _timer = timer;
 
         this.callback = callback;
 
@@ -61,18 +65,18 @@ class DomustoTimer {
 
         } else {
 
-            if (timer.type == 'time') {
+            if (timer.type === 'time') {
                 util.warning('    Timer (time)  disabled for', _device.id, 'state', timer.state);
-            } else if (timer.type == 'sun') {
+            } else if (timer.type === 'sun') {
                 util.warning('    Timer (sun)   disabled for', _device.id, 'state', timer.state);
-            } else if (timer.type == 'event') {
+            } else if (timer.type === 'event') {
                 util.warning('    Timer (event) disabled for', _device.id, 'state', timer.state);
             }
 
 
         }
 
-    };
+    }
 
     /**
      * Schedules a timer according to sunset, sunrise etc
@@ -81,8 +85,8 @@ class DomustoTimer {
      */
     _scheduleSunTimer(device, timer) {
 
-        var _device = device;
-        var _timer = timer;
+        let _device = device;
+        let _timer = timer;
 
         let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
         let date = util.offsetDate(times[_timer.condition], _timer.offset);
@@ -115,8 +119,8 @@ class DomustoTimer {
      */
     _initEventTimer(device, timer) {
 
-        var _device = device;
-        var _timer = timer;
+        let _device = device;
+        let _timer = timer;
 
         DomustoEmitter.on(device.id + _timer.event, () => {
 
@@ -134,4 +138,4 @@ class DomustoTimer {
 
 }
 
-module.exports = DomustoTimer;
+export default DomustoTimer;

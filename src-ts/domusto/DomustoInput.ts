@@ -1,9 +1,9 @@
-let DomustoDevice = require('./DomustoDevice');
+import DomustoDevice from './DomustoDevice';
 
 /**
  * Model class for an input device
  *
- * @author Bas van Dijk 
+ * @author Bas van Dijk
  * @class DomustoInput
  * @extends {DomustoDevice}
  */
@@ -24,8 +24,8 @@ class DomustoInput extends DomustoDevice {
                     barometer: null,
                     batteryLevel: null,
                     rssi: null,
-                }
-                this._lastUpdated = new Date()
+                };
+                this._lastUpdated = new Date();
                 break;
             }
             case 'power': {
@@ -47,8 +47,8 @@ class DomustoInput extends DomustoDevice {
                             }
                         }
                     }
-                }
-                this._lastUpdated = new Date()
+                };
+                this._lastUpdated = new Date();
                 break;
             }
         }
@@ -56,4 +56,4 @@ class DomustoInput extends DomustoDevice {
 
 }
 
-module.exports = DomustoInput;
+export default DomustoInput;

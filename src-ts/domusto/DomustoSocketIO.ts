@@ -1,23 +1,26 @@
-let util = require('../util');
-let DomustoEmitter = require('./DomustoEmitter');
+import util from '../util';
+import DomustoEmitter from './DomustoEmitter';
 
 /**
  * SocketIO broadcast handler
- * 
- * @author Bas van Dijk 
+ *
+ * @author Bas van Dijk
  * @class DomustSocketIO
  */
 class DomustSocketIO {
+
+    private _io;
 
     constructor() {}
 
     /**
      * Sets the socketIO instance to use
-     * 
-     * @param {any} io 
+     *
+     * @param {any} io
      * @memberof DomustSocketIO
      */
     setIO(io) {
+
         this._io = io;
 
         this._io.on('connection', socket => {
@@ -39,9 +42,9 @@ class DomustSocketIO {
 
     /**
      * Emits an object on a broadcast channel
-     * 
-     * @param {any} channel 
-     * @param {any} data 
+     *
+     * @param {any} channel
+     * @param {any} data
      * @memberof DomustSocketIO
      */
     emit(channel, data) {
@@ -51,5 +54,4 @@ class DomustSocketIO {
 }
 
 let DomustoSocketIO = new DomustSocketIO();
-
-module.exports = DomustoSocketIO;
+export default DomustoSocketIO;

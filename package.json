@@ -5,7 +5,8 @@
   "main": "build/server.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.js')",
-    "start": "./node_modules/.bin/tsc-watch ./src-ts/server.ts --outDir ./build --onSuccess \"node ./build/server.js\""
+    "start": "./node_modules/.bin/tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\"",
+    "start2": "./node_modules/.bin/tsc-watch --target es2017 ./src-ts/app.ts --outDir ./build --onSuccess \"node ./build/app.js\""
   },
   "author": "Bas van Dijk",
   "license": "UNLICENSED",
@@ -22,7 +23,9 @@
     "suncalc": "^1.8.0"
   },
   "devDependencies": {
+    "@types/express": "^4.0.37",
     "@types/node": "^8.0.28",
+    "@types/socket.io": "^1.4.30",
     "mocha": "^3.5.0",
     "mock-require": "^2.0.2",
     "nodemon": "^1.11.0",

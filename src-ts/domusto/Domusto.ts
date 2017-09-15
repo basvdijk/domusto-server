@@ -1,9 +1,9 @@
-let DomustoSocketIO = require('./DomustoSocketIO');
+import DomustoSocketIO from './DomustoSocketIO';
 
 /**
  * Initialises the DOMUSTO system
  *
- * @author Bas van Dijk 
+ * @author Bas van Dijk
  * @class Domusto
  */
 class Domusto {
@@ -12,4 +12,4 @@ class Domusto {
     }
 }
 
-module.exports = Domusto;
+export default Domusto;

@@ -3,35 +3,35 @@ const fs = require('fs');
 
 export default {
 
-    debug: function () {
-        Array.prototype.unshift.call(arguments);
-        console.log.apply(this, arguments)
+    debug: function (...args) {
+        Array.prototype.unshift.call(args);
+        console.log.apply(this, args);
     },
 
-    log: function () {
-        Array.prototype.unshift.call(arguments);
-        console.log.apply(this, arguments)
+    log: function (...args) {
+        Array.prototype.unshift.call(args);
+        console.log.apply(this, args);
     },
 
     header: function (...args) {
         console.log('');
         Array.prototype.unshift.call(args, '\x1b[92m>>>');
         Array.prototype.push.call(args, '\x1b[0m');
-        console.log.apply(this, args)
+        console.log.apply(this, args);
     },
 
-    warning: function () {
-        Array.prototype.unshift.call(arguments, '\x1b[33m' + arguments[0]);
-        Array.prototype.splice.call(arguments, 1, 1);
-        Array.prototype.push.call(arguments, '\x1b[0m');
-        console.log.apply(this, arguments)
+    warning: function (...args) {
+        Array.prototype.unshift.call(args, '\x1b[33m' + args[0]);
+        Array.prototype.splice.call(args, 1, 1);
+        Array.prototype.push.call(args, '\x1b[0m');
+        console.log.apply(this, args);
     },
 
-    error: function () {
-        Array.prototype.unshift.call(arguments, '\x1b[31m' + arguments[0]);
-        Array.prototype.splice.call(arguments, 1, 1);
-        Array.prototype.push.call(arguments, '\x1b[0m');
-        console.log.apply(this, arguments)
+    error: function (...args) {
+        Array.prototype.unshift.call(args, '\x1b[31m' + args[0]);
+        Array.prototype.splice.call(args, 1, 1);
+        Array.prototype.push.call(args, '\x1b[0m');
+        console.log.apply(this, args);
     },
 
     prettyJson: function (object) {
@@ -53,30 +53,30 @@ export default {
         // let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
         // let dayString = days[date.getDay()];
 
-        // return '' + 
-        // dayString + ' ' 
-        // + date.getFullYear() + '-' 
-        // + pad((date.getMonth() + 1)) + '-' 
-        // + pad(date.getDate()) + ' ' 
-        // + pad(date.getHours()) + ':' 
-        // + pad(date.getMinutes()) + ':' 
-        // + pad(date.getSeconds()) + '.' 
+        // return '' +
+        // dayString + ' '
+        // + date.getFullYear() + '-'
+        // + pad((date.getMonth() + 1)) + '-'
+        // + pad(date.getDate()) + ' '
+        // + pad(date.getHours()) + ':'
+        // + pad(date.getMinutes()) + ':'
+        // + pad(date.getSeconds()) + '.'
         // + ('00' + date.getMilliseconds()).slice(-3);
     },
 
     logSwitchToFile: function (data) {
-        var logStream = fs.createWriteStream('../logs/switches.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('../logs/switches.log', { 'flags': 'a' });
         // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     },
 
     logTimersToFile: function (data) {
-        var logStream = fs.createWriteStream('../logs/timers.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('../logs/timers.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     },
 
     logErrorToFile: function (data) {
-        var logStream = fs.createWriteStream('../logs/errors.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('../logs/errors.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     },
 
@@ -117,6 +117,6 @@ export default {
 
     }
 
-}
+};
 
 // export default Util;

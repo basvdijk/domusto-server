@@ -60,3 +60,4 @@ typings/
 # DOMUSTO
 config.js
 build
+*.wav
