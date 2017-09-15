@@ -4,18 +4,34 @@ const fs = require('fs');
 let Util = {};
 
 Util.debug = function () {
-    Array.prototype.unshift.call(arguments, '[DOMUSTO] ' + Util.getLogDate());
+    Array.prototype.unshift.call(arguments);
     console.log.apply(this, arguments)
 }
 
 Util.log = function () {
-    Array.prototype.unshift.call(arguments, '[DOMUSTO] ' + Util.getLogDate());
+    Array.prototype.unshift.call(arguments);
     console.log.apply(this, arguments)
 }
-Util.error = function () {
-    Array.prototype.unshift.call(arguments, '\x1b[31m[DOMUSTO] ' + Util.getLogDate());
+
+Util.header = function () {
+    console.log('');
+    Array.prototype.unshift.call(arguments, '\x1b[92m>>>');
+    Array.prototype.push.call(arguments, '\x1b[0m');
     console.log.apply(this, arguments)
-    console.log('\x1b[0m');
+}
+
+Util.warning = function () {
+    Array.prototype.unshift.call(arguments, '\x1b[33m' + arguments[0]);
+    Array.prototype.splice.call(arguments, 1, 1);
+    Array.prototype.push.call(arguments, '\x1b[0m');
+    console.log.apply(this, arguments)
+}
+
+Util.error = function () {
+    Array.prototype.unshift.call(arguments, '\x1b[31m' + arguments[0]);
+    Array.prototype.splice.call(arguments, 1, 1);
+    Array.prototype.push.call(arguments, '\x1b[0m');
+    console.log.apply(this, arguments)
 }
 
 Util.prettyJson = function (object) {
@@ -28,22 +44,24 @@ Util.prettyJson = function (object) {
 
 Util.getLogDate = function () {
 
-    function pad(n) { return n < 10 ? '0' + n : n }
+    return;
 
-    let date = new Date();
+    // function pad(n) { return n < 10 ? '0' + n : n }
 
-    let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    let dayString = days[date.getDay()];
+    // let date = new Date();
 
-    return '' + 
-    dayString + ' ' 
-    + date.getFullYear() + '-' 
-    + pad((date.getMonth() + 1)) + '-' 
-    + pad(date.getDate()) + ' ' 
-    + pad(date.getHours()) + ':' 
-    + pad(date.getMinutes()) + ':' 
-    + pad(date.getSeconds()) + '.' 
-    + ('00' + date.getMilliseconds()).slice(-3);
+    // let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    // let dayString = days[date.getDay()];
+
+    // return '' + 
+    // dayString + ' ' 
+    // + date.getFullYear() + '-' 
+    // + pad((date.getMonth() + 1)) + '-' 
+    // + pad(date.getDate()) + ' ' 
+    // + pad(date.getHours()) + ':' 
+    // + pad(date.getMinutes()) + ':' 
+    // + pad(date.getSeconds()) + '.' 
+    // + ('00' + date.getMilliseconds()).slice(-3);
 }
 
 Util.logSwitchToFile = function (data) {

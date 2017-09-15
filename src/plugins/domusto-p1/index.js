@@ -55,7 +55,6 @@ class DomustoP1 extends DomustoPlugin {
 
         let _self = this;
 
-        util.debug('Received new data for P1');
         // util.prettyJson(data);
 
         _self.onNewInputData({

@@ -96,7 +96,7 @@ class DomustoDevicesManager {
             pluginInstance.addRegisteredDevice(input);
             pluginInstance.onNewInputData = this._onNewInputData.bind(this);
         } else {
-            util.debug('No plugin found for hardware id', input.protocol.pluginId);
+            util.warning('    No plugin found for hardware id', input.protocol.pluginId);
         }
     }
 
@@ -110,10 +110,13 @@ class DomustoDevicesManager {
     _initOutput(device) {
         // let output = new DomustoOutput(Object.assign({}, device));
         let output = new DomustoOutput(device);
+
         this.devices[output.id] = output;
 
         // Initialise timers when specified
         if (output.timers) {
+
+            util.header('INITIALISING TIMERS for', device.id);
 
             output.timers.forEach((timer) => {
 
@@ -188,7 +191,7 @@ class DomustoDevicesManager {
      */
     _onNewInputData(inputData) {
 
-        util.log('Received new input data:');
+        util.header('RECEIVED NEW INPUT DATA');
         util.prettyJson(inputData);
 
         let devices = [];

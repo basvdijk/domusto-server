@@ -44,7 +44,7 @@ outputRoutes(app);
 coreRoutes(app);
 
 server.listen(config.server.port, function () {
-    util.log('Domusto REST api server started on: ' + config.server.port);
+    util.header('DOMUSTO REST api server started on: ' + config.server.port);
 });
 
 // io.on('connection', function (socket) {

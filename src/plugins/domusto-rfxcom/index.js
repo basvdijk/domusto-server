@@ -116,6 +116,8 @@ class DomustoRfxCom extends DomustoPlugin {
         let hardwareEnabledProtocols = this.statusData.enabledProtocols.sort();
         let configuredEnabledProtocols = this.pluginConfiguration.settings.enabledProtocols.sort();
 
+        util.header('CHECKING ENABLED PROTOCOLS ON RFXCOM DEVICE');
+
         // check if the enabled protocols are the same as the once on the device
         if (JSON.stringify(hardwareEnabledProtocols) === JSON.stringify(configuredEnabledProtocols)) {
             util.log('Enabled protocols in config are the same as on hardware. Skipping setting protocols');
@@ -211,7 +213,7 @@ class DomustoRfxCom extends DomustoPlugin {
         // If the sensorData is from a registered input device
         if (device) {
 
-            let typeString = this._subTypeString(device.protocol.type + '-' + device.protocol.subtype);
+            let typeString = this._subTypeString(device.protocol.type + '-' + sensorData.subtype);
 
             this.onNewInputData({
                 pluginId: this._pluginConfiguration.type,

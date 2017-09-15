@@ -13,7 +13,7 @@ class DomustoPluginsManager {
 
     constructor() {
 
-        util.debug('Initialising plugins');
+        util.header('INITIALISING PLUGINS');
 
         this._pluginInstances = {};
         this._onNewInputData = function () { };
@@ -23,6 +23,8 @@ class DomustoPluginsManager {
         for (let plugin of plugins) {
 
             if (plugin.enabled) {
+
+                util.log('    enabled ', plugin.type, 'plugin');
 
                 try {
                     let pluginNodeModule = require('../plugins/domusto-' + plugin.type.toLowerCase());
@@ -47,10 +49,12 @@ class DomustoPluginsManager {
                     }
 
                 } catch (error) {
-                    util.error('Error loading plugin ', plugin.type, error);
+                    util.error('!!! Error loading plugin ', plugin.type, error);
                 }
 
 
+            } else {
+                util.warning('!!! disabled', plugin.type, 'plugin');
             }
 
         }

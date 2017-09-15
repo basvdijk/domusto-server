@@ -12,7 +12,6 @@ let DomustoEmitter = require('./DomustoEmitter');
  */
 class DomustoTimer {
 
-
     /**
      * Creates an instance of DomustoTimer.
      * @param {any} device 
@@ -34,10 +33,10 @@ class DomustoTimer {
             switch (timer.type) {
 
                 case 'time':
-                    util.log('Timer (time) set for', _device.id, 'state', timer.state, 'at', timer.time);
+                    util.log('    Timer (time)  enabled  for', _device.id, 'state', timer.state, 'at', timer.time);
 
                     let job = schedule.scheduleJob(timer.time, () => {
-                        util.log('Timer (time) activated for', _device.id, 'state', timer.state);
+                        util.log('     Timer (time)  activated for', _device.id, 'state', timer.state);
                         util.logTimersToFile('Timer (time) activated for ' + _device.id + ' state: ' + timer.state);
                         this.callback(_device.id, _timer.state);
                     });
@@ -61,7 +60,16 @@ class DomustoTimer {
             }
 
         } else {
-            util.log('Timer disabled for', timer.time, 'state', timer.state, '-> Set enabled to true to enable');
+
+            if (timer.type == 'time') {
+                util.warning('    Timer (time)  disabled for', _device.id, 'state', timer.state);
+            } else if (timer.type == 'sun') {
+                util.warning('    Timer (sun)   disabled for', _device.id, 'state', timer.state);
+            } else if (timer.type == 'event') {
+                util.warning('    Timer (event) disabled for', _device.id, 'state', timer.state);
+            }
+
+
         }
 
     };
@@ -87,10 +95,10 @@ class DomustoTimer {
             date = util.offsetDate(times[_timer.condition], _timer.offset);
         }
 
-        util.log('Timer (sun) set for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
+        util.log('    Timer (sun)   enabled  for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
 
         schedule.scheduleJob(date, () => {
-            util.log('Timer (sun) activated for', _device.id, 'state', _timer.state);
+            util.log('     Timer (sun)  activated for', _device.id, 'state', _timer.state);
             util.logTimersToFile('Timer (sun) activated for ' + _device.id + ' state: ' + timer.state);
             this.callback(_device.id, _timer.state);
 
@@ -115,7 +123,7 @@ class DomustoTimer {
             let date = util.offsetDate(new Date(), _timer.offset);
 
             schedule.scheduleJob(date, () => {
-                util.log('Timer (event) activated for', _device.id, 'state', _timer.state);
+                util.log('   Timer (event) activated for', _device.id, 'state', _timer.state);
                 util.logTimersToFile('Timer (event) activated for ' + _device.id + ' state: ' + _timer.state);
                 this.callback(_device.id, _timer.state);
             });

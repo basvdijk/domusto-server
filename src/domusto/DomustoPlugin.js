@@ -9,8 +9,8 @@ let util = require('../util');
 class DomustoPlugin {
 
     constructor(metaData) {
-        util.debug('Initialising plugin for:');
-        util.prettyJson(metaData);
+
+        // util.prettyJson(metaData);
 
         this._registeredDevices = [];
         this._metaData = metaData;
@@ -76,7 +76,7 @@ class DomustoPlugin {
     }
 
     get metaData() {
-        return this.metaData;
+        return this._metaData;
     }
 
     get hardwareInstance() {
