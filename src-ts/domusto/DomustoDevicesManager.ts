@@ -18,8 +18,9 @@ class DomustoDevicesManager {
 
     private devices = {};
 
-    constructor() {
+    constructor() { }
 
+    init() {
         /**
          * Initialises configured devices
          */
@@ -53,15 +54,14 @@ class DomustoDevicesManager {
             DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
             DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
         });
-
     }
 
     /**
- * Sends an output command to the hardware of an output device
- * @param {string} deviceId Id of the device
- * @param {string} command Command to send
- * @param {function} onSucces Fired when the command is successfully executed
- */
+     * Sends an output command to the hardware of an output device
+     * @param {string} deviceId Id of the device
+     * @param {string} command Command to send
+     * @param {function} onSucces Fired when the command is successfully executed
+     */
     outputCommand(deviceId, command, onSuccess?) {
 
         let device = this.devices[deviceId];

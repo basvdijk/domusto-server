@@ -5,6 +5,7 @@ import config from './config';
 
 import Domusto from './domusto/Domusto';
 import DomustoDevicesManager from './domusto/DomustoDevicesManager';
+import DomustoPluginsManager from './domusto/DomustoPluginsManager';
 
 export class Server {
 
@@ -23,6 +24,12 @@ export class Server {
   }
 
   constructor() {
+
+    // Make sure the plugins are ready before the devices initialise to avoid race conditions
+    DomustoPluginsManager.init().then(() => {
+      DomustoDevicesManager.init();
+    });
+
     this.app = express();
     this.setHeaders();
   }
@@ -79,9 +86,9 @@ export class Server {
 
       this.app.route('/output/command/:deviceId/:state')
         .get((req, res) => {
-          DomustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
-            res.json(result);
-          });
+          // DomustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
+          //   res.json(result);
+          // });
         });
   }
 
@@ -89,19 +96,3 @@ export class Server {
 
 }
 
-// let app = new Server().app;
-// let httpServer = http.createServer(app);
-// let socketIO = new io(httpServer);
-
-// httpServer.listen(config.server.port, function () {
-//   util.header('DOMUSTO REST api server started on: ' + config.server.port);
-// });
-
-
-// // Routes
-// let switchRoutes = require('./switch/switchRoutes');
-// let inputRoutes = require('./input/inputRoutes');
-// let outputRoutes = require('./output/outputRoutes');
-// let coreRoutes = require('./core/coreRoutes');
-
-// new Domusto(io);

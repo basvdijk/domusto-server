@@ -8,13 +8,13 @@ import util from '../util';
  */
 class DomustoPlugin {
 
-    private _registeredDevices = [];
+    protected _registeredDevices = [];
     protected _metaData;
-    private _self = this;
-    private _busy = false;
+    protected _self = this;
+    protected _busy = false;
     protected _pluginConfiguration;
-    private _onNewInputData;
-    private _hardwareInstance;
+    protected _onNewInputData;
+    protected _hardwareInstance;
 
     constructor(metaData) {
 

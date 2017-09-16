@@ -14,8 +14,9 @@ class DomustoPluginsManager {
     private _pluginInstances = {};
     private _onNewInputData: Function;
 
-    constructor() {
+    constructor() { }
 
+    async init() {
         util.header('INITIALISING PLUGINS');
 
         this._onNewInputData = function () { };
@@ -30,30 +31,7 @@ class DomustoPluginsManager {
 
                 try {
 
-                    this.importPlugin(plugin);
-
-                    // let pluginNodeModule = import '../plugins/domusto-' + plugin.type.toLowerCase() as pluginNodeModule;
-
-                    // let domustoPluginInstance = new pluginNodeModule(plugin);
-                    // domustoPluginInstance.pluginConfiguration = plugin;
-                    // this._pluginInstances[plugin.type] = domustoPluginInstance;
-
-                    // // TODO
-
-                    // if (plugin['triggers']) {
-
-                    //     plugin['triggers'].forEach(trigger => {
-
-                    //         trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                    //             DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                    //                 domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
-                    //             });
-
-                    //         });
-
-                    //     });
-                    // }
+                    await this.importPlugin(plugin);
 
                 } catch (error) {
                     util.error('!!! Error loading plugin ', plugin.type, error);
@@ -65,31 +43,20 @@ class DomustoPluginsManager {
             }
 
         }
-
     }
 
     async importPlugin(plugin) {
 
-        // let pluginNodeModule = await import('../plugins/domusto-' + plugin.type.toLowerCase() + '/' + 'domusto-' + plugin.type.toLowerCase());
-        let x = '../plugins/domusto-p1/domusto-p1';
-        let pluginNodeModule = await import(x);
+        let pluginName = 'domusto-' + plugin.type.toLowerCase();
 
-        // console.log(new pluginNodeModule.default());
-
-        // import(x).then((a) => {
-        //     console.log(new a.default());
-        //   });
-
-        console.log(plugin);
+        let pluginPath = '../plugins/' + pluginName + '/' + pluginName;
+        let pluginNodeModule = await import(pluginPath);
 
         let domustoPluginInstance = new pluginNodeModule.default(plugin);
-        // domustoPluginInstance.init(plugin);
-        // domustoPluginInstance.metaData = plugin;
         domustoPluginInstance.pluginConfiguration = plugin;
         this._pluginInstances[plugin.type] = domustoPluginInstance;
 
         // TODO
-
         if (plugin['triggers']) {
 
             plugin['triggers'].forEach(trigger => {

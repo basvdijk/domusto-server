@@ -1,8 +1,8 @@
-import * as P1Reader from 'p1-reader';
 import util from '../../util';
 import config from '../../config';
-
 import DomustoPlugin from '../../domusto/DomustoPlugin';
+
+import * as P1Reader from 'p1-reader';
 
 /**
  * P1 plugin for DOMUSTO
@@ -53,11 +53,9 @@ class DomustoP1 extends DomustoPlugin {
      */
     _updatePowerData(data) {
 
-        let _self = this;
-
         // util.prettyJson(data);
 
-        _self.onNewInputData({
+        this.onNewInputData({
             pluginId: this._pluginConfiguration.type,
             data: {
                 electricity: {
