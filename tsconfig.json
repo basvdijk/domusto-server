@@ -3,8 +3,9 @@
         "module": "commonjs",
         "target": "esnext",
         "noImplicitAny": false,
-        "sourceMap": false,
+        "inlineSourceMap": true,
         "outDir": "build",
+        "rootDir": "src-ts",
         "moduleResolution": "node",
         "types": [
             "node"

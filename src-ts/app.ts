@@ -1,3 +1,5 @@
+require('source-map-support').install();
+
 import Domusto from './domusto/Domusto';
 import * as http from 'http';
 import * as io from 'socket.io';
