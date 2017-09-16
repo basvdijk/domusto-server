@@ -51,24 +51,22 @@ class Util {
 
     static getLogDate() {
 
-        return;
+        function pad(n) { return n < 10 ? '0' + n : n; }
 
-        // function) { return n < 10 ? '0' + n : n }
+        let date = new Date();
 
-        // let date = new Date();
+        let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        let dayString = days[date.getDay()];
 
-        // let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-        // let dayString = days[date.getDay()];
-
-        // return '' +
-        // dayString + ' '
-        // + date.getFullYear() + '-'
-        // + pad((date.getMonth() + 1)) + '-'
-        // + pad(date.getDate()) + ' '
-        // + pad(date.getHours()) + ':'
-        // + pad(date.getMinutes()) + ':'
-        // + pad(date.getSeconds()) + '.'
-        // + ('00' + date.getMilliseconds()).slice(-3);
+        return '' +
+        dayString + ' '
+        + date.getFullYear() + '-'
+        + pad((date.getMonth() + 1)) + '-'
+        + pad(date.getDate()) + ' '
+        + pad(date.getHours()) + ':'
+        + pad(date.getMinutes()) + ':'
+        + pad(date.getSeconds()) + '.'
+        + ('00' + date.getMilliseconds()).slice(-3);
     }
 
     static logSwitchToFile(data) {
