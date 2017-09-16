@@ -1,52 +1,59 @@
 let prettyjson = require('prettyjson');
 const fs = require('fs');
 
-export default {
+class Util {
 
-    debug: function (...args) {
+    /**
+     * Shows a debug message in the console
+     *
+     * @static
+     * @param {any} args
+     * @memberof Util
+     */
+    static debug(...args) {
         Array.prototype.unshift.call(args);
         console.log.apply(this, args);
-    },
+    }
 
-    log: function (...args) {
+    static log(...args) {
         Array.prototype.unshift.call(args);
         console.log.apply(this, args);
-    },
+    }
 
-    header: function (...args) {
+    static header(...args) {
         console.log('');
         Array.prototype.unshift.call(args, '\x1b[92m>>>');
         Array.prototype.push.call(args, '\x1b[0m');
         console.log.apply(this, args);
-    },
+    }
 
-    warning: function (...args) {
+    static warning(...args) {
         Array.prototype.unshift.call(args, '\x1b[33m' + args[0]);
         Array.prototype.splice.call(args, 1, 1);
         Array.prototype.push.call(args, '\x1b[0m');
         console.log.apply(this, args);
-    },
+    }
 
-    error: function (...args) {
+    static error(...args) {
         Array.prototype.unshift.call(args, '\x1b[31m' + args[0]);
         Array.prototype.splice.call(args, 1, 1);
         Array.prototype.push.call(args, '\x1b[0m');
         console.log.apply(this, args);
-    },
+    }
 
-    prettyJson: function (object) {
+    static prettyJson(object) {
         console.log(prettyjson.render(object, {
             keysColor: 'green',
             numberColor: 'yellow',
             stringColor: 'yellow'
         }));
-    },
+    }
 
-    getLogDate: function () {
+    static getLogDate() {
 
         return;
 
-        // function pad(n) { return n < 10 ? '0' + n : n }
+        // function) { return n < 10 ? '0' + n : n }
 
         // let date = new Date();
 
@@ -62,29 +69,29 @@ export default {
         // + pad(date.getMinutes()) + ':'
         // + pad(date.getSeconds()) + '.'
         // + ('00' + date.getMilliseconds()).slice(-3);
-    },
+    }
 
-    logSwitchToFile: function (data) {
+    static logSwitchToFile(data) {
         let logStream = fs.createWriteStream('../logs/switches.log', { 'flags': 'a' });
         // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
         logStream.end(this.getLogDate() + '   ' + data + '\n');
-    },
+    }
 
-    logTimersToFile: function (data) {
+    static logTimersToFile(data) {
         let logStream = fs.createWriteStream('../logs/timers.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
-    },
+    }
 
-    logErrorToFile: function (data) {
+    static logErrorToFile(data) {
         let logStream = fs.createWriteStream('../logs/errors.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
-    },
+    }
 
     /**
      * Offsets the given date with the specified offset in cron format
      * @param {string} cronData Date in the cron format e.g "* 10 * * * *" to offset 10 minutes
      */
-    offsetDate: function (date, cronDateOffset) {
+    static offsetDate(date, cronDateOffset) {
 
         if (cronDateOffset) {
 
@@ -117,6 +124,13 @@ export default {
 
     }
 
-};
+    static randomWithinOffset(value, maxOffset) {
 
-// export default Util;
+        let min = value - maxOffset;
+        let max = value + maxOffset;
+
+        return (Math.random() * (min - max) + max).toFixed(1);
+    }
+}
+
+export default Util;
