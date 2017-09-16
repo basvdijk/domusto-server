@@ -4,9 +4,9 @@
   "description": "Node home automation rest API for RPI",
   "main": "build/server.js",
   "scripts": {
+    "assets": "cp -r ./src-ts/assets ./build",
     "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.js')",
-    "start": "./node_modules/.bin/tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\"",
-    "start2": "./node_modules/.bin/tsc-watch --target es2017 ./src-ts/app.ts --outDir ./build --onSuccess \"node ./build/app.js\""
+    "start": "npm run assets && ./node_modules/.bin/tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\""
   },
   "author": "Bas van Dijk",
   "license": "UNLICENSED",
