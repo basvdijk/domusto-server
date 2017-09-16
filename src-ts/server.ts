@@ -32,9 +32,10 @@ export class Server {
 
     this.app = express();
     this.setHeaders();
+    this.initRoutes();
   }
 
-  setHeaders() {
+  private setHeaders() {
 
     this.app.use(function (req, res, next) {
 
@@ -58,41 +59,32 @@ export class Server {
   }
 
   /**
-   * Create and return Router.
+   * Set the routes for the API
    *
-   * @class Server
-   * @method config
-   * @return void
+   * @private
+   * @memberof Server
    */
-  private routes() {
+  private initRoutes() {
+
     let router: express.Router;
     router = express.Router();
-
-    // IndexRoute
-    // IndexRoute.create(router);
 
     // use router middleware
     this.app.use(router);
 
-    this.app.route('/output')
-      .get((req, res) => {
-        // res.json(Domusto.getDevicesByRole('output'));
-        res.json(true);
+    this.app.route('/output').get((req, res) => {
+      res.json(DomustoDevicesManager.getDevicesByRole('output'));
+    });
+
+    this.app.route('/input').get((req, res) => {
+      res.json(DomustoDevicesManager.getDevicesByRole('input'));
+    });
+
+    this.app.route('/output/command/:deviceId/:state').get((req, res) => {
+      DomustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
+        res.json(result);
       });
-
-      // this.app.route('/input').get((req, res) => {
-      //   res.json(Domusto.getDevicesByRole('input'));
-      // });
-
-      this.app.route('/output/command/:deviceId/:state')
-        .get((req, res) => {
-          // DomustoDevicesManager.outputCommand(req.params.deviceId, req.params.state, result => {
-          //   res.json(result);
-          // });
-        });
+    });
   }
 
-
-
 }
-
