@@ -7,6 +7,7 @@ import * as NefitEasyClient from 'nefit-easy-commands';
 /**
  * Nefit Easy plugin for DOMUSTO
  * @author Marthijn van den Heuvel
+ * @author Bas van Dijk
  * @version 0.0.1
  *
  * @class DomustoNefitEasy
@@ -25,7 +26,7 @@ class DomustoNefitEasy extends DomustoPlugin {
 
         super({
             plugin: 'Nefit Easy',
-            author: 'Marthijn van den Heuvel',
+            author: 'Marthijn van den Heuvel, Bas van Dijk',
             category: 'heating',
             version: '0.0.1',
             website: 'http://domusto.com'
@@ -35,29 +36,7 @@ class DomustoNefitEasy extends DomustoPlugin {
 
         if (pluginConfiguration.dummyData) {
 
-            setInterval(() => {
-
-                let sensorData = this._getStatusDummyData();
-
-                this.onNewInputData({
-                    pluginId: this._pluginConfiguration.type,
-                    deviceId: 'inHouseTemp',
-                    data: {
-                        deviceTypeString: 'Nefit Easy in house temperature',
-                        temperature: sensorData.status['in house temp'],
-                    }
-                });
-
-                this.onNewInputData({
-                    pluginId: this._pluginConfiguration.type,
-                    deviceId: 'outdoorTemp',
-                    data: {
-                        deviceTypeString: 'Nefit Easy outdoor temperature',
-                        temperature: sensorData.status['outdoor temp'],
-                    }
-                });
-
-            }, 10000);
+            this._initDummyData();
 
         } else {
 
@@ -84,12 +63,21 @@ class DomustoNefitEasy extends DomustoPlugin {
                 util.prettyJson(location);
             }
 
-            this._onNewInputData({
+            this.onNewInputData({
                 pluginId: this._pluginConfiguration.type,
+                deviceId: 'inHouseTemp',
                 data: {
-                    status: status,
-                    pressure: pressure,
-                    location: location
+                    deviceTypeString: 'Nefit Easy in house temperature',
+                    temperature: status['in house temp'],
+                }
+            });
+
+            this.onNewInputData({
+                pluginId: this._pluginConfiguration.type,
+                deviceId: 'outdoorTemp',
+                data: {
+                    deviceTypeString: 'Nefit Easy outdoor temperature',
+                    temperature: status['outdoor temp'],
                 }
             });
 
@@ -101,6 +89,47 @@ class DomustoNefitEasy extends DomustoPlugin {
 
     }
 
+
+    /**
+     * Starts emitting dummy data
+     *
+     * @memberof DomustoNefitEasy
+     */
+    _initDummyData() {
+
+        setInterval(() => {
+
+            let sensorData = this._getStatusDummyData();
+
+            this.onNewInputData({
+                pluginId: this._pluginConfiguration.type,
+                deviceId: 'inHouseTemp',
+                data: {
+                    deviceTypeString: 'Nefit Easy in house temperature',
+                    temperature: sensorData.status['in house temp'],
+                }
+            });
+
+            this.onNewInputData({
+                pluginId: this._pluginConfiguration.type,
+                deviceId: 'outdoorTemp',
+                data: {
+                    deviceTypeString: 'Nefit Easy outdoor temperature',
+                    temperature: sensorData.status['outdoor temp'],
+                }
+            });
+
+        }, 10000);
+
+    }
+
+
+    /**
+     * Gives dummy data for the Nefit Easy
+     *
+     * @returns Dummy data with randomized temperatures
+     * @memberof DomustoNefitEasy
+     */
     _getStatusDummyData() {
         return {
             status: {
