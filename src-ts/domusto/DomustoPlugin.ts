@@ -22,6 +22,11 @@ class DomustoPlugin {
 
         this._metaData = metaData;
         this._self = this;
+
+        this.onNewInputData = function(data) {
+            util.warning('    No device configured to use plugin ', this._pluginConfiguration.type);
+            util.prettyJson(data);
+        };
     }
 
     /**
