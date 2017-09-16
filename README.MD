@@ -124,8 +124,7 @@ Edit the config file according to your setup.
 
 You can now run the server with
 ```bash
-cd src
-npm run start
+npm start
 ```
 
 Once the server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
