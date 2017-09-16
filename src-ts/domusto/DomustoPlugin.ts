@@ -18,7 +18,7 @@ class DomustoPlugin {
 
     constructor(metaData) {
 
-        // util.prettyJson(metaData);
+        util.prettyJson(metaData);
 
         this._metaData = metaData;
         this._self = this;
