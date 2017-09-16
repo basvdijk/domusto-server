@@ -59,5 +59,6 @@ typings/
 
 # DOMUSTO
 config.js
+config.ts
 build
 *.wav
