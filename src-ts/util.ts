@@ -72,18 +72,18 @@ class Util {
     }
 
     static logSwitchToFile(data) {
-        let logStream = fs.createWriteStream('../logs/switches.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('./logs/switches.log', { 'flags': 'a' });
         // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     }
 
     static logTimersToFile(data) {
-        let logStream = fs.createWriteStream('../logs/timers.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('./logs/timers.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     }
 
     static logErrorToFile(data) {
-        let logStream = fs.createWriteStream('../logs/errors.log', { 'flags': 'a' });
+        let logStream = fs.createWriteStream('./logs/errors.log', { 'flags': 'a' });
         logStream.end(this.getLogDate() + '   ' + data + '\n');
     }
 
