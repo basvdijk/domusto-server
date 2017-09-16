@@ -12,7 +12,24 @@ website:   http://domusto.com
 ## Hardware needed
 - Nefit ModuLine Easy thermostat
 
-## Example device configuration
+## Plugin configuration
+
+```js
+{
+    enabled: true,
+    dummyData: true,
+    debug: true,
+    type: 'NEFITEASY',
+    settings: {
+        minutesBetweenPolls: 60, // once per hour
+        serialNumber: 'SERIALNUMBER',
+        accessKey: 'ACCESSKEY',
+        password: 'PASSWORD'
+    }
+}
+```
+
+## Device configuration
 
 ```js
 

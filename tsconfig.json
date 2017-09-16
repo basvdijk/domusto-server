@@ -4,6 +4,7 @@
         "target": "esnext",
         "noImplicitAny": false,
         "inlineSourceMap": true,
+        "experimentalDecorators": true,
         "outDir": "build",
         "rootDir": "src-ts",
         "moduleResolution": "node",

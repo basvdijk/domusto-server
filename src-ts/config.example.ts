@@ -98,6 +98,7 @@ export default {
             debug: true,
             type: 'NEFITEASY',
             settings: {
+                minutesBetweenPolls: 60, // once per hour
                 serialNumber: 'SERIALNUMBER',
                 accessKey: 'ACCESSKEY',
                 password: 'PASSWORD'
