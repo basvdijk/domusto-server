@@ -1,4 +1,6 @@
 import util from '../util';
+import { PluginMetaData } from './interfaces/PluginMetaData';
+import { PluginConfiguration } from './interfaces/PluginConfiguration';
 
 /**
  * Base class for DOMUSTO plugins
@@ -12,19 +14,20 @@ class DomustoPlugin {
     protected _metaData;
     protected _self = this;
     protected _busy = false;
-    protected _pluginConfiguration;
-    protected _onNewInputData;
-    protected _hardwareInstance;
+    protected _pluginConfiguration: PluginConfiguration;
+    protected _onNewInputData: Function;
+    protected _hardwareInstance: any;
 
-    constructor(metaData) {
+    constructor(metaData: PluginMetaData) {
 
         util.prettyJson(metaData);
 
         this._metaData = metaData;
         this._self = this;
 
-        this.onNewInputData = function(data) {
-            util.warning('    No device configured to use plugin ', this._pluginConfiguration.type);
+        this.onNewInputData = (data: any) => {
+            // TODO
+            util.warning('    No device configured to use plugin ', this._pluginConfiguration['type']);
             util.prettyJson(data);
         };
     }
@@ -72,10 +75,10 @@ class DomustoPlugin {
 
     }
 
-    set pluginConfiguration(config) {
+    set pluginConfiguration(config: PluginConfiguration) {
         this._pluginConfiguration = config;
     }
-    get pluginConfiguration() {
+    get pluginConfiguration(): PluginConfiguration {
         return this._pluginConfiguration;
     }
 

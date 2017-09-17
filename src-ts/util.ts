@@ -41,7 +41,7 @@ class Util {
         console.log.apply(this, args);
     }
 
-    static prettyJson(object) {
+    static prettyJson(object: Object) {
         console.log(prettyjson.render(object, {
             keysColor: 'green',
             numberColor: 'yellow',

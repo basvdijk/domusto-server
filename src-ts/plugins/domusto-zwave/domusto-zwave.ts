@@ -5,6 +5,9 @@ import DomustoPlugin from '../../domusto/DomustoPlugin';
 
 import * as ZWave from 'openzwave-shared';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * Z-wave plugin for DOMUSTO
  * @author Bas van Dijk
@@ -24,12 +27,12 @@ class DomustoZWave extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoZWave
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'Z-wave transceiver',
             author: 'Bas van Dijk',
-            category: 'radio',
+            category: PluginCategories.radio,
             version: '0.0.1',
             website: 'http://domusto.com'
         });

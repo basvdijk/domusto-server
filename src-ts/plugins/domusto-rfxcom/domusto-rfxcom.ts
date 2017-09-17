@@ -4,6 +4,9 @@ import config from '../../config';
 
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * RFXcom plugin for DOMUSTO
  * @author Bas van Dijk
@@ -22,12 +25,12 @@ class DomustoRfxCom extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoRfxCom
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'RfxCom transceiver',
             author: 'Bas van Dijk',
-            category: 'radio',
+            category: PluginCategories.radio,
             version: '0.0.1',
             website: 'http://domusto.com'
         });

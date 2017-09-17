@@ -4,6 +4,9 @@ import DomustoPlugin from '../../domusto/DomustoPlugin';
 
 import * as NefitEasyClient from 'nefit-easy-commands';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * Nefit Easy plugin for DOMUSTO
  * @author Marthijn van den Heuvel
@@ -22,12 +25,12 @@ class DomustoNefitEasy extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoNefitEasy
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'Nefit Easy',
             author: 'Marthijn van den Heuvel, Bas van Dijk',
-            category: 'heating',
+            category: PluginCategories.heating,
             version: '0.0.1',
             website: 'http://domusto.com'
         });
@@ -46,7 +49,7 @@ class DomustoNefitEasy extends DomustoPlugin {
                 password: pluginConfiguration.settings.password
             });
 
-            setInterval(this._getStatus, pluginConfiguration.minutesBetweenPolls * 60 * 1000);
+            setInterval(this._getStatus, pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
 
         }
     }

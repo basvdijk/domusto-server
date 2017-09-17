@@ -4,6 +4,9 @@ import DomustoPlugin from '../../domusto/DomustoPlugin';
 
 import * as P1Reader from 'p1-reader';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * P1 plugin for DOMUSTO
  * @author Bas van Dijk
@@ -19,12 +22,12 @@ class DomustoP1 extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoP1
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'P1 smartmeter for Landys Gyr E350',
             author: 'Bas van Dijk',
-            category: 'utility',
+            category: PluginCategories.utility,
             version: '0.0.1',
             website: 'http://domusto.com'
         });

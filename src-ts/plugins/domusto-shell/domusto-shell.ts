@@ -5,6 +5,9 @@ import config from '../../config';
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 import DomustoEmitter from '../../domusto/DomustoEmitter';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * Shell plugin for DOMUSTO
  * @author Bas van Dijk
@@ -20,12 +23,12 @@ class DomustoShell extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoShell
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'Shell executer',
             author: 'Bas van Dijk',
-            category: 'system',
+            category: PluginCategories.system,
             version: '0.0.1',
             website: 'http://domusto.com'
         });

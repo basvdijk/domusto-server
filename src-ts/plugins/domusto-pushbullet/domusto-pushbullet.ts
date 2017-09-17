@@ -5,6 +5,9 @@ import DomustoPlugin from '../../domusto/DomustoPlugin';
 
 import * as PushBullet from 'pushbullet';
 
+import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+
 /**
  * Shell plugin for DOMUSTO
  * @author Bas van Dijk
@@ -22,12 +25,12 @@ class DomustoPushBullet extends DomustoPlugin {
      * @param {any} Plugin configuration as defined in the config.js file
      * @memberof DomustoPushBullet
      */
-    constructor(pluginConfiguration) {
+    constructor(pluginConfiguration: PluginConfiguration) {
 
         super({
             plugin: 'Pushbullet executer',
             author: 'Bas van Dijk',
-            category: 'system',
+            category: PluginCategories.push,
             version: '0.0.1',
             website: 'http://domusto.com'
         });
