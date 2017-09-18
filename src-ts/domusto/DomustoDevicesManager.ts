@@ -2,11 +2,16 @@ import util from '../util';
 import config from '../config';
 
 import DomustoEmitter from './DomustoEmitter';
+import DomustoDevice from './DomustoDevice';
 import DomustoInput from './DomustoInput';
 import DomustoOutput from './DomustoOutput';
 import DomustoSocketIO from './DomustoSocketIO';
 import DomustoTimer from './DomustoTimer';
 import DomustoPluginsManager from './DomustoPluginsManager';
+
+import { DeviceConfiguration } from './interfaces/DeviceConfiguration';
+import { DeviceEvent } from './interfaces/DeviceEvent';
+import { DeviceRole } from './interfaces/DeviceRole';
 
 /**
  * Class to mange the DOMUSTO devices
@@ -16,7 +21,7 @@ import DomustoPluginsManager from './DomustoPluginsManager';
  */
 class DomustoDevicesManager {
 
-    private devices = {};
+    private devices: { [s: string]: DomustoDevice; } = {};
 
     constructor() { }
 
@@ -40,7 +45,6 @@ class DomustoDevicesManager {
 
                 }
 
-                // TODO
                 if (device['triggers']) {
                     this._initTriggers(device);
                 }
@@ -62,9 +66,9 @@ class DomustoDevicesManager {
      * @param {string} command Command to send
      * @param {function} onSucces Fired when the command is successfully executed
      */
-    outputCommand(deviceId, command, onSuccess?) {
+    outputCommand(deviceId: string, command: DeviceEvent, onSuccess?: Function) {
 
-        let device = this.devices[deviceId];
+        let device = <DomustoOutput>this.devices[deviceId];
 
         let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
 
@@ -113,7 +117,7 @@ class DomustoDevicesManager {
      * Initialises the triggers configured for a device. Binds the listeners which
      * triggers the outputCommand of a device
      *
-     * @param {any} device
+     * @param {DomustoDevice} device
      * @memberof DomustoDevicesManager
      */
     _initTriggers(device) {
@@ -142,16 +146,14 @@ class DomustoDevicesManager {
         let input = new DomustoInput(device);
         this.devices[input.id] = input;
 
-        // TODO
-        let pluginId = input.protocol['pluginId'];
+        let pluginId = input.protocol.pluginId;
         let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
         if (pluginInstance) {
             pluginInstance.addRegisteredDevice(input);
             pluginInstance.onNewInputData = this._onNewInputData.bind(this);
         } else {
-            // TODO
-            util.warning('    No plugin found for hardware id', input.protocol['pluginId']);
+            util.warning('    No plugin found for hardware id', input.protocol.pluginId);
         }
     }
 
@@ -186,9 +188,6 @@ class DomustoDevicesManager {
         }
 
     }
-
-
-
 
     /**
      * Fired when a plugin broadcasts new data
@@ -262,9 +261,10 @@ class DomustoDevicesManager {
 
             let device = this.devices[i];
 
-            let isTargetDevice = device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
+            // let isTargetDevice = device.protocol.id === deviceId;
+            // let isTargetDevice = device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
 
-            if (isTargetDevice) {
+            if (device.protocol.id === deviceId) {
                 return device;
             }
 

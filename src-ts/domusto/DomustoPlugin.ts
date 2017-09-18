@@ -38,8 +38,8 @@ class DomustoPlugin {
      * @returns
      * @memberof DomustoPlugin
      */
-    toString() {
-        return this.metaData;
+    toString(): string {
+        return this.metaData.toString();
     }
 
     /**
@@ -59,7 +59,7 @@ class DomustoPlugin {
      * @param {any} parameters Parameters to send to called function
      * @memberof DomustoPlugin
      */
-    trigger(command, parameters) {
+    trigger(command: string, parameters) {
 
         let functionToTrigger = this[command];
 
@@ -82,10 +82,10 @@ class DomustoPlugin {
         return this._pluginConfiguration;
     }
 
-    get onNewInputData() {
+    get onNewInputData(): Function {
         return this._onNewInputData;
     }
-    set onNewInputData(onNewInputData) {
+    set onNewInputData(onNewInputData: Function) {
         this._onNewInputData = onNewInputData;
     }
 

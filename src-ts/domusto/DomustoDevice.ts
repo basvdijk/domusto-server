@@ -1,3 +1,6 @@
+import { DeviceRole } from './interfaces/DeviceRole';
+import { DeviceSubType, DeviceType } from './interfaces/DeviceType';
+import { DeviceProtocol } from './interfaces/DeviceProtocol';
 
 /**
  * Model class for a DOMUSTO device
@@ -10,10 +13,10 @@ class DomustoDevice {
     protected _id: string;
     protected _enabled: boolean;
     protected _name: string;
-    protected _type: string;
-    protected _subType: string;
-    protected _role: string;
-    protected _protocol: Object;
+    protected _type: DeviceType;
+    protected _subType: DeviceSubType;
+    protected _role: DeviceRole;
+    protected _protocol: DeviceProtocol;
     protected _data: Object;
     protected _lastUpdated = new Date();
 
@@ -41,24 +44,24 @@ class DomustoDevice {
         };
     }
 
-    get id() {
+    get id(): string {
         return this._id;
     }
-    set id(id) {
+    set id(id: string) {
         this._id = id;
     }
 
-    get enabled() {
+    get enabled(): boolean {
         return this._enabled;
     }
-    set enabled(enabled) {
+    set enabled(enabled: boolean) {
         this._enabled = enabled;
     }
 
-    get name() {
+    get name(): string {
         return this._name;
     }
-    set name(name) {
+    set name(name: string) {
         this._name = name;
     }
 
@@ -76,24 +79,24 @@ class DomustoDevice {
         this._subType = subType;
     }
 
-    get role() {
+    get role(): DeviceRole {
         return this._role;
     }
-    set role(role) {
+    set role(role: DeviceRole) {
         this._role = role;
     }
 
-    get protocol() {
+    get protocol(): DeviceProtocol {
         return this._protocol;
     }
-    set protocol(protocol) {
+    set protocol(protocol: DeviceProtocol) {
         this._protocol = protocol;
     }
 
-    get lastUpdated() {
+    get lastUpdated(): Date {
         return this._lastUpdated;
     }
-    set lastUpdated(lastUpdated) {
+    set lastUpdated(lastUpdated: Date) {
         this._lastUpdated = lastUpdated;
     }
 
