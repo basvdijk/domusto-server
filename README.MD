@@ -11,6 +11,7 @@ See [the API docs](API.MD)
 - [Z-Wave](src/plugins/domusto-zwave)
 - [P1 smart meter](src/plugins/domusto-p1)
 - [Shell executer](src/plugins/domusto-shell)
+- [Nefit Easy](src/plugins/domusto-nefiteasy)
 
 # Tested hardware
 - RFXcom
@@ -49,17 +50,9 @@ See [the API docs](API.MD)
 
 # Running the DOMUSTO server
 
-## Normal
-
-```bash
-cd src
-npm run start
-```
-
 ## Running DOMUSTO server with auto reload on changes
 ```bash
-cd src
-../node_modules/.bin/nodemon server.js
+npm start
 ```
 
 ## Running DOMUSTO tests
