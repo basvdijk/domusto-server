@@ -11,7 +11,7 @@ See [the API docs](API.MD)
 - [Z-Wave](src/plugins/domusto-zwave)
 - [P1 smart meter](src/plugins/domusto-p1)
 - [Shell executer](src/plugins/domusto-shell)
-- [Nefit Easy](src/plugins/domusto-nefiteasy)
+- [Nefit Easy](src/plugins/domusto-nefit-easy)
 
 # Tested hardware
 - RFXcom

@@ -1,3 +1,9 @@
+# List output devices
+`http://127.0.0.1:3000/output`
+
+# List input devices
+`http://127.0.0.1:3000/input`
+
 # Switches
 
 **Turn switch on**
