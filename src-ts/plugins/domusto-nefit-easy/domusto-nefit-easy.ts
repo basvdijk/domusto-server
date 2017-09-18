@@ -2,7 +2,7 @@ import util from '../../util';
 import config from '../../config';
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
-import * as NefitEasyClient from 'nefit-easy-commands';
+import * as NefitEasyCommands from 'nefit-easy-commands';
 
 import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
 import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
@@ -18,7 +18,7 @@ import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguratio
  */
 class DomustoNefitEasy extends DomustoPlugin {
 
-    private _client: NefitEasyClient;
+    private _client: NefitEasyCommands;
 
     /**
      * Creates an instance of DomustoNefitEasy.
@@ -43,13 +43,15 @@ class DomustoNefitEasy extends DomustoPlugin {
 
         } else {
 
-            this._client = NefitEasyClient({
+            this._client = NefitEasyCommands({
                 serialNumber: pluginConfiguration.settings.serialNumber,
                 accessKey: pluginConfiguration.settings.accessKey,
                 password: pluginConfiguration.settings.password
             });
 
-            setInterval(this._getStatus, pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
+            setInterval(() => {
+                this._getStatus();
+            }, pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
 
         }
     }
