@@ -1,7 +1,7 @@
 # List output devices
 `http://192.168.178.10:3000/output`
 
-## Example output
+## Example response
 
 ```json
 [

@@ -1,7 +1,7 @@
 # List input devices
 `http://192.168.178.10:3000/input`
 
-## Example input
+## Example response
 
 ```json
 [
