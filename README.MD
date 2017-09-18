@@ -108,7 +108,7 @@ npm install
 Copy the config file template in the `src` folder to your own:
 
 ``` bash
-cp src/config.example.js src/config.js
+cp src/config.example.ts src/config.ts
 ```
 
 Edit the config file according to your setup.
