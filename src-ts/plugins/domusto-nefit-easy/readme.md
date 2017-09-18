@@ -19,7 +19,7 @@ website:   http://domusto.com
     enabled: true,
     dummyData: true,
     debug: true,
-    type: 'NEFITEASY',
+    type: 'NEFIT-EASY',
     settings: {
         minutesBetweenPolls: 60, // once per hour
         serialNumber: 'SERIALNUMBER',
@@ -42,7 +42,7 @@ website:   http://domusto.com
     type: 'temperature',
     subType: 'temperature',
     protocol: {
-        pluginId: 'NEFITEASY',
+        pluginId: 'NEFIT-EASY',
         id: 'inHouseTemp'
     }
 },
@@ -56,7 +56,7 @@ website:   http://domusto.com
     type: 'temperature',
     subType: 'temperature',
     protocol: {
-        pluginId: 'NEFITEASY',
+        pluginId: 'NEFIT-EASY',
         id: 'outdoorTemp'
     }
 },

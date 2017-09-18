@@ -96,7 +96,7 @@ export default {
             enabled: true,
             dummyData: true,
             debug: true,
-            type: 'NEFITEASY',
+            type: 'NEFIT-EASY',
             settings: {
                 minutesBetweenPolls: 60, // once per hour
                 serialNumber: 'SERIALNUMBER',
@@ -251,7 +251,7 @@ export default {
             type: 'temperature',
             subType: 'temperature',
             protocol: {
-                pluginId: 'NEFITEASY',
+                pluginId: 'NEFIT-EASY',
                 id: 'outdoorTemp'
             }
         },
