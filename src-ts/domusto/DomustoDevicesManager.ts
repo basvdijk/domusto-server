@@ -1,6 +1,8 @@
+// APP
 import util from '../util';
 import config from '../config';
 
+// DOMUSTO
 import DomustoEmitter from './DomustoEmitter';
 import DomustoDevice from './DomustoDevice';
 import DomustoInput from './DomustoInput';
@@ -9,6 +11,7 @@ import DomustoSocketIO from './DomustoSocketIO';
 import DomustoTimer from './DomustoTimer';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
+// INTERFACES
 import { DeviceConfiguration } from './interfaces/DeviceConfiguration';
 import { DeviceEvent } from './interfaces/DeviceEvent';
 import { DeviceRole } from './interfaces/DeviceRole';
@@ -27,7 +30,7 @@ class DomustoDevicesManager {
 
     init() {
         /**
-         * Initialises configured devices
+         * Initialises enabled devices defined in the config.ts file
          */
         for (let device of config.devices) {
 
@@ -53,7 +56,7 @@ class DomustoDevicesManager {
 
         }
 
-        // Broadcasts the input- and output devices when the SocketIO module has a new client connected
+        // Broadcasts the input- and output devices when a new client has connected to the SocketIO channel
         DomustoEmitter.on('socketOnConnection', () => {
             DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
             DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
@@ -111,7 +114,6 @@ class DomustoDevicesManager {
         }
 
     }
-
 
     /**
      * Initialises the triggers configured for a device. Binds the listeners which
@@ -261,14 +263,12 @@ class DomustoDevicesManager {
 
             let device = this.devices[i];
 
-            // let isTargetDevice = device.protocol.id === deviceId;
-            // let isTargetDevice = device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
-
-            if (device.protocol.id === deviceId) {
+            // Check if the id defined within a protocol matches deviceId
+            if (device.protocol.deviceId === deviceId) {
                 return device;
             }
 
-            // check if the inputId matches
+            // Check if the inputId matches
             if (device.protocol.inputIds) {
 
                 for (let j in device.protocol.inputIds) {

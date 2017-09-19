@@ -1,6 +1,6 @@
 export interface DeviceProtocol {
-    id: string;
     pluginId: string;
+    deviceId: string;
     type: string;
     subType: string;
     outputId: string;
