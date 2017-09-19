@@ -239,7 +239,7 @@ export default {
                 pluginId: 'RFXCOM',
                 type: 'th',
                 subType: '13',
-                id: '0x7103'
+                deviceId: '0x7103'
             }
         },
 
@@ -252,7 +252,7 @@ export default {
             subType: 'temperature',
             protocol: {
                 pluginId: 'NEFIT-EASY',
-                id: 'outdoorTemp'
+                deviceId: 'outdoorTemp'
             }
         },
 
@@ -265,7 +265,7 @@ export default {
             type: 'power',
             protocol: {
                 pluginId: 'P1',
-                id: 'POWER1',
+                deviceId: 'POWER1',
                 type: 'received'          // received | delivered    set the type of device
             }
         },
@@ -277,7 +277,7 @@ export default {
             type: 'power',
             protocol: {
                 pluginId: 'P1',
-                id: 'POWER2',
+                deviceId: 'POWER2',
                 type: 'delivered'
             }
         }

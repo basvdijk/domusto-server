@@ -15,7 +15,7 @@
         "protocol": {
             "pluginId": "RFXCOM",
             "type": "temperaturehumidity1",
-            "id": "0x4503"
+            "deviceId": "0x4503"
         },
         "data": {
             "deviceTypeString": "Alecto WS1700 and compatibles",
@@ -37,7 +37,7 @@
         "protocol": {
             "pluginId": "RFXCOM",
             "type": "temperaturehumidity1",
-            "id": "0x1C03"
+            "deviceId": "0x1C03"
         },
         "data": {
             "deviceTypeString": "Alecto WS1700 and compatibles",
@@ -57,7 +57,7 @@
         "role": "input",
         "protocol": {
             "pluginId": "P1",
-            "id": "POWER1",
+            "deviceId": "POWER1",
             "type": "received"
         },
         "data": {
@@ -101,7 +101,7 @@
         "role": "input",
         "protocol": {
             "pluginId": "P1",
-            "id": "POWER2",
+            "deviceId": "POWER2",
             "type": "delivered"
         },
         "data": {
@@ -146,7 +146,7 @@
         "role": "input",
         "protocol": {
             "pluginId": "NEFIT-EASY",
-            "id": "inHouseTemp"
+            "deviceId": "inHouseTemp"
         },
         "data": {
             "deviceTypeString": "Nefit Easy in house temperature",
@@ -167,7 +167,7 @@
         "role": "input",
         "protocol": {
             "pluginId": "NEFIT-EASY",
-            "id": "outdoorTemp"
+            "deviceId": "outdoorTemp"
         },
         "data": {
             "deviceTypeString": "Nefit Easy outdoor temperature",
