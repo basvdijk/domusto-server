@@ -250,7 +250,7 @@ class DomustoRfxCom extends DomustoPlugin {
     _getDeviceById(deviceId) {
         return this.attachedInputDeviceIds.find(device => {
             // Switches have a master/slave, inputs don't
-            return device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.id === deviceId;
+            return device.protocol.output ? device.protocol.outputId === deviceId : device.protocol.deviceId === deviceId;
         });
     }
 
