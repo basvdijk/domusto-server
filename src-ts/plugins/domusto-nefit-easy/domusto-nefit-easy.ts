@@ -53,6 +53,7 @@ class DomustoNefitEasy extends DomustoPlugin {
                 this._getStatus();
             }, pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
 
+            this._getStatus();
         }
     }
 
