@@ -1,3 +1,4 @@
+// NODE MODULES
 import DomustoSocketIO from './DomustoSocketIO';
 
 /**
@@ -7,9 +8,11 @@ import DomustoSocketIO from './DomustoSocketIO';
  * @class Domusto
  */
 class Domusto {
-    constructor(io) {
-        DomustoSocketIO.setIO(io);
+
+    constructor(socketIoInstance) {
+        DomustoSocketIO.setIO(socketIoInstance);
     }
+
 }
 
 export default Domusto;

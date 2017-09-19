@@ -1,9 +1,10 @@
+// INTERFACES
 import { DeviceRole } from './interfaces/DeviceRole';
 import { DeviceSubType, DeviceType } from './interfaces/DeviceType';
 import { DeviceProtocol } from './interfaces/DeviceProtocol';
 
 /**
- * Model class for a DOMUSTO device
+ * Device class for a DOMUSTO device
  *
  * @author Bas van Dijk
  * @class DomustoDevice
@@ -31,6 +32,13 @@ class DomustoDevice {
         this._data = device.data;
     }
 
+
+    /**
+     * Converts the DOMUSTO device to JSON
+     *
+     * @returns The device as JSON object
+     * @memberof DomustoDevice
+     */
     toJSON() {
         return {
             id: this._id,
