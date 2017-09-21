@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "esnext",
+        "noImplicitAny": false,
+        "inlineSourceMap": true,
+        "experimentalDecorators": true,
+        "outDir": "build",
+        "rootDir": "src",
+        "moduleResolution": "node",
+        "types": [
+            "node"
+        ]
+    },
+    "exclude": [
+        "build",
+        "node_modules",
+        ".AppleDouble",
+        "**/*.AppleDouble"
+    ]
+}

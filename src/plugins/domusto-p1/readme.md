@@ -14,12 +14,24 @@ website:   http://domusto.com
 ## Tested with
  - Kaifa and Landis+Gyr Smart Meters
 
-## Configuration
+## Plugin configuration
 
 1. Connect the P1 smart meter cable to your usb port
 2. Add the section below to your `config.js`
 3. Set the correct com port where your have connected your P1 smart meter cable
 5. Restart DOMUSTO
+
+```js
+{
+    enabled: true,
+    type: 'P1',
+    settings: {
+        port: '/dev/ttyUSB-P1'
+    }
+},
+```
+
+## Device configuration
 
 ```js
 
