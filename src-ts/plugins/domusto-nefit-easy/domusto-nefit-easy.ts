@@ -1,11 +1,16 @@
 import util from '../../util';
 import config from '../../config';
+
+// DOMUSTO
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
-import * as NefitEasyCommands from 'nefit-easy-commands';
+// INTERFACES
+import { PluginCategories } from '../../domusto/interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/plugin/PluginConfiguration';
+import { InputDataTemperature } from '../../domusto/interfaces/inputData/InputDataTemperature';
 
-import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
-import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+// PLUGIN SPECIFIC
+import * as NefitEasyCommands from 'nefit-easy-commands';
 
 /**
  * Nefit Easy plugin for DOMUSTO
@@ -69,23 +74,25 @@ class DomustoNefitEasy extends DomustoPlugin {
                 util.prettyJson(location);
             }
 
-            this.onNewInputData({
+            let inHouseTemperature: InputDataTemperature = {
                 pluginId: this._pluginConfiguration.type,
                 deviceId: 'inHouseTemp',
                 data: {
                     deviceTypeString: 'Nefit Easy in house temperature',
                     temperature: status['in house temp'],
                 }
-            });
+            };
+            this.onNewInputData(inHouseTemperature);
 
-            this.onNewInputData({
+            let outdoorTemperature: InputDataTemperature = {
                 pluginId: this._pluginConfiguration.type,
                 deviceId: 'outdoorTemp',
                 data: {
                     deviceTypeString: 'Nefit Easy outdoor temperature',
                     temperature: status['outdoor temp'],
                 }
-            });
+            };
+            this.onNewInputData(outdoorTemperature);
 
         }).catch((e) => {
             util.error('Nefit Easy error', e);

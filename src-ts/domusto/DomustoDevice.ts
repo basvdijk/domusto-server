@@ -1,7 +1,7 @@
 // INTERFACES
-import { DeviceRole } from './interfaces/DeviceRole';
-import { DeviceSubType, DeviceType } from './interfaces/DeviceType';
-import { DeviceProtocol } from './interfaces/DeviceProtocol';
+import { DeviceRole } from './interfaces/device/DeviceRole';
+import { DeviceSubType, DeviceType } from './interfaces/device/DeviceType';
+import { DeviceProtocol } from './interfaces/device/DeviceProtocol';
 
 /**
  * Device class for a DOMUSTO device

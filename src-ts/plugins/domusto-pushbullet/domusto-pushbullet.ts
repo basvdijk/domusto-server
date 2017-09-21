@@ -1,12 +1,15 @@
 import util from '../../util';
 import config from '../../config';
 
+// DOMUSTO
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
-import * as PushBullet from 'pushbullet';
+// INTERFACES
+import { PluginCategories } from '../../domusto/interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/plugin/PluginConfiguration';
 
-import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
-import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+// PLUGIN SPECIFIC
+import * as PushBullet from 'pushbullet';
 
 /**
  * Shell plugin for DOMUSTO

@@ -1,11 +1,16 @@
-import * as rfxcom from 'rfxcom';
 import util from '../../util';
 import config from '../../config';
 
+// DOMUSTO
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
-import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
-import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+// INTERFACES
+import { PluginCategories } from '../../domusto/interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/plugin/PluginConfiguration';
+import { TemperatureHumidity } from '../../domusto/interfaces/inputData/InputDataTemperatureHumidity';
+
+// PLUGIN SPECIFIC
+import * as rfxcom from 'rfxcom';
 
 /**
  * RFXcom plugin for DOMUSTO
@@ -223,7 +228,7 @@ class DomustoRfxCom extends DomustoPlugin {
 
             let typeString = this._subTypeString(device.protocol.type + '-' + sensorData.subtype);
 
-            this.onNewInputData({
+            let temperatureHumidityData: TemperatureHumidity = {
                 pluginId: this._pluginConfiguration.type,
                 deviceId: sensorData.id,
                 data: {
@@ -234,7 +239,9 @@ class DomustoRfxCom extends DomustoPlugin {
                     batteryLevel: sensorData.batteryLevel,        // Battery level
                     rssi: sensorData.rssi                         // Radio Signal Strength Indication
                 }
-            });
+            };
+
+            this.onNewInputData(temperatureHumidityData);
 
         }
 

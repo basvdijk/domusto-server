@@ -1,12 +1,16 @@
-import * as childProcess from 'child_process';
 import util from '../../util';
 import config from '../../config';
 
+// DOMUSTO
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 import DomustoEmitter from '../../domusto/DomustoEmitter';
 
-import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
-import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+// INTERFACES
+import { PluginCategories } from '../../domusto/interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/plugin/PluginConfiguration';
+
+// PLUGIN SPECIFIC
+import * as childProcess from 'child_process';
 
 /**
  * Shell plugin for DOMUSTO

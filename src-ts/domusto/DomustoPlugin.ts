@@ -1,6 +1,7 @@
 import util from '../util';
-import { PluginMetaData } from './interfaces/PluginMetaData';
-import { PluginConfiguration } from './interfaces/PluginConfiguration';
+import { PluginMetaData } from './interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from './interfaces/plugin/PluginConfiguration';
+import { InputData } from './interfaces/inputData/InputData';
 
 /**
  * Base class for DOMUSTO plugins
@@ -25,7 +26,7 @@ class DomustoPlugin {
         this._metaData = metaData;
         this._self = this;
 
-        this.onNewInputData = (data: any) => {
+        this.onNewInputData = (data: InputData) => {
             // TODO
             util.warning('    No device configured to use plugin ', this._pluginConfiguration['type']);
             util.prettyJson(data);

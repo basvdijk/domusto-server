@@ -12,9 +12,9 @@ import DomustoTimer from './DomustoTimer';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
-import { DeviceConfiguration } from './interfaces/DeviceConfiguration';
-import { DeviceEvent } from './interfaces/DeviceEvent';
-import { DeviceRole } from './interfaces/DeviceRole';
+import { DeviceConfiguration } from './interfaces/device/DeviceConfiguration';
+import { DeviceEvent } from './interfaces/device/DeviceEvent';
+import { DeviceRole } from './interfaces/device/DeviceRole';
 
 /**
  * Class to mange the DOMUSTO devices

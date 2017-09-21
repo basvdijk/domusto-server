@@ -1,12 +1,15 @@
 import util from '../../util';
 import config from '../../config';
 
+// DOMUSTO
 import DomustoPlugin from '../../domusto/DomustoPlugin';
 
-import * as ZWave from 'openzwave-shared';
+// INTERFACES
+import { PluginCategories } from '../../domusto/interfaces/plugin/PluginMetaData';
+import { PluginConfiguration } from '../../domusto/interfaces/plugin/PluginConfiguration';
 
-import { PluginCategories } from '../../domusto/interfaces/PluginMetaData';
-import { PluginConfiguration } from '../../domusto/interfaces/PluginConfiguration';
+// PLUGIN SPECIFIC
+import * as ZWave from 'openzwave-shared';
 
 /**
  * Z-wave plugin for DOMUSTO
