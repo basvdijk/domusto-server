@@ -54,11 +54,7 @@ class DomustoNefitEasy extends DomustoPlugin {
                 password: pluginConfiguration.settings.password
             });
 
-            setInterval(() => {
-                this._getStatus();
-            }, pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
-
-            this._getStatus();
+            setInterval(() => this._getStatus(), pluginConfiguration.settings.minutesBetweenPolls * 60 * 1000);
         }
     }
 
