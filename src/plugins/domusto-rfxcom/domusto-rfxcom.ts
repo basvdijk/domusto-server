@@ -143,7 +143,7 @@ class DomustoRfxCom extends DomustoPlugin {
                 enabledProtocolArray.push(rfxcom.protocols[protocol]);
             }, this);
 
-            this.hardwareInstance.enable(enabledProtocolArray, response => {
+            this.hardwareInstance.enable(enabledProtocolArray, () => {
                 util.log('Enabling protocols finished, restarting plugin');
                 this._initialisePlugin();
             });
