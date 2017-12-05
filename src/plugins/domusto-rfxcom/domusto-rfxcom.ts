@@ -282,228 +282,130 @@ class DomustoRfxCom extends DomustoPlugin {
      */
     _listenAll() {
 
-        // SECURITY
-        this.hardwareInstance.on('security1', (data) => {
-            this._listenAllReceivedInput('security1', data);
+        this.hardwareInstance.on('response', data => {
+            this._listenAllReceivedInput('response', data);
         });
 
-        // CHIME
-        this.hardwareInstance.on('chime1', (data) => {
-            this._listenAllReceivedInput('chime1', data);
-        });
-
-        // BBQ
-        this.hardwareInstance.on('bbq1', (data) => {
-            this._listenAllReceivedInput('bbq1', data);
-        });
-
-        // TEMPERATURE & RAIN
-        this.hardwareInstance.on('temprain1', (data) => {
-            this._listenAllReceivedInput('temprain1', data);
-        });
-
-        // TEMPERATURE
-        this.hardwareInstance.on('temp1', (data) => {
-            this._listenAllReceivedInput('temp1', data);
-        });
-        this.hardwareInstance.on('temp2', (data) => {
-            this._listenAllReceivedInput('temp2', data);
-        });
-        this.hardwareInstance.on('temp3', (data) => {
-            this._listenAllReceivedInput('temp3', data);
-        });
-        this.hardwareInstance.on('temp4', (data) => {
-            this._listenAllReceivedInput('temp4', data);
-        });
-        this.hardwareInstance.on('temp5', (data) => {
-            this._listenAllReceivedInput('temp5', data);
-        });
-        this.hardwareInstance.on('temp6', (data) => {
-            this._listenAllReceivedInput('temp6', data);
-        });
-        this.hardwareInstance.on('temp7', (data) => {
-            this._listenAllReceivedInput('temp7', data);
-        });
-        this.hardwareInstance.on('temp8', (data) => {
-            this._listenAllReceivedInput('temp8', data);
-        });
-        this.hardwareInstance.on('temp9', (data) => {
-            this._listenAllReceivedInput('temp9', data);
-        });
-        this.hardwareInstance.on('temp10', (data) => {
-            this._listenAllReceivedInput('temp10', data);
-        });
-        this.hardwareInstance.on('temp11', (data) => {
-            this._listenAllReceivedInput('temp11', data);
-        });
-
-        // HUMIDITY
-        this.hardwareInstance.on('humidity1', (data) => {
-            this._listenAllReceivedInput('humidity1', data);
-        });
-
-        // TEMERATURE & HUMIDITY
-        this.hardwareInstance.on('th1', (data) => {
-            this._listenAllReceivedInput('th1', data);
-        });
-        this.hardwareInstance.on('th2', (data) => {
-            this._listenAllReceivedInput('th2', data);
-        });
-        this.hardwareInstance.on('th3', (data) => {
-            this._listenAllReceivedInput('th3', data);
-        });
-        this.hardwareInstance.on('th4', (data) => {
-            this._listenAllReceivedInput('th4', data);
-        });
-        this.hardwareInstance.on('th5', (data) => {
-            this._listenAllReceivedInput('th5', data);
-        });
-        this.hardwareInstance.on('th6', (data) => {
-            this._listenAllReceivedInput('th6', data);
-        });
-        this.hardwareInstance.on('th7', (data) => {
-            this._listenAllReceivedInput('th7', data);
-        });
-        this.hardwareInstance.on('th8', (data) => {
-            this._listenAllReceivedInput('th8', data);
-        });
-        this.hardwareInstance.on('th9', (data) => {
-            this._listenAllReceivedInput('th9', data);
-        });
-        this.hardwareInstance.on('th10', (data) => {
-            this._listenAllReceivedInput('th10', data);
-        });
-        this.hardwareInstance.on('th11', (data) => {
-            this._listenAllReceivedInput('th11', data);
-        });
-        this.hardwareInstance.on('th12', (data) => {
-            this._listenAllReceivedInput('th12', data);
-        });
-        this.hardwareInstance.on('th13', (data) => {
-            this._listenAllReceivedInput('th13', data);
-        });
-        this.hardwareInstance.on('th14', (data) => {
-            this._listenAllReceivedInput('th14', data);
-        });
-
-        // TEMPERATURE & HUMIDITY & BAROMETER
-        this.hardwareInstance.on('thb1', (data) => {
-            this._listenAllReceivedInput('thb1', data);
-        });
-        this.hardwareInstance.on('thb2', (data) => {
-            this._listenAllReceivedInput('thb2', data);
-        });
-
-        // RAIN
-        this.hardwareInstance.on('rain1', (data) => {
-            this._listenAllReceivedInput('rain1', data);
-        });
-        this.hardwareInstance.on('rain2', (data) => {
-            this._listenAllReceivedInput('rain2', data);
-        });
-        this.hardwareInstance.on('rain3', (data) => {
-            this._listenAllReceivedInput('rain3', data);
-        });
-        this.hardwareInstance.on('rain4', (data) => {
-            this._listenAllReceivedInput('rain4', data);
-        });
-        this.hardwareInstance.on('rain5', (data) => {
-            this._listenAllReceivedInput('rain5', data);
-        });
-        this.hardwareInstance.on('rain6', (data) => {
-            this._listenAllReceivedInput('rain6', data);
-        });
-        this.hardwareInstance.on('rain7', (data) => {
-            this._listenAllReceivedInput('rain7', data);
-        });
-
-        // WIND
-        this.hardwareInstance.on('wind1', (data) => {
-            this._listenAllReceivedInput('wind1', data);
-        });
-        this.hardwareInstance.on('wind2', (data) => {
-            this._listenAllReceivedInput('wind2', data);
-        });
-        this.hardwareInstance.on('wind3', (data) => {
-            this._listenAllReceivedInput('wind3', data);
-        });
-        this.hardwareInstance.on('wind4', (data) => {
-            this._listenAllReceivedInput('wind4', data);
-        });
-        this.hardwareInstance.on('wind5', (data) => {
-            this._listenAllReceivedInput('wind5', data);
-        });
-        this.hardwareInstance.on('wind6', (data) => {
-            this._listenAllReceivedInput('wind6', data);
-        });
-        this.hardwareInstance.on('wind7', (data) => {
-            this._listenAllReceivedInput('wind7', data);
-        });
-
-        // UV
-        this.hardwareInstance.on('uv1', (data) => {
-            this._listenAllReceivedInput('uv1', data);
-        });
-        this.hardwareInstance.on('uv2', (data) => {
-            this._listenAllReceivedInput('uv2', data);
-        });
-        this.hardwareInstance.on('uv3', (data) => {
-            this._listenAllReceivedInput('uv3', data);
-        });
-
-        // WEIGHT
-        this.hardwareInstance.on('weight1', (data) => {
-            this._listenAllReceivedInput('weight1', data);
-        });
-        this.hardwareInstance.on('weight2', (data) => {
-            this._listenAllReceivedInput('weight2', data);
-        });
-
-        // ELECTRICITY
-        this.hardwareInstance.on('elec1', (data) => {
-            this._listenAllReceivedInput('elec1', data);
-        });
-        this.hardwareInstance.on('elec2', (data) => {
-            this._listenAllReceivedInput('elec2', data);
-        });
-        this.hardwareInstance.on('elec3', (data) => {
-            this._listenAllReceivedInput('elec3', data);
-        });
-        this.hardwareInstance.on('elec4', (data) => {
-            this._listenAllReceivedInput('elec4', data);
-        });
-        this.hardwareInstance.on('elec5', (data) => {
-            this._listenAllReceivedInput('elec5', data);
-        });
-
-        // LIGHTING
         this.hardwareInstance.on('lighting1', (data) => {
             this._listenAllReceivedInput('lighting1', data);
         });
-        this.hardwareInstance.on('lighting2', (data) => {
+
+        this.hardwareInstance.on('lighting2', data => {
             this._listenAllReceivedInput('lighting2', data);
         });
-        this.hardwareInstance.on('lighting3', (data) => {
-            this._listenAllReceivedInput('lighting3', data);
-        });
-        this.hardwareInstance.on('lighting4', (data) => {
+
+        this.hardwareInstance.on('lighting4', data => {
             this._listenAllReceivedInput('lighting4', data);
         });
-        this.hardwareInstance.on('lighting5', (data) => {
+
+        this.hardwareInstance.on('lighting5', data => {
             this._listenAllReceivedInput('lighting5', data);
         });
-        this.hardwareInstance.on('lighting6', (data) => {
+
+        this.hardwareInstance.on('lighting6', data => {
             this._listenAllReceivedInput('lighting6', data);
         });
 
-        // RFX
-        this.hardwareInstance.on('rfxmeter', (data) => {
+        this.hardwareInstance.on('chime1', data => {
+            this._listenAllReceivedInput('chime1', data);
+        });
+
+        this.hardwareInstance.on('blinds1', data => {
+            this._listenAllReceivedInput('blinds1', data);
+        });
+
+        this.hardwareInstance.on('security1', data => {
+            this._listenAllReceivedInput('security1', data);
+        });
+
+        this.hardwareInstance.on('camera1', data => {
+            this._listenAllReceivedInput('camera1', data);
+        });
+
+        this.hardwareInstance.on('remote', data => {
+            this._listenAllReceivedInput('remote', data);
+        });
+
+        this.hardwareInstance.on('thermostat1', data => {
+            this._listenAllReceivedInput('thermostat1', data);
+        });
+
+        this.hardwareInstance.on('thermostat3', data => {
+            this._listenAllReceivedInput('thermostat3', data);
+        });
+
+        this.hardwareInstance.on('bbq1', data => {
+            this._listenAllReceivedInput('bbq1', data);
+        });
+
+        this.hardwareInstance.on('temperaturerain1', data => {
+            this._listenAllReceivedInput('temperaturerain1', data);
+        });
+
+        this.hardwareInstance.on('temperature1', data => {
+            this._listenAllReceivedInput('temperature1', data);
+        });
+
+        this.hardwareInstance.on('humidity1', data => {
+            this._listenAllReceivedInput('humidity1', data);
+        });
+
+        this.hardwareInstance.on('temperaturehumidity1', data => {
+            this._listenAllReceivedInput('temperaturehumidity1', data);
+        });
+
+        this.hardwareInstance.on('temphumbaro1', data => {
+            this._listenAllReceivedInput('temphumbaro1', data);
+        });
+
+        this.hardwareInstance.on('rain1', data => {
+            this._listenAllReceivedInput('rain1', data);
+        });
+
+        this.hardwareInstance.on('wind1', data => {
+            this._listenAllReceivedInput('wind1', data);
+        });
+
+        this.hardwareInstance.on('uv1', data => {
+            this._listenAllReceivedInput('uv1', data);
+        });
+
+        this.hardwareInstance.on('datetime', data => {
+            this._listenAllReceivedInput('datetime', data);
+        });
+
+        this.hardwareInstance.on('elec1', data => {
+            this._listenAllReceivedInput('elec1', data);
+        });
+
+        this.hardwareInstance.on('elec23', data => {
+            this._listenAllReceivedInput('elec23', data);
+        });
+
+        this.hardwareInstance.on('elec4', data => {
+            this._listenAllReceivedInput('elec4', data);
+        });
+
+        this.hardwareInstance.on('elec5', data => {
+            this._listenAllReceivedInput('elec5', data);
+        });
+
+        this.hardwareInstance.on('weight1', data => {
+            this._listenAllReceivedInput('weight1', data);
+        });
+
+        this.hardwareInstance.on('cartelectronic', data => {
+            this._listenAllReceivedInput('cartelectronic', data);
+        });
+
+        this.hardwareInstance.on('rfxsensor', data => {
             this._listenAllReceivedInput('rfxsensor', data);
         });
 
-        this.hardwareInstance.on('rfxsensor', (data) => {
-            this._listenAllReceivedInput('rfxsensor', data);
+        this.hardwareInstance.on('rfxmeter', data => {
+            this._listenAllReceivedInput('rfxmeter', data);
         });
+
 
     }
 
