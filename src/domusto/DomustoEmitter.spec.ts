@@ -1,31 +1,40 @@
-import { suite, test, it } from 'mocha-typescript';
+
 import * as assert from 'assert';
-import * as sinon from 'sinon';
-import * as should from 'should';
-
-import DomustoEmitter from './DomustoEmitter';
-
-@suite
-class DomustoEmitterTest {
-
-    public static before() {
-        // require chai and use should() assertions
-        let chai = require('chai');
-        chai.should();
+import { suite, test, slow, timeout } from 'mocha-typescript';
+@suite class Hello {
+    @test world() {
+        assert.equal(1, 2, 'Expected one to equal two.');
     }
-
-    @test('should create a new User')
-    public create() {
-
-        let spy = sinon.spy();
-
-        DomustoEmitter.on('foo', spy);
-        DomustoEmitter.emit('foo');
-        spy.called.should.equal(true);
-
-    }
-
 }
+
+// import { suite, test, it } from 'mocha-typescript';
+// import * as assert from 'assert';
+// import * as sinon from 'sinon';
+// import * as should from 'should';
+
+// import DomustoEmitter from './DomustoEmitter';
+
+// @suite
+// class DomustoEmitterTest {
+
+//     public static before() {
+//         // require chai and use should() assertions
+//         let chai = require('chai');
+//         chai.should();
+//     }
+
+//     @test('should create a new User')
+//     public create() {
+
+//         let spy = sinon.spy();
+
+//         DomustoEmitter.on('foo', spy);
+//         DomustoEmitter.emit('foo');
+//         spy.called.should.equal(true);
+
+//     }
+
+// }
 
 // describe('DomustoEmitter', function () {
 //     describe('#emit()', function () {

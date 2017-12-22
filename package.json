@@ -5,7 +5,7 @@
   "main": "build/server.js",
   "scripts": {
     "assets": "cp -r ./src/assets ./build",
-    "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*test.ts')",
+    "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*.spec.ts')",
     "start": "npm run assets && ./node_modules/.bin/tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\""
   },
   "author": "Bas van Dijk",
