@@ -12,10 +12,12 @@
   "license": "UNLICENSED",
   "dependencies": {
     "express": "^4.15.3",
+    "marantz-avr": "^1.1.0",
     "nefit-easy-commands": "1.8.0",
     "node-schedule": "^1.2.3",
     "openzwave-shared": "^1.4.0",
     "p1-reader": "^1.4.1",
+    "pigpio": "^0.6.3",
     "prettyjson": "^1.2.1",
     "pushbullet": "^2.0.0",
     "rfxcom": "^1.0.1",

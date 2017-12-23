@@ -4,7 +4,8 @@ export enum PluginCategories {
     radio,
     utility,
     system,
-    push
+    push,
+    audio
 }
 
 export interface PluginMetaData {
