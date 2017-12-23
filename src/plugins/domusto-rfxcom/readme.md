@@ -20,7 +20,7 @@ website:   http://domusto.com
 ## Configuration
 
 1. Connect the P1 smart meter cable to your usb port
-2. Add the section below to your `config.js`
+2. Add the section below to your `config.ts`
 3. Set the correct com port where your have connected your P1 smart meter cable
 4. Set the protocols you wish to receive data for
 5. Restart DOMUSTO

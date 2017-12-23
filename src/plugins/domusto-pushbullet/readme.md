@@ -16,7 +16,7 @@ website:   http://domusto.com
  
 ## Configuration
 
-1. Add the section below to your `config.js`
+1. Add the section below to your `config.ts`
 2. Restart DOMUSTO
 
 ```js

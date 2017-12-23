@@ -39,7 +39,7 @@ More info: https://github.com/OpenZWave/node-openzwave-shared/blob/master/README
 ## Configuration
 
 1. Connect the Vision USB stick to your usb port
-2. Add the section below to your `config.js`
+2. Add the section below to your `config.ts`
 3. Set the correct com port where your have connected your Vision USB stick
 4. Restart DOMUSTO
 

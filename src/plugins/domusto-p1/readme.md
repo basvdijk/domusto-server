@@ -17,7 +17,7 @@ website:   http://domusto.com
 ## Plugin configuration
 
 1. Connect the P1 smart meter cable to your usb port
-2. Add the section below to your `config.js`
+2. Add the section below to your `config.ts`
 3. Set the correct com port where your have connected your P1 smart meter cable
 5. Restart DOMUSTO
 
