@@ -1,8 +1,6 @@
 import util from '../util';
 import config from '../config';
 import DomustoEmitter from './DomustoEmitter';
-import DomustoP1 from '../plugins/domusto-p1/domusto-p1';
-
 /**
  * Class to manage the plugins
  *
