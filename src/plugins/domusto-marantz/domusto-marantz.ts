@@ -107,12 +107,3 @@ class DomustoMarantz extends DomustoPlugin {
 }
 
 export default DomustoMarantz;
-
-
-// let AVReceiver = require('marantz-avr');
-// let reciever = new AVReceiver('192.168.178.61');
-
-// reciever.getPowerState().then(res => console.log(res), error => console.log(error));
-// reciever.getMuteState().then(res => console.log(res), error => console.log(error));
-
-// reciever.setPowerState(true).then(res => console.log(res), error => console.log(error));
