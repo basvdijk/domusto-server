@@ -37,15 +37,34 @@ class DomustoMarantz extends DomustoPlugin {
             website: 'http://domusto.com'
         });
 
-        let reciever = new AVReceiver(pluginConfiguration.settings.ip);
-        this.hardwareInstance = reciever;
+        this.pluginConfiguration = pluginConfiguration;
+
+        let receiver = new AVReceiver(pluginConfiguration.settings.ip);
+        this.hardwareInstance = receiver;
+
+        receiver.getState().then(
+            res => console.log(res),
+            error => console.log(error)
+        );
+
+        // this.refreshReceiverStatus();
 
 
     }
 
+    // refreshReceiverStatus() {
+
+    //     this.onNewInputData({
+    //         pluginId: this._pluginConfiguration.type,
+    //         deviceId: 'mute',
+    //         command: 'on'
+    //     });
+
+    // }
+
     outputCommand(device, command, onSucces) {
 
-        switch (device.protocol.type) {
+        switch (device.protocol.outputId) {
 
             case 'power':
 
