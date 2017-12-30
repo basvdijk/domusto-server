@@ -5,9 +5,9 @@ import DomustoEmitter from './DomustoEmitter';
  * SocketIO broadcast handler
  *
  * @author Bas van Dijk
- * @class DomustSocketIO
+ * @class DomustoSocketIO
  */
-class DomustSocketIO {
+class DomustoSocketIO {
 
     private _io;
 
@@ -17,7 +17,7 @@ class DomustSocketIO {
      * Sets the socketIO instance to use
      *
      * @param {any} io
-     * @memberof DomustSocketIO
+     * @memberof DomustoSocketIO
      */
     setIO(io) {
 
@@ -45,7 +45,7 @@ class DomustSocketIO {
      *
      * @param {any} channel
      * @param {any} data
-     * @memberof DomustSocketIO
+     * @memberof DomustoSocketIO
      */
     emit(channel, data) {
         this._io.emit(channel, data);
@@ -53,5 +53,5 @@ class DomustSocketIO {
 
 }
 
-let DomustoSocketIO = new DomustSocketIO();
-export default DomustoSocketIO;
+let DomustoSocketIOInstance = new DomustoSocketIO();
+export default DomustoSocketIOInstance;
