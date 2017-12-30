@@ -6,6 +6,7 @@ import config from './config';
 import Domusto from './domusto/Domusto';
 import DomustoDevicesManager from './domusto/DomustoDevicesManager';
 import DomustoPluginsManager from './domusto/DomustoPluginsManager';
+import DomustoLogger from './domusto/DomustoLogger';
 
 export class Server {
 
@@ -29,6 +30,8 @@ export class Server {
     DomustoPluginsManager.init().then(() => {
       DomustoDevicesManager.init();
     });
+
+    DomustoLogger.init();
 
     this.app = express();
     this.setHeaders();

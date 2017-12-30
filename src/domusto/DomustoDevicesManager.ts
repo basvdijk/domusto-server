@@ -9,6 +9,7 @@ import DomustoInput from './DomustoInput';
 import DomustoOutput from './DomustoOutput';
 import DomustoSocketIO from './DomustoSocketIO';
 import DomustoTimer from './DomustoTimer';
+import DomustoLogger from './DomustoLogger';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
@@ -95,6 +96,8 @@ class DomustoDevicesManager {
                 DomustoEmitter.emit(device.id + command);
 
                 util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
+
+                DomustoLogger.logOutput(device, command);
 
                 device.busy = false;
                 device.state = response.state;
