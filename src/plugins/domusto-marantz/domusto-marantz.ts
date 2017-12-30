@@ -64,12 +64,21 @@ class DomustoMarantz extends DomustoPlugin {
 
     outputCommand(device, command, onSucces) {
 
+        console.log('Marantz output', command);
+
         switch (device.protocol.outputId) {
 
             case 'power':
 
                 this.hardwareInstance.setPowerState(command === 'on').then(res => {
                     onSucces({ state: command === 'on' ? 'on' : 'off' });
+                }, error => console.log(error));
+                break;
+
+            case 'source':
+
+                this.hardwareInstance.setInputSource(device.protocol.subType).then(res => {
+                    // onSucces();
                 }, error => console.log(error));
                 break;
 

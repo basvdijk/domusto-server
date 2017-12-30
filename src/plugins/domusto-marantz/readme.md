@@ -79,5 +79,55 @@ website:   http://domusto.com
         subType: 'up/down'
     }
 },
+```
+
+## Input source switch
+
+Valid values for protocol subType:
+
+  - GAME
+  - SAT/CBL
+  - NET
+  - USB/IPOD
+  - TUNER
+  - DVD
+  - BD
+  - HDRADIO
+  - AUX1
+  - AUX2
+  - MPLAY
+  - TV
+  - PHONO
+  - IRADIO
+  - M-XPORT
+  - NETHOME
+
+```js
+{
+    id: 'MARANTZ-SOURCE-GAME',
+    enabled: true,
+    role: 'output',
+    name: 'Game',
+    type: 'switch',
+    subType: 'momentary',
+    protocol: {
+        pluginId: 'MARANTZ',
+        outputId: 'source',
+        source: 'GAME'
+    }
+},
+{
+    id: 'MARANTZ-SOURCE-MPLAY',
+    enabled: true,
+    role: 'output',
+    name: 'MPlayer',
+    type: 'switch',
+    subType: 'momentary',
+    protocol: {
+        pluginId: 'MARANTZ',
+        outputId: 'source',
+        source: 'MPLAY'
+    }
+},
 
 ```
