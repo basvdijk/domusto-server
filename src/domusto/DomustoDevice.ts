@@ -24,14 +24,14 @@ class DomustoDevice {
 
     constructor(device) {
         this._id = device.id;
-        this._screens = device.screens;
+        this._screens = device.screens || ['main'];
         this._enabled = device.enabled;
         this._name = device.name;
         this._type = device.type;
         this._subType = device.subType;
         this._role = device.role;
         this._protocol = device.protocol;
-        this._data = device.data;
+        this._data = device.data || null;
     }
 
 
@@ -44,7 +44,7 @@ class DomustoDevice {
     toJSON() {
         return {
             id: this._id,
-            screens: this._screens || ['main'],
+            screens: this._screens,
             enabled: this._enabled,
             name: this._name,
             type: this._type,

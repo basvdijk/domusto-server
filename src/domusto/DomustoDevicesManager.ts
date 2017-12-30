@@ -16,6 +16,7 @@ import DomustoPluginsManager from './DomustoPluginsManager';
 import { DeviceConfiguration } from './interfaces/device/DeviceConfiguration';
 import { DeviceEvent } from './interfaces/device/DeviceEvent';
 import { DeviceRole } from './interfaces/device/DeviceRole';
+import { EventType } from './interfaces/events/EventType';
 
 /**
  * Class to mange the DOMUSTO devices
@@ -97,7 +98,7 @@ class DomustoDevicesManager {
 
                 util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
 
-                DomustoLogger.logOutput(device, command);
+                DomustoLogger.log(EventType.output, device.toJSON(), command);
 
                 device.busy = false;
                 device.state = response.state;

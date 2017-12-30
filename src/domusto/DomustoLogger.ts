@@ -1,5 +1,6 @@
 import config from '../config';
-// import DomustoLoggerTxt from '../loggers/domusto-logger-txt/domusto-logger-txt';
+import { EventType } from './interfaces/events/EventType';
+import DomustoDevice from './DomustoDevice';
 
 /**
  * Logging handler
@@ -24,20 +25,21 @@ class DomustoLogger {
 
     async importLogPlugin(plugin) {
 
-        let loggerPath = '../loggers/' + plugin + '/' + plugin;
+        let loggerPath = '../plugins/' + plugin + '/' + plugin;
         let loggerNodeModule = await import(loggerPath);
 
         this.domustoLoggerInstances.push(new loggerNodeModule.default());
 
     }
 
-    logOutput(device, data) {
+    log(eventType: EventType, device: any, data: any) {
+
         for (let logger of this.domustoLoggerInstances) {
-            logger.logOutput(device, data);
+            logger.log(EventType[eventType], device, data);
         }
     }
 
-    private getLogDate() {
+    getLogDate() {
 
         function pad(n) { return n < 10 ? '0' + n : n; }
 
