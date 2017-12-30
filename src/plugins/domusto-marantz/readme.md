@@ -1,7 +1,7 @@
-# RPI GPIO pins
+# Marantz
 
 ```
-plugin:    RPI GPIO pins
+plugin:    Marantz
 author:    Bas van Dijk
 category:  system
 version:   0.0.1
