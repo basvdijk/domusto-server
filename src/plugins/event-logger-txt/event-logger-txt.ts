@@ -20,7 +20,7 @@ class DomustoLoggerTxt {
      * @param {any} data data to log;
      * @memberof DomustoLoggerTxt
      */
-    log(eventType: EventType, device: any, data: any) {
+    newEvent(eventType: EventType, device: any, data: any) {
 
         console.log('LOGOUTPUT', eventType, device, data);
 

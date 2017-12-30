@@ -98,7 +98,7 @@ class DomustoDevicesManager {
 
                 util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
 
-                DomustoLogger.log(EventType.output, device.toJSON(), command);
+                DomustoLogger.newEvent(EventType.output, device.toJSON(), command);
 
                 device.busy = false;
                 device.state = response.state;

@@ -32,10 +32,10 @@ class DomustoLogger {
 
     }
 
-    log(eventType: EventType, device: any, data: any) {
+    newEvent(eventType: EventType, device: any, data: any) {
 
         for (let logger of this.domustoLoggerInstances) {
-            logger.log(EventType[eventType], device, data);
+            logger.newEvent(EventType[eventType], device, data);
         }
     }
 
