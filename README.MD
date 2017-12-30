@@ -12,6 +12,7 @@ See [the API docs](API.MD)
 - [P1 smart meter](src/plugins/domusto-p1)
 - [Shell executer](src/plugins/domusto-shell)
 - [Nefit Easy](src/plugins/domusto-nefit-easy)
+- [Marantz](src/plugins/domusto-marantz)
 
 # Tested hardware
 - RFXcom
@@ -24,6 +25,9 @@ See [the API docs](API.MD)
 
 - P1 (via P1 to usb converter)
   - Landis+Gyr E350
+
+- Marantz
+  - SR6010 Receiver
 
 # Cost overview
 | Item                                  | Model                                                                                                                                                                                   |    Price | Store      |

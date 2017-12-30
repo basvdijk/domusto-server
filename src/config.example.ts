@@ -15,6 +15,23 @@ export default {
         longitude: '3.974129'
     },
 
+    // SCREENS
+    // Used in frontend to place widgets on a separate screen
+    screens: [
+        {
+            title: 'MAIN',
+            id: 'main'
+        },
+        {
+            title: 'AUDIO',
+            id: 'audio'
+        },
+        {
+            title: 'WEATHER',
+            id: 'weather'
+        }
+    ],
+
     // PLUGINS
     // configuration of the DOMUSTO plugins used
     plugins: [
@@ -113,6 +130,7 @@ export default {
         // COCO / KAKU DEVICE
         {
             id: 'KAKU1',                        // string                          DOMUSTO wide unique device identifier (no spaces or special characers)
+            screens: ['main', 'weather'],       // string array (optional)         Screen to put widget on. When undefined 'main' screen is assumed
             enabled: true,                      // boolean                         enables or disables a device
             role: 'output',                     // input | output                  specify the role of the device
             name: 'modem',                      // string                          name of the device which is used in the frontend
@@ -230,6 +248,7 @@ export default {
         // TEMPERATURE SENSOR
         {
             id: 'TEMP1',
+            screens: ['main', 'weather'],
             enabled: true,
             role: 'input',
             name: 'Studeerkamer',
@@ -245,6 +264,7 @@ export default {
 
         {
             id: 'TEMP10',
+            screens: ['main', 'weather'],
             enabled: true,
             role: 'input',
             name: 'NEFIT outdoor',

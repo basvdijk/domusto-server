@@ -60,6 +60,7 @@ class DomustoDevicesManager {
         DomustoEmitter.on('socketOnConnection', () => {
             DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
             DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
+            DomustoSocketIO.emit('screensSet', config.screens);
         });
     }
 

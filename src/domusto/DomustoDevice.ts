@@ -12,6 +12,7 @@ import { DeviceProtocol } from './interfaces/device/DeviceProtocol';
 class DomustoDevice {
 
     protected _id: string;
+    protected _screens: Array<string>;
     protected _enabled: boolean;
     protected _name: string;
     protected _type: DeviceType;
@@ -23,6 +24,7 @@ class DomustoDevice {
 
     constructor(device) {
         this._id = device.id;
+        this._screens = device.screens;
         this._enabled = device.enabled;
         this._name = device.name;
         this._type = device.type;
@@ -42,6 +44,7 @@ class DomustoDevice {
     toJSON() {
         return {
             id: this._id,
+            screens: this._screens || ['main'],
             enabled: this._enabled,
             name: this._name,
             type: this._type,
@@ -57,6 +60,13 @@ class DomustoDevice {
     }
     set id(id: string) {
         this._id = id;
+    }
+
+    get screens(): Array<string> {
+        return this._screens;
+    }
+    set screens(screens: Array<string>) {
+        this._screens = screens;
     }
 
     get enabled(): boolean {
