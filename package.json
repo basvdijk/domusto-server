@@ -1,5 +1,5 @@
 {
-  "name": "domusto",
+  "name": "domusto-server",
   "version": "0.0.1",
   "description": "Node home automation rest API for RPI",
   "main": "build/server.js",
