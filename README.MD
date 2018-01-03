@@ -54,9 +54,14 @@ See [the API docs](API.MD)
 
 # Running the DOMUSTO server
 
+## Running DOMUSTO server
+```bash
+./domusto.js start
+```
+
 ## Running DOMUSTO server with auto reload on changes
 ```bash
-npm start
+./domusto.js dev
 ```
 
 ## Running DOMUSTO tests
