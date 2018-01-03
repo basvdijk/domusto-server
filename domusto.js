@@ -22,6 +22,15 @@ switch (process.argv[2]) {
         });
         break;
 
+    case 'dev':
+        let d = spawn('npm', ['dev']);
+        d.stdout.on('data', function (data) {
+            if (data) {
+                process.stdout.write(data);
+            }
+        });
+        break;
+
     case 'plugin':
 
         switch (process.argv[3]) {
@@ -61,6 +70,7 @@ DOMUSTO Home Automation manager 🏠
 
 DOMUSTO
  domusto start    start DOMUSTO server
+ domusto dev      start DOMUSTO server in development mode with live refresh
 
 PLUGIN COMMANDS:
  domusto plugin add <Git repo name>        install plugin by Git repo name e.g. basvdijk/domusto-marantz
@@ -213,7 +223,7 @@ function cloneRepo(pluginRepo) {
 
     log(`Installing DOMUSTO plugin ${pluginRepo}`);
 
-    let repo = `git@github.com:${pluginRepo}.git`;
+    let repo = `https://github.com/${pluginRepo}.git`;
 
     let pluginName = pluginRepo.split('/').reverse()[0];
 

@@ -6,7 +6,8 @@
   "scripts": {
     "assets": "cp -r ./src/assets ./build",
     "test": "./node_modules/mocha/bin/mocha $(find ./src -not -iwholename '*AppleDouble*' -name '*.spec.ts')",
-    "start": "mkdir -p logs && npm run assets && ./node_modules/.bin/tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\""
+    "start": "node ./build/app.js",
+    "dev": "mkdir -p logs && npm run assets && npx tsc-watch -p tsconfig.json --onSuccess \"node ./build/app.js\""
   },
   "author": "Bas van Dijk",
   "license": "UNLICENSED",
@@ -16,7 +17,10 @@
     "jsonfile": "^4.0.0",
     "marantz-avr": "^1.1.0",
     "node-schedule": "^1.2.5",
+    "openzwave-shared": "^1.4.0",
     "prettyjson": "^1.2.1",
+    "pushbullet": "^2.1.0",
+    "rfxcom": "^1.0.3",
     "socket.io": "^2.0.3",
     "suncalc": "^1.8.0"
   },
@@ -34,7 +38,7 @@
     "should": "^13.2.0",
     "sinon": "^4.1.3",
     "source-map-support": "^0.5.0",
-    "tsc-watch": "^1.0.13",
+    "tsc-watch": "^1.0.6",
     "tslint": "^5.8.0",
     "tslint-eslint-rules": "^4.1.1",
     "typescript": "^2.6.2"
