@@ -14,7 +14,7 @@ const pluginFolder = './src/domusto-plugins';
 switch (process.argv[2]) {
 
     case 'start':
-        let nodeStart = spawn('npm', ['start']);
+        let nodeStart = spawn('npm', ['run', 'start']);
         nodeStart.stdout.on('data', function (data) {
             if (data) {
                 process.stdout.write(data);
@@ -23,7 +23,7 @@ switch (process.argv[2]) {
         break;
 
     case 'dev':
-        let nodeDev = spawn('npm', ['dev']);
+        let nodeDev = spawn('npm', ['run', 'dev']);
         nodeDev.stdout.on('data', function (data) {
             if (data) {
                 process.stdout.write(data);
