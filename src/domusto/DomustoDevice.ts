@@ -1,7 +1,5 @@
 // INTERFACES
-import { DeviceRole } from './interfaces/device/DeviceRole';
-import { DeviceSubType, DeviceType } from './interfaces/device/DeviceType';
-import { DeviceProtocol } from './interfaces/device/DeviceProtocol';
+import { Domusto } from '../domusto/DomustoInterfaces';
 
 /**
  * Device class for a DOMUSTO device
@@ -15,10 +13,10 @@ class DomustoDevice {
     protected _screens: Array<string>;
     protected _enabled: boolean;
     protected _name: string;
-    protected _type: DeviceType;
-    protected _subType: DeviceSubType;
-    protected _role: DeviceRole;
-    protected _protocol: DeviceProtocol;
+    protected _type: Domusto.DeviceType;
+    protected _subType: Domusto.DeviceSubType;
+    protected _role: Domusto.DeviceRole;
+    protected _protocol: Domusto.DeviceProtocol;
     protected _data: Object;
     protected _lastUpdated = new Date();
 
@@ -97,17 +95,17 @@ class DomustoDevice {
         this._subType = subType;
     }
 
-    get role(): DeviceRole {
+    get role(): Domusto.DeviceRole {
         return this._role;
     }
-    set role(role: DeviceRole) {
+    set role(role: Domusto.DeviceRole) {
         this._role = role;
     }
 
-    get protocol(): DeviceProtocol {
+    get protocol(): Domusto.DeviceProtocol {
         return this._protocol;
     }
-    set protocol(protocol: DeviceProtocol) {
+    set protocol(protocol: Domusto.DeviceProtocol) {
         this._protocol = protocol;
     }
 

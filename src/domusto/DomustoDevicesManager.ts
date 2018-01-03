@@ -13,11 +13,7 @@ import DomustoLogger from './DomustoLogger';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
-import { DeviceConfiguration } from './interfaces/device/DeviceConfiguration';
-import { DeviceEvent } from './interfaces/device/DeviceEvent';
-import { DeviceRole } from './interfaces/device/DeviceRole';
-import { EventType } from './interfaces/events/EventType';
-
+import { Domusto } from '../domusto/DomustoInterfaces';
 /**
  * Class to mange the DOMUSTO devices
  *
@@ -72,7 +68,7 @@ class DomustoDevicesManager {
      * @param {string} command Command to send
      * @param {function} onSucces Fired when the command is successfully executed
      */
-    outputCommand(deviceId: string, command: DeviceEvent, onSuccess?: Function) {
+    outputCommand(deviceId: string, command: Domusto.DeviceEvent, onSuccess?: Function) {
 
         let device = <DomustoOutput>this.devices[deviceId];
 
@@ -98,7 +94,7 @@ class DomustoDevicesManager {
 
                 util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
 
-                DomustoLogger.newEvent(EventType.output, device.toJSON(), command);
+                DomustoLogger.newEvent(Domusto.EventType.output, device.toJSON(), command);
 
                 device.busy = false;
                 device.state = response.state;

@@ -1,5 +1,5 @@
 import config from '../config';
-import { EventType } from './interfaces/events/EventType';
+import { Domusto } from '../domusto/DomustoInterfaces';
 import DomustoDevice from './DomustoDevice';
 
 /**
@@ -32,10 +32,10 @@ class DomustoLogger {
 
     }
 
-    newEvent(eventType: EventType, device: any, data: any) {
+    newEvent(eventType: Domusto.EventType, device: any, data: any) {
 
         for (let logger of this.domustoLoggerInstances) {
-            logger.newEvent(EventType[eventType], device, data);
+            logger.newEvent(Domusto.EventType[eventType], device, data);
         }
     }
 

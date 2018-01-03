@@ -17,7 +17,7 @@ export namespace Domusto {
         push,
         audio
     }
-    
+
     export interface PluginMetaData {
         plugin: string;
         author: string;
@@ -72,7 +72,7 @@ export namespace Domusto {
         'temperature',
         'power'
     }
-    
+
     export enum DeviceSubType {
         'temperature',
         'temperature-humidity',
@@ -124,7 +124,7 @@ export namespace Domusto {
     }
 
     export interface DomustoPlugin {
-        
+
         toString(): string;
         addRegisteredDevice(any);
         trigger(string, any);

@@ -54,7 +54,7 @@ class DomustoPluginsManager {
         // let pluginNodeModule = await import(pluginPath);
 
         let pluginName = 'domusto-' + plugin.type.toLowerCase();
-        let pluginPath = '../../plugins/' + pluginName + '/' + pluginName;
+        let pluginPath = '../domusto-plugins/' + pluginName + '/index';
         let pluginNodeModule = await import(pluginPath);
 
         let domustoPluginInstance = new pluginNodeModule.default(plugin);
