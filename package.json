@@ -15,12 +15,8 @@
     "express": "^4.15.3",
     "fs": "0.0.1-security",
     "jsonfile": "^4.0.0",
-    "marantz-avr": "^1.1.0",
     "node-schedule": "^1.2.5",
-    "openzwave-shared": "^1.4.0",
     "prettyjson": "^1.2.1",
-    "pushbullet": "^2.1.0",
-    "rfxcom": "^1.0.3",
     "socket.io": "^2.0.3",
     "suncalc": "^1.8.0"
   },
