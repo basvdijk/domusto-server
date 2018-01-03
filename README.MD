@@ -119,9 +119,14 @@ Edit the config file according to your setup.
 
 ## Run server
 
-You can now run the server with
+Run the server in production
 ```bash
-npm start
+./domusto.js start
+```
+
+Run the server in development mode with live reload
+```bash
+./domusto.js dev
 ```
 
 Once the server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs

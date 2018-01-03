@@ -66,17 +66,21 @@ switch (process.argv[2]) {
 
     default:
         console.log(`
-DOMUSTO Home Automation manager 🏠
+-------------------------------------------------------------------------------
+                     DOMUSTO Home Automation manager 🏠
+-------------------------------------------------------------------------------
 
 DOMUSTO
  domusto start    start DOMUSTO server
- domusto dev      start DOMUSTO server in development mode with live refresh
+ domusto dev      start DOMUSTO server in development mode with live refresh on .ts changes
 
 PLUGIN COMMANDS:
  domusto plugin add <Git repo name>        install plugin by Git repo name e.g. basvdijk/domusto-marantz
  domusto plugin remove <Git repo name>     remove plugin by Git repo name e.g. basvdijk/domusto-marantz
  domusto plugin upgrade                    upgrade all installed DOMUSTO plugins
  domusto plugin list                       list all installed DOMUSTO plugins
+
+ -------------------------------------------------------------------------------
         `);
         break;
 }
@@ -193,13 +197,13 @@ function installNpm(packages) {
 
     npm.stdout.on('data', function (data) {
         if (data) {
-            console.log('' + data);
+            process.stdout.write(data);
         }
     });
 
     npm.stderr.on('data', function (data) {
         if (data) {
-            console.log('' + data);
+            process.stdout.write(data);
         }
     });
 
@@ -236,11 +240,11 @@ function cloneRepo(pluginRepo) {
         let git = spawn('git', ['clone', repo, `${pluginFolder}/${pluginName}`]);
 
         git.stdout.on('data', function (data) {
-            console.log('' + data);
+            process.stdout.write(data);
         });
 
         git.stderr.on('data', function (data) {
-            console.log('' + data);
+            process.stdout.write(data);
         });
 
         git.on('exit', function (code) {
