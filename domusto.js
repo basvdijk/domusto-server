@@ -9,7 +9,7 @@ let spawn = require('child_process').spawn;
 let fs = require('fs');
 let jsonfile = require('jsonfile');
 
-const pluginFolder = './plugins';
+const pluginFolder = './src/domusto-plugins';
 
 switch (process.argv[2]) {
 

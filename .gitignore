@@ -61,5 +61,5 @@ typings/
 config.ts
 build
 *.wav
-plugins/*
-!plugins/README.MD
+src/domusto-plugins/*
+!src/domusto-plugins/README.MD
