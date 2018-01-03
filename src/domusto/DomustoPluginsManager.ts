@@ -1,6 +1,7 @@
 import util from '../util';
 import config from '../config';
 import DomustoEmitter from './DomustoEmitter';
+
 /**
  * Class to manage the plugins
  *
@@ -12,23 +13,26 @@ class DomustoPluginsManager {
     private _pluginInstances = {};
     private _onNewInputData: Function;
 
-    constructor() { }
+
+    constructor() {}
 
     async init() {
+
         util.header('INITIALISING PLUGINS');
 
         this._onNewInputData = function () { };
 
         let plugins = config.plugins;
 
+
         for (let plugin of plugins) {
 
             if (plugin.enabled) {
+                console.log(config.plugins);
 
                 util.log('    enabled ', plugin.type, 'plugin');
 
                 try {
-
                     await this.importPlugin(plugin);
 
                 } catch (error) {
@@ -45,12 +49,16 @@ class DomustoPluginsManager {
 
     async importPlugin(plugin) {
 
-        let pluginName = 'domusto-' + plugin.type.toLowerCase();
+        // let pluginName = 'domusto-' + plugin.type.toLowerCase();
+        // let pluginPath = '../plugins/' + pluginName + '/' + pluginName;
+        // let pluginNodeModule = await import(pluginPath);
 
-        let pluginPath = '../plugins/' + pluginName + '/' + pluginName;
+        let pluginName = 'domusto-' + plugin.type.toLowerCase();
+        let pluginPath = '../../plugins/' + pluginName + '/' + pluginName;
         let pluginNodeModule = await import(pluginPath);
 
         let domustoPluginInstance = new pluginNodeModule.default(plugin);
+        // let domustoPluginInstance = new pluginNodeModule.default(plugin);
         domustoPluginInstance.pluginConfiguration = plugin;
         this._pluginInstances[plugin.type] = domustoPluginInstance;
 
