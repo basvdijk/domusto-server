@@ -2,6 +2,9 @@
 
 /*
  * DOMUSTO Home Automation Manager script 
+ * 
+ * Author: Bas van Dijk
+ * 
  */
 
 let util = require('util');
@@ -40,7 +43,7 @@ switch (process.argv[2]) {
                     console.log('Usage: no github plugin name specified');
                     process.exit()
                 }
-                cloneRepo(process.argv[4]);
+                repoClone(process.argv[4]);
                 break;
             case 'remove':
                 if (!process.argv[4]) {
@@ -55,6 +58,9 @@ switch (process.argv[2]) {
             case 'list':
                 pluginList();
                 break;
+            case 'install-deps':
+                reInstallDeps();
+                break;
             default:
                 console.log('Usage: domusto plugin add <DOMUSTO plugin name>');
                 console.log('Usage: domusto plugin remove <DOMUSTO repo name>');
@@ -67,18 +73,22 @@ switch (process.argv[2]) {
     default:
         console.log(`
 -------------------------------------------------------------------------------
-                     DOMUSTO Home Automation manager 🏠
+      🔈 💡 🚨 ⛅ ️🌡 🔌 🏠   DOMUSTO Home Automation manager  🏠 🔌 🌡️ ⛅ 🚨 💡 🔈
 -------------------------------------------------------------------------------
 
 DOMUSTO
- domusto start    start DOMUSTO server
- domusto dev      start DOMUSTO server in development mode with live refresh on .ts changes
+Use ctrl+c to stop server
+ domusto start    start server
+ domusto dev      start server with live refresh on .ts changes
 
 PLUGIN COMMANDS:
- domusto plugin add <Git repo name>        install plugin by Git repo name e.g. basvdijk/domusto-marantz
- domusto plugin remove <Git repo name>     remove plugin by Git repo name e.g. basvdijk/domusto-marantz
- domusto plugin upgrade                    upgrade all installed DOMUSTO plugins
- domusto plugin list                       list all installed DOMUSTO plugins
+Example: domusto plugin add basvdijk/domusto-marantz
+
+ domusto plugin add [REPO]      install plugin by Git repo name
+ domusto plugin remove [REPO]   remove plugin by Git repo name
+ domusto plugin upgrade         upgrade all installed DOMUSTO plugins
+ domusto plugin install-deps    re-install all plugin dependencies
+ domusto plugin list            list all installed DOMUSTO plugins
 
  -------------------------------------------------------------------------------
         `);
@@ -94,7 +104,7 @@ function pluginUpgrade() {
     let plugins = fs.readdirSync(pluginFolder);
 
     for (plugin of plugins) {
-        upgradeRepo(`${pluginFolder}/${plugin}`);
+        repoUpgrade(`${pluginFolder}/${plugin}`);
     }
 
 }
@@ -142,15 +152,7 @@ function pluginRemove(pluginRepo) {
 
     } else {
 
-        let rm = spawn('rm', ['-r', `${pluginFolder}/${pluginName}`]);
-
-        rm.stdout.on('data', function (data) {
-            console.log('stdout: ' + data);
-        });
-
-        rm.stderr.on('data', function (data) {
-            console.log('stderr: ' + data);
-        });
+        let rm = spawn('rm', ['-r', `${pluginFolder}/${pluginName}`], { stdio: ['inherit', 'inherit', 'inherit'] });
 
         rm.on('exit', function (code) {
             success(`Successfully removed DOMUSTO plugin ${pluginName}`);
@@ -166,22 +168,19 @@ function pluginRemove(pluginRepo) {
  * 
  * @param {any} pluginName Name of the plugin e.g. domusto-marantz
  */
-function installDependencies(pluginName) {
+function getDependencies(pluginName) {
 
     let packageJson = `${pluginFolder}/${pluginName}/package.json`;
 
     let packages = [];
 
-    jsonfile.readFile(packageJson, function (err, obj) {
+    let obj = jsonfile.readFileSync(packageJson);
 
-        for (package in obj.dependencies) {
-            packages.push(`${package}@${obj.dependencies[package]}`);
-        }
+    for (package in obj.dependencies) {
+        packages.push(`${package}@${obj.dependencies[package]}`);
+    }
 
-        installNpm(packages);
-
-    });
-
+    return packages;
 }
 
 /**
@@ -189,23 +188,12 @@ function installDependencies(pluginName) {
  * 
  * @param {any} packages Array with packages to install 
  */
-function installNpm(packages) {
+function installNpmPackages(packages) {
 
-    log('Installing plugin dependencies: ' + packages.join(' '));
+    log('Installing plugin dependencies:');
+    log(packages.join(' '));
 
-    let npm = spawn('npm', ['install', packages.join(' ')]);
-
-    npm.stdout.on('data', function (data) {
-        if (data) {
-            process.stdout.write(data);
-        }
-    });
-
-    npm.stderr.on('data', function (data) {
-        if (data) {
-            process.stdout.write(data);
-        }
-    });
+    let npm = spawn('npm', ['install', packages.join(' '), '--no-save'], { stdio: ['inherit', 'inherit', 'inherit'] });
 
     npm.on('exit', function (code) {
         if (code === 0) {
@@ -218,12 +206,33 @@ function installNpm(packages) {
 }
 
 /**
+ * Upgrade repo to latest version
+ * 
+ * @param {any} pluginRepo Repository path e.g. src/plugins/domusto-marantz
+ */
+function reInstallDeps(pluginRepo) {
+
+    let plugins = fs.readdirSync(pluginFolder).filter(function(file) {
+        return (file.indexOf('.AppleDouble') === -1) && (file.indexOf('.MD') === -1);
+    });
+
+    let dependencies = new Set();
+
+    for (plugin of plugins) {       
+        dependencies = [...new Set([...dependencies ,...getDependencies(plugin)])];
+    }
+
+    installNpmPackages(dependencies);
+
+}
+
+/**
  * Clone repository in plugin folder
  * 
  * @param {any} pluginRepo Repository of plugin on Git e.g. basvdijk/domusto-marantz
  * @returns 
  */
-function cloneRepo(pluginRepo) {
+function repoClone(pluginRepo) {
 
     log(`Installing DOMUSTO plugin ${pluginRepo}`);
 
@@ -237,20 +246,18 @@ function cloneRepo(pluginRepo) {
 
     } else {
 
-        let git = spawn('git', ['clone', repo, `${pluginFolder}/${pluginName}`]);
-
-        git.stdout.on('data', function (data) {
-            process.stdout.write(data);
-        });
-
-        git.stderr.on('data', function (data) {
-            process.stdout.write(data);
-        });
+        let git = spawn('git', ['clone', repo, `${pluginFolder}/${pluginName}`], { stdio: ['inherit', 'inherit', 'inherit'] });
 
         git.on('exit', function (code) {
 
             if (code === 0) {
-                installDependencies(pluginName);
+
+                let packages = getDependencies(pluginName);
+
+                if (packages.length > 0) {
+                    installNpmPackages(packages);
+                }
+                
             } else {
                 console.log('child process exited with code ' + code);
             }
@@ -267,17 +274,9 @@ function cloneRepo(pluginRepo) {
  * 
  * @param {any} pluginRepo Repository path e.g. src/plugins/domusto-marantz
  */
-function upgradeRepo(pluginRepo) {
+function repoUpgrade(pluginRepo) {
 
-    let git = spawn('git', [`--work-tree=${pluginRepo}`, 'pull']);
-
-    git.stdout.on('data', function (data) {
-        console.log('' + data);
-    });
-
-    git.stderr.on('data', function (data) {
-        console.log('' + data);
-    });
+    let git = spawn('git', [`--work-tree=${pluginRepo}`, 'pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
 
     git.on('exit', function (code) {
 
