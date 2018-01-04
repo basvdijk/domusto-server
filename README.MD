@@ -7,12 +7,12 @@ This project is just the DOMUSTO server. You'll find the graphical interface at 
 See [the API docs](API.MD)
 
 # Plugins
-- [RFXcom](src/plugins/domusto-rfxcom)
-- [Z-Wave](src/plugins/domusto-zwave)
-- [P1 smart meter](src/plugins/domusto-p1)
-- [Shell executer](src/plugins/domusto-shell)
-- [Nefit Easy](src/plugins/domusto-nefit-easy)
-- [Marantz](src/plugins/domusto-marantz)
+- [RFXcom](https://github.com/basvdijk/domusto-rfxcom)
+- [Z-Wave](https://github.com/basvdijk/domusto-zwave)
+- [P1 smart meter](https://github.com/basvdijk/domusto-p1)
+- [Shell executer](https://github.com/basvdijk/domusto-shell)
+- [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy)
+- [Marantz](https://github.com/basvdijk/domusto-marantz)
 
 # Tested hardware
 - RFXcom
