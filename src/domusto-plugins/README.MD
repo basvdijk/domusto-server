@@ -3,7 +3,7 @@
 ## Install plugin example
 
 ```sh
-$ domusto.js plugin install basvdijk/domusto-marantz
+$ domusto.js plugin add basvdijk/domusto-marantz
 ```
 
 ## Remove plugin example

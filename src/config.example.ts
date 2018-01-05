@@ -36,9 +36,9 @@ export default {
     // configuration of the DOMUSTO plugins used
     plugins: [
         {
+            id: 'RFXCOM',
             enabled: true,
             debug: false,
-            type: 'RFXCOM',
             settings: {
                 port: '/dev/ttyUSB-RFX433',         // [string]  enabled protocols AC | ARC | ATI | BLINDST14 | BLYSS | BYRONSX | FINEOFFSET | FS20 | HIDEKI | HOMEEASY | LACROSSE | LIGHTING4 | LIGHTWAVERF | MEIANTECH | MERTIK | OREGON | PROGUARD | RFU6 | ROLLERTROL | RSL | RUBICSON | VISONIC | X10
                 listenOnly: false,                  // set true to see all received data in the terminal
@@ -50,15 +50,15 @@ export default {
             }
         },
         {
+            id: 'P1',
             enabled: true,
-            type: 'P1',
             settings: {
                 port: '/dev/ttyUSB-P1'
             }
         },
         {
+            id: 'SHELL',
             enabled: true,
-            type: 'SHELL',
             triggers: [
 
                 // Play doorbell.wav when CHIME1 broadcasts it is being triggered
@@ -77,8 +77,8 @@ export default {
             ],
         },
         {
+            id: 'PUSHBULLET',
             enabled: true,
-            type: 'PUSHBULLET',
             settings: {
                 apiKeys: [
                     'SJDFKSDJFLSDJLSKFJIWI92340283020',
@@ -101,19 +101,19 @@ export default {
             ],
         },
         {
+            id: 'ZWAVE',
             enabled: true,
             debug: true,
-            type: 'ZWAVE',
             settings: {
                 port: '/dev/ttyACM0',
                 pairingMode: false
             }
         },
         {
+            id: 'NEFIT-EASY',
             enabled: true,
             dummyData: true,
             debug: true,
-            type: 'NEFIT-EASY',
             settings: {
                 minutesBetweenPolls: 60, // once per hour
                 serialNumber: 'SERIALNUMBER',

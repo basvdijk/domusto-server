@@ -1,4 +1,5 @@
 // APP
+import DomustoPlugin from './DomustoPlugin';
 import util from '../util';
 import config from '../config';
 
@@ -14,6 +15,7 @@ import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
 import { Domusto } from '../domusto/DomustoInterfaces';
+import DomustoSignalHub from './DomustoSignalHub';
 /**
  * Class to mange the DOMUSTO devices
  *
@@ -60,6 +62,31 @@ class DomustoDevicesManager {
             DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
             DomustoSocketIO.emit('screensSet', config.screens);
         });
+
+        DomustoSignalHub.subject.subscribe((signal: Domusto.Signal) => {
+
+            // Make sure the sender is a plugin to avoid infinite signal loops
+            if (signal.sender === Domusto.SignalSender.plugin) {
+
+                let devices = this.getDevicesByPluginId(signal.pluginId);
+
+                for (let device of devices) {
+
+                    if (device.plugin.type === signal.type) {
+
+                        device.data = signal.data;
+
+                        device.lastUpdated = new Date();
+                        DomustoSocketIO.emit(device.role === 'input' ? 'inputDeviceUpdate' : 'outputDeviceUpdate', [device]);
+
+                        break;
+
+                    }
+
+                }
+            }
+        });
+
     }
 
     /**
@@ -72,47 +99,86 @@ class DomustoDevicesManager {
 
         let device = <DomustoOutput>this.devices[deviceId];
 
-        let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.protocol.pluginId);
+        let pluginInstance = <DomustoPlugin>DomustoPluginsManager.getPluginInstanceByPluginId(device.plugin.id);
 
         if (!pluginInstance) {
-            console.error('WARNING! No plugin instance found for:', device.protocol.pluginId);
+            console.error('WARNING! No plugin instance found for:', device.plugin.id);
             console.error('Make sure the plugin is enabled');
 
-            util.logErrorToFile('WARNING! No plugin instance found for: ' + device.protocol.pluginId);
+            util.logErrorToFile('WARNING! No plugin instance found for: ' + device.plugin.id);
             util.logErrorToFile('Make sure the plugin is enabled');
             return false;
         }
 
-        if (!device.busy) {
+        DomustoSignalHub.broadcastSignal({
+            sender: Domusto.SignalSender.client,
+            pluginId: device.plugin.id,
+            type: device.plugin.type,
+            data: {
+                state: command
+            }
+        });
 
-            device.busy = true;
+        // id: 'MARANTZ-POWER',
+        // screens: ['audio'],
+        // enabled: true,
+        // role: 'output',
+        // name: 'Marantz',
+        // type: 'switch',
+        // subType: 'on/off',
+        // plugin: {
+        //     id: 'MARANTZ',
+        //     subType: 'power'
+        // }
 
-            pluginInstance.outputCommand(device, command, response => {
-
-                console.log('emit', device.id + command);
-                DomustoEmitter.emit(device.id + command);
-
-                util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
-
-                DomustoLogger.newEvent(Domusto.EventType.output, device.toJSON(), command);
-
-                device.busy = false;
-                device.state = response.state;
-                device.lastUpdated = new Date();
-
-                // check if a callback is provided
-                if (onSuccess) {
-                    onSuccess(device);
-                }
-
-                // outputDeviceUpdate channel only takes arrays
-                let devices = [];
-                devices.push(device);
-                DomustoSocketIO.emit('outputDeviceUpdate', devices);
-
-            });
-
+        // check if a callback is provided
+        if (onSuccess) {
+            onSuccess(device);
         }
+
+        // let device = <DomustoOutput>this.devices[deviceId];
+
+        // let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.plugin.id);
+
+        // if (!pluginInstance) {
+        //     console.error('WARNING! No plugin instance found for:', device.plugin.id);
+        //     console.error('Make sure the plugin is enabled');
+
+        //     util.logErrorToFile('WARNING! No plugin instance found for: ' + device.plugin.id);
+        //     util.logErrorToFile('Make sure the plugin is enabled');
+        //     return false;
+        // }
+
+        // if (!device.busy) {
+
+        //     device.busy = true;
+
+        //     pluginInstance.outputCommand(device, command, response => {
+
+        //         console.log('emit', device.id + command);
+        //         DomustoEmitter.emit(device.id + command);
+
+        //         util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
+
+        //         DomustoLogger.newEvent(Domusto.EventType.output, device.toJSON(), command);
+
+        //         device.busy = false;
+        //         device.state = response.state;
+        //         device.lastUpdated = new Date();
+
+        //         // check if a callback is provided
+        //         if (onSuccess) {
+        //             onSuccess(device);
+        //         }
+
+        //         // outputDeviceUpdate channel only takes arrays
+        //         let devices = [];
+        //         devices.push(device);
+        //         DomustoSocketIO.emit('outputDeviceUpdate', devices);
+
+        //     });
+
+        // }
 
     }
 
@@ -149,14 +215,14 @@ class DomustoDevicesManager {
         let input = new DomustoInput(device);
         this.devices[input.id] = input;
 
-        let pluginId = input.protocol.pluginId;
+        let pluginId = input.plugin.id;
         let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(pluginId);
 
         if (pluginInstance) {
             pluginInstance.addRegisteredDevice(input);
             pluginInstance.onNewInputData = this._onNewInputData.bind(this);
         } else {
-            util.warning('    No plugin found for hardware id', input.protocol.pluginId);
+            util.warning('    No plugin found for hardware id', input.plugin.id);
         }
     }
 
@@ -265,16 +331,17 @@ class DomustoDevicesManager {
             let device = this.devices[i];
 
             // Check if the id defined within a protocol matches deviceId
-            if (device.protocol.deviceId === deviceId) {
+
+            if (device.plugin.type && device.plugin.type.indexOf(deviceId) > -1) {
                 return device;
             }
 
             // Check if the inputId matches
-            if (device.protocol.inputIds) {
+            if (device.plugin.inputIds) {
 
-                for (let j in device.protocol.inputIds) {
+                for (let j in device.plugin.inputIds) {
 
-                    if (device.protocol.inputIds[j] === deviceId) {
+                    if (device.plugin.inputIds[j] === deviceId) {
                         return device;
                     }
 
@@ -283,7 +350,7 @@ class DomustoDevicesManager {
             }
 
             // Check if the protocol outputId matches
-            if (device.protocol.outputId && (device.protocol.outputId === deviceId)) {
+            if (device.plugin.outputId && (device.plugin.outputId === deviceId)) {
                 return device;
             }
 
@@ -334,7 +401,7 @@ class DomustoDevicesManager {
             let device = this.devices[i];
 
             // Check if the protocol id matches
-            if (device.protocol.pluginId && (device.protocol.pluginId === pluginId)) {
+            if (device.plugin.id && (device.plugin.id === pluginId)) {
                 devices.push(device);
             }
 

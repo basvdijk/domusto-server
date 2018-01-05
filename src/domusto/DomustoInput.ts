@@ -31,22 +31,20 @@ class DomustoInput extends DomustoDevice {
             case 'power': {
 
                 this._data = {
-                    electricity: {
-                        received: {
-                            tariff1: {
-                                value: null,
-                                unit: 'kW'
-                            },
-                            tariff2: {
-                                value: null,
-                                unit: 'kWh'
-                            },
-                            actual: {
-                                value: null,
-                                unit: 'kWh'
-                            }
-                        }
+
+                    tariff1: {
+                        value: null,
+                        unit: 'kW'
+                    },
+                    tariff2: {
+                        value: null,
+                        unit: 'kWh'
+                    },
+                    actual: {
+                        value: null,
+                        unit: 'kWh'
                     }
+
                 };
                 this._lastUpdated = new Date();
                 break;

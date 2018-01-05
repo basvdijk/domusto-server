@@ -28,20 +28,19 @@ class DomustoPluginsManager {
         for (let plugin of plugins) {
 
             if (plugin.enabled) {
-                console.log(config.plugins);
 
-                util.log('    enabled ', plugin.type, 'plugin');
+                util.log('    enabled ', plugin.id, 'plugin');
 
                 try {
                     await this.importPlugin(plugin);
 
                 } catch (error) {
-                    util.error('!!! Error loading plugin ', plugin.type, error);
+                    util.error('!!! Error loading plugin ', plugin.id, error);
                 }
 
 
             } else {
-                util.warning('!!! disabled', plugin.type, 'plugin');
+                util.warning('!!! disabled', plugin.id, 'plugin');
             }
 
         }
@@ -49,18 +48,19 @@ class DomustoPluginsManager {
 
     async importPlugin(plugin) {
 
-        // let pluginName = 'domusto-' + plugin.type.toLowerCase();
+        // let pluginName = 'domusto-' + plugin.id.toLowerCase();
         // let pluginPath = '../plugins/' + pluginName + '/' + pluginName;
         // let pluginNodeModule = await import(pluginPath);
 
-        let pluginName = 'domusto-' + plugin.type.toLowerCase();
+        let pluginName = 'domusto-' + plugin.id.toLowerCase();
         let pluginPath = '../domusto-plugins/' + pluginName + '/index';
         let pluginNodeModule = await import(pluginPath);
 
         let domustoPluginInstance = new pluginNodeModule.default(plugin);
-        // let domustoPluginInstance = new pluginNodeModule.default(plugin);
         domustoPluginInstance.pluginConfiguration = plugin;
-        this._pluginInstances[plugin.type] = domustoPluginInstance;
+
+        // let domustoPluginInstance = new pluginNodeModule.default(plugin);
+        this._pluginInstances[plugin.id] = domustoPluginInstance;
 
         // TODO
         if (plugin['triggers']) {

@@ -1,10 +1,12 @@
+import DomustoDevice from './DomustoDevice';
+
 export namespace Domusto {
 
     export interface PluginConfiguration {
+        id: string;
         enabled: boolean;
         dummyData: boolean;
         debug: boolean;
-        type: string;
         settings: any;
     }
 
@@ -33,7 +35,7 @@ export namespace Domusto {
         name: string;
         type: DeviceType;
         subType: DeviceSubType;
-        protocol: DeviceProtocol;
+        plugin: DevicePlugin;
         triggers: DeviceTrigger[];
     }
 
@@ -43,8 +45,8 @@ export namespace Domusto {
         'trigger',
     }
 
-    export interface DeviceProtocol {
-        pluginId: string;
+    export interface DevicePlugin {
+        id: string;
         deviceId: string;
         type: string;
         subType: string;
@@ -123,17 +125,38 @@ export namespace Domusto {
         };
     }
 
-    export interface DomustoPlugin {
+    export interface Signal {
+        sender: SignalSender;
+        pluginId: string;
+        type?: string;
+        data: Object;
+    }
 
-        toString(): string;
-        addRegisteredDevice(any);
-        trigger(string, any);
-        onNewInputData();
-        pluginConfiguration: PluginConfiguration;
-        metaData;
-        hardwareInstance;
-        registeredDevices;
+    export enum SignalSender {
+        'client',
+        'plugin'
+    }
 
+    export interface SignalTemperature {
+        deviceTypeString: string;
+        batteryLevel?: number;
+        rssi?: number;
+        temperature: number;
+    }
+
+    export interface InputDataHumidity extends InputData {
+        deviceTypeString: string;
+        batteryLevel?: number;
+        rssi?: number;
+        humidity: number;
+        humidityStatus?: humidityStatus;
+    }
+
+    export enum humidityStatus {
+        dry,
+        comfort,
+        normal,
+        wet
     }
 
 }

@@ -16,8 +16,8 @@ class DomustoDevice {
     protected _type: Domusto.DeviceType;
     protected _subType: Domusto.DeviceSubType;
     protected _role: Domusto.DeviceRole;
-    protected _protocol: Domusto.DeviceProtocol;
-    protected _data: Object;
+    protected _plugin: Domusto.DevicePlugin;
+    protected _data: any;
     protected _lastUpdated = new Date();
 
     constructor(device) {
@@ -28,7 +28,7 @@ class DomustoDevice {
         this._type = device.type;
         this._subType = device.subType;
         this._role = device.role;
-        this._protocol = device.protocol;
+        this._plugin = device.plugin;
         this._data = device.data || null;
     }
 
@@ -48,7 +48,7 @@ class DomustoDevice {
             type: this._type,
             subType: this._subType,
             role: this._role,
-            protocol: this._protocol,
+            plugin: this._plugin,
             data: this._data,
         };
     }
@@ -102,11 +102,11 @@ class DomustoDevice {
         this._role = role;
     }
 
-    get protocol(): Domusto.DeviceProtocol {
-        return this._protocol;
+    get plugin(): Domusto.DevicePlugin {
+        return this._plugin;
     }
-    set protocol(protocol: Domusto.DeviceProtocol) {
-        this._protocol = protocol;
+    set plugin(plugin: Domusto.DevicePlugin) {
+        this._plugin = plugin;
     }
 
     get lastUpdated(): Date {
@@ -118,6 +118,9 @@ class DomustoDevice {
 
     get data() {
         return this._data;
+    }
+    set data(data: any) {
+        this._data = data;
     }
 
 }

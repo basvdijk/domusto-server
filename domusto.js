@@ -193,7 +193,7 @@ function installNpmPackages(packages) {
     log('Installing plugin dependencies:');
     log(packages.join(' '));
 
-    let npm = spawn('npm', ['install', ...packages, '--no-save'], { stdio: ['inherit', 'inherit', 'inherit'] });
+    let npm = spawn('npm', ['install', ...packages], { stdio: ['inherit', 'inherit', 'inherit'] });
 
     npm.on('exit', function (code) {
         if (code === 0) {

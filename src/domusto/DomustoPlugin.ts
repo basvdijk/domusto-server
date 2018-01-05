@@ -1,5 +1,6 @@
 import util from '../util';
 import { Domusto } from '../domusto/DomustoInterfaces';
+import DomustoSignalHub from './DomustoSignalHub';
 
 /**
  * Base class for DOMUSTO plugins
@@ -7,7 +8,7 @@ import { Domusto } from '../domusto/DomustoInterfaces';
  * @author Bas van Dijk
  * @class DomustoPlugin
  */
-class DomustoPlugin {
+abstract class DomustoPlugin {
 
     protected _registeredDevices = [];
     protected _metaData;
@@ -29,6 +30,41 @@ class DomustoPlugin {
             util.warning('    No device configured to use plugin ', this._pluginConfiguration['type']);
             util.prettyJson(data);
         };
+
+        DomustoSignalHub.subject.subscribe((signal: Domusto.Signal) => {
+            if (signal.sender === Domusto.SignalSender.client && signal.pluginId === this.pluginConfiguration.id) {
+                this.onSignalReceivedForPlugin(signal);
+            }
+        });
+    }
+
+    /**
+     * Triggered when a signal from the client for this plugin is received
+     *
+     * @abstract
+     * @param {Domusto.Signal} signal
+     * @memberof DomustoPlugin
+     */
+    onSignalReceivedForPlugin(signal: Domusto.Signal) {
+
+    }
+
+    /**
+     *
+     *
+     * @param {any} pluginType
+     * @param {any} data
+     * @memberof DomustoPlugin
+     */
+    broadcastSignal(pluginType, data, sender = Domusto.SignalSender.plugin) {
+
+        DomustoSignalHub.broadcastSignal({
+            sender: sender,
+            pluginId: this.pluginConfiguration.id,
+            type: pluginType,
+            data: data
+        });
+
     }
 
     /**

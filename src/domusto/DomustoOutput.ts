@@ -10,7 +10,6 @@ import config from '../config';
  */
 class DomustoOutput extends DomustoDevice {
 
-    private _state = 'off';
     private _busy = false;
     private _hasTimers = false;
     private _timers;
@@ -54,11 +53,11 @@ class DomustoOutput extends DomustoDevice {
 
         // Merge partent with output attributes
         return Object.assign(super.toJSON(), {
-            state: this._state,
             busy: this._busy,
             hasTimers: this._hasTimers,
             timers: this._timers,
             actions: this._actions,
+            data: this._data,
         });
 
     }
@@ -82,13 +81,6 @@ class DomustoOutput extends DomustoDevice {
     }
     set busy(busy) {
         this._busy = busy;
-    }
-
-    get state() {
-        return this._state;
-    }
-    set state(state) {
-        this._state = state;
     }
 
     get actions() {
