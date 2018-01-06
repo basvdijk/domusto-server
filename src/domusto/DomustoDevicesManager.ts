@@ -48,9 +48,9 @@ class DomustoDevicesManager {
 
                 }
 
-                if (device['triggers']) {
-                    this._initTriggers(device);
-                }
+                // if (device['triggers']) {
+                //     this._initTriggers(device);
+                // }
 
             }
 
@@ -118,6 +118,39 @@ class DomustoDevicesManager {
                 state: command
             }
         });
+
+        if (device.triggers) {
+
+            for (let trigger of device.triggers) {
+
+                console.log(trigger.listenToEvents, command, trigger.listenToEvents.indexOf(command) > -1);
+
+                if (trigger.listenToEvents.indexOf(command) > -1) {
+
+                    DomustoSignalHub.broadcastSignal({
+                        sender: Domusto.SignalSender.client,
+                        pluginId: trigger.pluginId,
+                        type: trigger.type,
+                        data: trigger.data
+                    });
+
+                }
+
+            }
+
+        }
+
+        // id: 'MARANTZ-POWER',
+        //     screens: ['audio'],
+        //         enabled: true,
+        //             role: 'output',
+        //                 name: 'Marantz',
+        //                     type: 'switch',
+        //                         subType: 'on/off',
+        //                             plugin: {
+        //     id: 'MARANTZ',
+        //         subType: 'power'
+        // }
 
         // id: 'MARANTZ-POWER',
         // screens: ['audio'],

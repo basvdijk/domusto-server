@@ -1,5 +1,7 @@
 import util from '../util';
+import config from '../config';
 import DomustoEmitter from './DomustoEmitter';
+import DomustoDevicesManager from './DomustoDevicesManager';
 
 /**
  * SocketIO broadcast handler

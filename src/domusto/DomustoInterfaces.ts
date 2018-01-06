@@ -125,6 +125,13 @@ export namespace Domusto {
         };
     }
 
+    export interface Trigger {
+        pluginId: string;
+        listenToEvents: Array<DeviceEvent>;
+        type?: string;
+        data?: any;
+    }
+
     export interface Signal {
         sender: SignalSender;
         pluginId: string;

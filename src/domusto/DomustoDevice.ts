@@ -18,6 +18,7 @@ class DomustoDevice {
     protected _role: Domusto.DeviceRole;
     protected _plugin: Domusto.DevicePlugin;
     protected _data: any;
+    protected _triggers: any;
     protected _lastUpdated = new Date();
 
     constructor(device) {
@@ -30,6 +31,7 @@ class DomustoDevice {
         this._role = device.role;
         this._plugin = device.plugin;
         this._data = device.data || null;
+        this._triggers = device.triggers || [];
     }
 
 
@@ -50,6 +52,7 @@ class DomustoDevice {
             role: this._role,
             plugin: this._plugin,
             data: this._data,
+            triggers: this._triggers,
         };
     }
 
@@ -65,6 +68,13 @@ class DomustoDevice {
     }
     set screens(screens: Array<string>) {
         this._screens = screens;
+    }
+
+    get triggers(): Array<Domusto.Trigger> {
+        return this._triggers;
+    }
+    set triggers(triggers: Array<Domusto.Trigger>) {
+        this._triggers = triggers;
     }
 
     get enabled(): boolean {
