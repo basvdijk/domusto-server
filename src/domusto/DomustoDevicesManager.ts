@@ -84,6 +84,33 @@ class DomustoDevicesManager {
                     }
 
                 }
+
+            } else {
+
+                let device = this.getDeviceByDeviceId(signal.type);
+
+                if (device && device.triggers) {
+
+                    console.log(device.triggers.length);
+
+                    for (let trigger of device.triggers) {
+
+                        if (trigger.listenToEvents.indexOf(signal.data['state']) > -1) {
+                            console.log(trigger);
+
+                            DomustoSignalHub.broadcastSignal({
+                                sender: Domusto.SignalSender.client,
+                                pluginId: trigger.pluginId,
+                                type: trigger.type,
+                                data: trigger.data
+                            });
+
+                        }
+
+                    }
+
+                }
+
             }
         });
 
@@ -119,11 +146,13 @@ class DomustoDevicesManager {
             }
         });
 
+        console.log('triggers', device.triggers);
+
         if (device.triggers) {
 
             for (let trigger of device.triggers) {
 
-                console.log(trigger.listenToEvents, command, trigger.listenToEvents.indexOf(command) > -1);
+                console.log('HA23s', trigger.listenToEvents, command, trigger.listenToEvents.indexOf(command) > -1);
 
                 if (trigger.listenToEvents.indexOf(command) > -1) {
 
