@@ -27,7 +27,7 @@ abstract class DomustoPlugin {
 
         this.onNewInputData = (data: Domusto.InputData) => {
             // TODO
-            util.warning('    No device configured to use plugin ', this._pluginConfiguration['type']);
+            util.warning('    No device configured to use plugin ', this._pluginConfiguration['deviceId']);
             util.prettyJson(data);
         };
 
