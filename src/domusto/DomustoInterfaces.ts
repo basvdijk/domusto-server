@@ -48,7 +48,6 @@ export namespace Domusto {
     export interface DevicePlugin {
         id: string;
         deviceId: string;
-        type: string;
         subType: string;
         outputId: string;
         inputIds: string[];
@@ -128,14 +127,14 @@ export namespace Domusto {
     export interface Trigger {
         pluginId: string;
         listenToEvents: Array<DeviceEvent>;
-        type?: string;
+        deviceId?: string;
         data?: any;
     }
 
     export interface Signal {
         sender: SignalSender;
         pluginId: string;
-        type?: string;
+        deviceId?: string;
         data: Object;
     }
 

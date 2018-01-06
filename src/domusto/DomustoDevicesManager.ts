@@ -72,7 +72,7 @@ class DomustoDevicesManager {
 
                 for (let device of devices) {
 
-                    if (device.plugin.type === signal.type) {
+                    if (device.plugin.deviceId === signal.deviceId) {
 
                         device.data = signal.data;
 
@@ -87,21 +87,18 @@ class DomustoDevicesManager {
 
             } else {
 
-                let device = this.getDeviceByDeviceId(signal.type);
+                let device = this.getDeviceByDeviceId(signal.deviceId);
 
                 if (device && device.triggers) {
-
-                    console.log(device.triggers.length);
 
                     for (let trigger of device.triggers) {
 
                         if (trigger.listenToEvents.indexOf(signal.data['state']) > -1) {
-                            console.log(trigger);
 
                             DomustoSignalHub.broadcastSignal({
                                 sender: Domusto.SignalSender.client,
                                 pluginId: trigger.pluginId,
-                                type: trigger.type,
+                                deviceId: trigger.deviceId,
                                 data: trigger.data
                             });
 
@@ -140,7 +137,7 @@ class DomustoDevicesManager {
         DomustoSignalHub.broadcastSignal({
             sender: Domusto.SignalSender.client,
             pluginId: device.plugin.id,
-            type: device.plugin.type,
+            deviceId: device.plugin.deviceId,
             data: {
                 state: command
             }
@@ -159,7 +156,7 @@ class DomustoDevicesManager {
                     DomustoSignalHub.broadcastSignal({
                         sender: Domusto.SignalSender.client,
                         pluginId: trigger.pluginId,
-                        type: trigger.type,
+                        deviceId: trigger.deviceId,
                         data: trigger.data
                     });
 
@@ -394,7 +391,7 @@ class DomustoDevicesManager {
 
             // Check if the id defined within a protocol matches deviceId
 
-            if (device.plugin.type && device.plugin.type.indexOf(deviceId) > -1) {
+            if (device.plugin.deviceId && device.plugin.deviceId.indexOf(deviceId) > -1) {
                 return device;
             }
 

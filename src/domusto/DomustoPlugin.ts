@@ -56,12 +56,12 @@ abstract class DomustoPlugin {
      * @param {any} data
      * @memberof DomustoPlugin
      */
-    broadcastSignal(pluginType, data, sender = Domusto.SignalSender.plugin) {
+    broadcastSignal(pluginDeviceId, data, sender = Domusto.SignalSender.plugin) {
 
         DomustoSignalHub.broadcastSignal({
             sender: sender,
             pluginId: this.pluginConfiguration.id,
-            type: pluginType,
+            deviceId: pluginDeviceId,
             data: data
         });
 
