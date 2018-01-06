@@ -17,21 +17,11 @@ const pluginFolder = './src/domusto-plugins';
 switch (process.argv[2]) {
 
     case 'start':
-        let nodeStart = spawn('npm', ['run', 'start']);
-        nodeStart.stdout.on('data', function (data) {
-            if (data) {
-                process.stdout.write(data);
-            }
-        });
+        spawn('npm', ['run', 'start'], { stdio: ['inherit', 'inherit', 'inherit'] });
         break;
 
     case 'dev':
-        let nodeDev = spawn('npm', ['run', 'dev']);
-        nodeDev.stdout.on('data', function (data) {
-            if (data) {
-                process.stdout.write(data);
-            }
-        });
+        spawn('npm', ['run', 'dev'], { stdio: ['inherit', 'inherit', 'inherit'] });
         break;
 
     case 'plugin':
