@@ -7,7 +7,7 @@ import DomustoSocketIO from './DomustoSocketIO';
  * @author Bas van Dijk
  * @class Domusto
  */
-class Domusto {
+class DomustoCore {
 
     constructor(socketIoInstance) {
         DomustoSocketIO.setIO(socketIoInstance);
@@ -15,4 +15,4 @@ class Domusto {
 
 }
 
-export default Domusto;
+export default DomustoCore;

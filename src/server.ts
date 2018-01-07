@@ -3,10 +3,13 @@ import * as express from 'express';
 import util from './util';
 import config from './config';
 
-import Domusto from './domusto/Domusto';
+// import * as DomustoServer from './domusto/Domusto';
 import DomustoDevicesManager from './domusto/DomustoDevicesManager';
 import DomustoPluginsManager from './domusto/DomustoPluginsManager';
 import DomustoLogger from './domusto/DomustoLogger';
+
+// INTERFACES
+import { Domusto } from './domusto/DomustoInterfaces';
 
 export class Server {
 
@@ -76,11 +79,11 @@ export class Server {
     this.app.use(router);
 
     this.app.route('/output').get((req, res) => {
-      res.json(DomustoDevicesManager.getDevicesByRole('output'));
+      res.json(DomustoDevicesManager.getDevicesByRole(Domusto.DeviceRole.output));
     });
 
     this.app.route('/input').get((req, res) => {
-      res.json(DomustoDevicesManager.getDevicesByRole('input'));
+      res.json(DomustoDevicesManager.getDevicesByRole(Domusto.DeviceRole.input));
     });
 
     this.app.route('/output/command/:deviceId/:state').get((req, res) => {
