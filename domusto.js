@@ -11,6 +11,7 @@ let util = require('util');
 let spawn = require('child_process').spawn;
 let fs = require('fs');
 let jsonfile = require('jsonfile');
+let fetchUrl = require('fetch').fetchUrl;
 
 const pluginFolder = './src/domusto-plugins';
 
@@ -48,6 +49,9 @@ switch (process.argv[2]) {
             case 'list':
                 pluginList();
                 break;
+            case 'installed':
+                pluginListInstalled();
+                break;
             case 'install-deps':
                 reInstallDeps();
                 break;
@@ -68,17 +72,18 @@ switch (process.argv[2]) {
 
 DOMUSTO
 Use ctrl+c to stop server
- domusto start    start server
- domusto dev      start server with live refresh on .ts changes
+ ./domusto.js start    start server
+ ./domusto.js dev      start server with live refresh on .ts changes
 
 PLUGIN COMMANDS:
-Example: domusto plugin add basvdijk/domusto-marantz
+Example: ./domusto.js plugin add basvdijk/domusto-marantz
 
- domusto plugin add [REPO]      install plugin by Git repo name
- domusto plugin remove [REPO]   remove plugin by Git repo name
- domusto plugin upgrade         upgrade all installed DOMUSTO plugins
- domusto plugin install-deps    re-install all plugin dependencies
- domusto plugin list            list all installed DOMUSTO plugins
+ ./domusto.js plugin add [REPO]      install plugin by Git repo name
+ ./domusto.js plugin remove [REPO]   remove plugin by Git repo name
+ ./domusto.js plugin upgrade         upgrade all installed DOMUSTO plugins
+ ./domusto.js plugin install-deps    re-install all plugin dependencies
+ ./domusto.js plugin list            list all available DOMUSTO plugins
+ ./domusto.js plugin installed       list all installed DOMUSTO plugins
 
  -------------------------------------------------------------------------------
         `);
@@ -103,7 +108,7 @@ function pluginUpgrade() {
  * Lists installed plugins
  * 
  */
-function pluginList() {
+function pluginListInstalled() {
 
     let plugins = fs.readdirSync(pluginFolder);
 
@@ -115,13 +120,54 @@ function pluginList() {
 
         jsonfile.readFile(packageJson, function (err, obj) {
 
-            for (package in obj.dependencies) {
-                console.log(` ${package}@${obj.dependencies[package]}`);
+            if (obj) {
+
+                console.log(` ├ ${obj.name}`);
+
+                for (package in obj.dependencies) {
+                    console.log(` |  └ ${package}@${obj.dependencies[package]}`);
+                }
+
             }
-        
+
         });
 
     }
+
+}
+
+function pluginList() {
+
+    fetchUrl('https://api.github.com/search/repositories?q=topic:domusto-plugin+domusto', {
+        headers: {
+            accept: 'Accept: application/vnd.github.json'
+        }
+    }, function(error, meta, body){
+
+        console.log('\nCurrent available DOMUSTO plugins:\n')
+
+        for (plugin of JSON.parse(body).items) {
+
+            let date = new Date(plugin.updated_at);
+            let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+            let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
+            let dateString = `${day}-${month}-${date.getFullYear()}`;
+
+            console.log(`\x1b[33m${plugin.full_name}\x1b[0m by ${plugin.owner.login} (last update ${dateString})
+${plugin.description}
+${plugin.html_url}
+`);
+        }
+
+        console.log(`Use:
+./domusto.js plugin add [REPO NAME]
+to install a DOMUSTO plugin
+`);
+        
+
+    });
+
+    // curl -H "Accept: application/vnd.github.json" https://api.github.com/search/repositories?q=topic:domusto-plugin
 
 }
 
@@ -202,14 +248,14 @@ function installNpmPackages(packages) {
  */
 function reInstallDeps(pluginRepo) {
 
-    let plugins = fs.readdirSync(pluginFolder).filter(function(file) {
+    let plugins = fs.readdirSync(pluginFolder).filter(function (file) {
         return (file.indexOf('.AppleDouble') === -1) && (file.indexOf('.MD') === -1);
     });
 
     let dependencies = new Set();
 
-    for (plugin of plugins) {       
-        dependencies = [...new Set([...dependencies ,...getDependencies(plugin)])];
+    for (plugin of plugins) {
+        dependencies = [...new Set([...dependencies, ...getDependencies(plugin)])];
     }
 
     installNpmPackages(dependencies);
@@ -247,7 +293,7 @@ function repoClone(pluginRepo) {
                 if (packages.length > 0) {
                     installNpmPackages(packages);
                 }
-                
+
             } else {
                 console.log('child process exited with code ' + code);
             }
@@ -272,7 +318,7 @@ function repoUpgrade(pluginRepo) {
 
         if (code === 0) {
             success(`${pluginRepo.split('/').reverse()[0]} upgraded`);
-            
+
         } else {
             console.log('child process exited with code ' + code);
         }

@@ -13,6 +13,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "express": "^4.15.3",
+    "fetch": "^1.1.0",
     "fs": "0.0.1-security",
     "jsonfile": "^4.0.0",
     "node-schedule": "^1.2.5",
