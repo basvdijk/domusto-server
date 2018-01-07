@@ -110,6 +110,59 @@ abstract class DomustoPlugin {
 
     }
 
+    util = util;
+
+    /**
+     * Adds the plugin name in front of all console messages
+     *
+     * @memberof DomustoPlugin
+     */
+    console = {
+
+        log: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.log.apply(this, args);
+        },
+
+        debug: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.debug.apply(this, args);
+        },
+
+        warning: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.warning.apply(this, args);
+        },
+
+        error: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.error.apply(this, args);
+        },
+
+        header: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.header.apply(this, args);
+        },
+
+        prettyJson: (...args) => {
+            if (this.pluginConfiguration && this.pluginConfiguration.id) {
+                args.unshift(`[${this.pluginConfiguration.id}]`);
+            }
+            util.prettyJson.apply(this, args);
+        }
+
+    };
+
     set pluginConfiguration(config: Domusto.PluginConfiguration) {
         this._pluginConfiguration = config;
     }
