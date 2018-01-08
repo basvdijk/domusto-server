@@ -85,30 +85,30 @@ class DomustoTimer {
      */
     _scheduleSunTimer(device, timer) {
 
-        let _device = device;
-        let _timer = timer;
+        // let _device = device;
+        // let _timer = timer;
 
-        let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
-        let date = util.offsetDate(times[_timer.condition], _timer.offset);
+        // let times = SunCalc.getTimes(new Date(), config.location.latitude, config.location.longitude);
+        // let date = util.offsetDate(times[_timer.condition], _timer.offset);
 
-        // If the next event is tomorrow
-        if (date < new Date()) {
-            let today = new Date();
-            let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-            times = SunCalc.getTimes(tomorrow, config.location.latitude, config.location.longitude);
-            date = util.offsetDate(times[_timer.condition], _timer.offset);
-        }
+        // // If the next event is tomorrow
+        // if (date < new Date()) {
+        //     let today = new Date();
+        //     let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+        //     times = SunCalc.getTimes(tomorrow, config.location.latitude, config.location.longitude);
+        //     date = util.offsetDate(times[_timer.condition], _timer.offset);
+        // }
 
-        util.log('    Timer (sun)   enabled  for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
+        // util.log('    Timer (sun)   enabled  for', _device.id, 'state', _timer.state, 'at', date, '/', new Date(date).toLocaleString());
 
-        schedule.scheduleJob(date, () => {
-            util.log('     Timer (sun)  activated for', _device.id, 'state', _timer.state);
-            util.logTimersToFile('Timer (sun) activated for ' + _device.id + ' state: ' + timer.state);
-            this.callback(_device.id, _timer.state);
+        // schedule.scheduleJob(date, () => {
+        //     util.log('     Timer (sun)  activated for', _device.id, 'state', _timer.state);
+        //     util.logTimersToFile('Timer (sun) activated for ' + _device.id + ' state: ' + timer.state);
+        //     this.callback(_device.id, _timer.state);
 
-            // Reschedule for next day
-            this._scheduleSunTimer(_device, _timer);
-        });
+        //     // Reschedule for next day
+        //     this._scheduleSunTimer(_device, _timer);
+        // });
 
     }
 
@@ -119,20 +119,20 @@ class DomustoTimer {
      */
     _initEventTimer(device, timer) {
 
-        let _device = device;
-        let _timer = timer;
+        // let _device = device;
+        // let _timer = timer;
 
-        DomustoEmitter.on(device.id + _timer.event, () => {
+        // DomustoEmitter.on(device.id + _timer.event, () => {
 
-            let date = util.offsetDate(new Date(), _timer.offset);
+        //     let date = util.offsetDate(new Date(), _timer.offset);
 
-            schedule.scheduleJob(date, () => {
-                util.log('   Timer (event) activated for', _device.id, 'state', _timer.state);
-                util.logTimersToFile('Timer (event) activated for ' + _device.id + ' state: ' + _timer.state);
-                this.callback(_device.id, _timer.state);
-            });
+        //     schedule.scheduleJob(date, () => {
+        //         util.log('   Timer (event) activated for', _device.id, 'state', _timer.state);
+        //         util.logTimersToFile('Timer (event) activated for ' + _device.id + ' state: ' + _timer.state);
+        //         this.callback(_device.id, _timer.state);
+        //     });
 
-        });
+        // });
 
     }
 

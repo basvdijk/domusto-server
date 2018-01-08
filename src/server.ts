@@ -79,11 +79,11 @@ export class Server {
     this.app.use(router);
 
     this.app.route('/output').get((req, res) => {
-      res.json(DomustoDevicesManager.getDevicesByRole(Domusto.DeviceRole.output));
+      res.json(DomustoDevicesManager.getDevicesByRole('output'));
     });
 
     this.app.route('/input').get((req, res) => {
-      res.json(DomustoDevicesManager.getDevicesByRole(Domusto.DeviceRole.input));
+      res.json(DomustoDevicesManager.getDevicesByRole('input'));
     });
 
     this.app.route('/output/command/:deviceId/:state').get((req, res) => {

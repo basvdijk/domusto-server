@@ -24,12 +24,11 @@ class DomustoPluginsManager {
 
         let plugins = config.plugins;
 
-
         for (let plugin of plugins) {
 
             if (plugin.enabled) {
 
-                util.log('    enabled ', plugin.id, 'plugin');
+                // util.log('enabled ', plugin.id, 'plugin');
 
                 try {
                     await this.importPlugin(plugin);

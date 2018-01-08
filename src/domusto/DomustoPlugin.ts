@@ -21,6 +21,7 @@ abstract class DomustoPlugin {
     constructor(metaData: Domusto.PluginMetaData) {
 
         util.prettyJson(metaData);
+        util.log('');
 
         this._metaData = metaData;
         this._self = this;
@@ -56,11 +57,11 @@ abstract class DomustoPlugin {
      * @param {any} data
      * @memberof DomustoPlugin
      */
-    broadcastSignal(pluginDeviceId, data, sender = Domusto.SignalSender.plugin) {
+    broadcastSignal(pluginDeviceId, data, sender = Domusto.SignalSender.plugin, pluginId = this.pluginConfiguration.id) {
 
         DomustoSignalHub.broadcastSignal({
             sender: sender,
-            pluginId: this.pluginConfiguration.id,
+            pluginId: pluginId,
             deviceId: pluginDeviceId,
             data: data
         });
@@ -154,11 +155,11 @@ abstract class DomustoPlugin {
             util.header.apply(this, args);
         },
 
-        prettyJson: (...args) => {
-            if (this.pluginConfiguration && this.pluginConfiguration.id) {
-                args.unshift(`[${this.pluginConfiguration.id}]`);
-            }
-            util.prettyJson.apply(this, args);
+        prettyJson: (args) => {
+            // if (this.pluginConfiguration && this.pluginConfiguration.id) {
+            //     args.unshift(`[${this.pluginConfiguration.id}]`);
+            // }
+            util.prettyJson(args);
         }
 
     };

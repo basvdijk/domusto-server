@@ -20,6 +20,7 @@ class DomustoDevice {
     protected _data: any;
     protected _triggers: any;
     protected _lastUpdated = new Date();
+    protected _pluginSettings: any;
 
     constructor(device) {
         this._id = device.id;
@@ -32,6 +33,7 @@ class DomustoDevice {
         this._plugin = device.plugin;
         this._data = device.data || null;
         this._triggers = device.triggers || [];
+        this._pluginSettings = device.pluginSettings || {};
     }
 
 
@@ -53,6 +55,7 @@ class DomustoDevice {
             plugin: this._plugin,
             data: this._data,
             triggers: this._triggers,
+            pluginSettings: this._pluginSettings,
         };
     }
 
@@ -131,6 +134,13 @@ class DomustoDevice {
     }
     set data(data: any) {
         this._data = data;
+    }
+
+    get pluginSettings() {
+        return this._pluginSettings;
+    }
+    set pluginSettings(pluginSettings: any) {
+        this._pluginSettings = pluginSettings;
     }
 
 }

@@ -143,8 +143,6 @@ class DomustoDevicesManager {
             }
         });
 
-        console.log('triggers', device.triggers);
-
         if (device.triggers) {
 
             for (let trigger of device.triggers) {
@@ -298,22 +296,22 @@ class DomustoDevicesManager {
 
         this.devices[output.id] = output;
 
-        // Initialise timers when specified
-        if (output.timers) {
+        // // Initialise timers when specified
+        // if (output.timers) {
 
-            util.header('INITIALISING TIMERS for', device.id);
+        //     util.header('INITIALISING TIMERS for', device.id);
 
-            output.timers.forEach((timer) => {
+        //     output.timers.forEach((timer) => {
 
-                new DomustoTimer(output, timer, (device, timer) => {
-                    this.outputCommand(device, timer);
-                });
+        //         new DomustoTimer(output, timer, (device, timer) => {
+        //             this.outputCommand(device, timer);
+        //         });
 
-                output.hasTimers = true;
+        //         output.hasTimers = true;
 
-            });
+        //     });
 
-        }
+        // }
 
     }
 
