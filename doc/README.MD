@@ -1,6 +1,6 @@
 # DOMUSTO Documentation
 
-- [Plugin development](developer/plugin-development.md)
+- [Plugin development](development-plugin.md)
 - [Switches](switches.md)
 - [API](api.md)
 - [Tips & Tricks](tips-and-tricks.md)
