@@ -34,12 +34,12 @@ class DomustoPluginsManager {
                     await this.importPlugin(plugin);
 
                 } catch (error) {
-                    util.error('!!! Error loading plugin ', plugin.id, error);
+                    util.error('Error loading plugin ', plugin.id, error);
                 }
 
 
             } else {
-                util.warning('!!! disabled', plugin.id, 'plugin');
+                util.warning('disabled', plugin.id, 'plugin');
             }
 
         }

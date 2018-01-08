@@ -28,14 +28,14 @@ class Util {
     }
 
     static warning(...args) {
-        Array.prototype.unshift.call(args, '\x1b[33m' + args[0]);
+        Array.prototype.unshift.call(args, '\x1b[33m!!! ' + args[0]);
         Array.prototype.splice.call(args, 1, 1);
         Array.prototype.push.call(args, '\x1b[0m');
         console.log.apply(this, args);
     }
 
     static error(...args) {
-        Array.prototype.unshift.call(args, '\x1b[31m' + args[0]);
+        Array.prototype.unshift.call(args, '\x1b[31m!!! ' + args[0]);
         Array.prototype.splice.call(args, 1, 1);
         Array.prototype.push.call(args, '\x1b[0m');
         console.log.apply(this, args);
@@ -46,7 +46,7 @@ class Util {
             keysColor: 'green',
             numberColor: 'yellow',
             stringColor: 'yellow'
-        }));
+        }, 2));
     }
 
     static getLogDate() {

@@ -42,7 +42,6 @@ abstract class DomustoPlugin {
     /**
      * Triggered when a signal from the client for this plugin is received
      *
-     * @abstract
      * @param {Domusto.Signal} signal
      * @memberof DomustoPlugin
      */

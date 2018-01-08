@@ -279,7 +279,7 @@ class DomustoDevicesManager {
             pluginInstance.addRegisteredDevice(input);
             pluginInstance.onNewInputData = this._onNewInputData.bind(this);
         } else {
-            util.warning('    No plugin found for hardware id', input.plugin.id);
+            util.warning('No plugin found for hardware id', input.plugin.id);
         }
     }
 
