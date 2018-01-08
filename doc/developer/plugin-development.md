@@ -38,7 +38,7 @@ npm init
 
 ## Writing documentation
 
-We use a standard structure for the README.ME have a look at https://github.com/basvdijk/domusto-marantz/blob/master/README.MD for an example.
+We use a standard structure for the README.MD have a look at https://github.com/basvdijk/domusto-marantz/blob/master/README.MD for an example.
 
 ## Start developing
 The easiest way to get started is to copy the code of an existing plugin e.g. https://github.com/basvdijk/domusto-marantz/blob/master/index.ts into your plugin's `index.ts` and modify it according your needs.
