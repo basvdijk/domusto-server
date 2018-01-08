@@ -30,10 +30,15 @@ Open a terminal in your plugin folder and execute:
 
 ```
 touch .gitignore
-echo node_modules > .gitignore
 touch README.MD
 touch init.ts
 npm init
+```
+
+Add the following to your `.gitignore`:
+```
+node_modules
+package-lock.json
 ```
 
 ## Writing documentation
@@ -148,6 +153,10 @@ _Remember to only use this section when device specific settings are needed._
 ```
 
 ## External NPM packages
+When you need external NPM packages you can add them to your package.json as dependency. You can use `npm install` in your plugin directory, but keep in mind never check in the `package-lock.json` of your plugin. This is because the way DOMUSTO installs new plugins.
+
+All server dependencies need to be installed in the `node_modules` in the root of the domusto-server folder instead of the plugin folder. To allow easy development the `domusto.js` client tool checkouts your repo, looks in your `package.json` for dependencies, and installs these automatically.
+
 Store the instance of an external NPM module in `this.hardwareInstance`. In this example the `AVReceiver` is an external NPM module.
 
 ```ts
