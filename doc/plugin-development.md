@@ -84,13 +84,13 @@ DOMUSTO has several interfaces and enums defined. When you import `import { Domu
 ## Plugin settings in Config.ts
 
 The plugin config uses the follwing structure:
-|           |                                                             |
+
+| field     | description                                                 |
 |-----------|-------------------------------------------------------------|
 | plugin    | id in uppercase                                             |
 | enabled   | used to turn on/off the plugin                              |
 | dummyData | used to send fake data to test the plugin e.g. for sensors  |
 | settings  | is the section where you can store plugin specific settings |
-
 
 ```js
 {
