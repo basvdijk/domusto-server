@@ -12,7 +12,7 @@ Before deep diving into DOMUSTO plugin development it is recommended to look at 
 
 Domusto plugins are loaded from Github. In order to make a compaitible plugin make sure:
  - Your repo name is lowercase, in the format: domusto-<PLUGIN NAME> e.g. domusto-gpio or domusto-marantz
- - Add the topics "domusto" and "domusto-plugin" to your repository
+ - If your plugin is suitable for other DOMUSTO users, add the topics `domusto` and `domusto-plugin` to your repository
 
 Checkout the repo locally in the `src/domusto-plugins` folder
 
@@ -79,7 +79,11 @@ this.broadcastSignal('power', {
 
 ## Using the DOMUSTO interfaces
 
-DOMUSTO has several interfaces and enums defined. When you import `import { Domusto } from '../../domusto/DomustoInterfaces';` You can access these interfaces and enums via `Domusto.` VScode will list all possibilities automatically.
+DOMUSTO has several interfaces and enums defined. When you import 
+```ts
+import { Domusto } from '../../domusto/DomustoInterfaces';
+```
+You can access these interfaces and enums via `Domusto.` VScode will list all possibilities automatically.
 
 ## Plugin settings in Config.ts
 
