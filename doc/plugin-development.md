@@ -18,7 +18,7 @@ Checkout the repo locally in the `src/domusto-plugins` folder
 
 ## Recommended IDE
 
-DOMUSTO is developed using [https://code.visualstudio.com/](Visual Studio Code). It is recommended to install the following plugins:
+DOMUSTO is developed using [Visual Studio Code](https://code.visualstudio.com/). It is recommended to install the following plugins:
 - Document This
 - Path Intellisense
 - TSlint
