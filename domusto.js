@@ -72,8 +72,8 @@ switch (process.argv[2]) {
 
 DOMUSTO
 Use ctrl+c to stop server
- ./domusto.js start    start server
- ./domusto.js dev      start server with live refresh on .ts changes
+ npm run start    start server
+ npm run dev      start server with live refresh on .ts changes
 
 PLUGIN COMMANDS:
 Example: ./domusto.js plugin add basvdijk/domusto-marantz
