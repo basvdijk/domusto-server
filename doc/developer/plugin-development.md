@@ -4,8 +4,8 @@
 Before deep diving into DOMUSTO plugin development it is recommended to look at the code of other plugins. The plugins below are listed from simple to complex.
 - https://github.com/basvdijk/domusto-pushbullet
 - https://github.com/basvdijk/domusto-shell
-- https://github.com/basvdijk/domusto-marantz
 - https://github.com/basvdijk/domusto-p1
+- https://github.com/basvdijk/domusto-marantz
 - https://github.com/basvdijk/domusto-rfxcom
 
 ## Setup the plugin repository
