@@ -36,6 +36,10 @@ export default {
     // configuration of the DOMUSTO plugins used
     plugins: [
         {
+            id: 'TIMER',
+            enabled: true,
+        },
+        {
             id: 'RFXCOM',
             enabled: true,
             debug: false,
@@ -52,6 +56,7 @@ export default {
         {
             id: 'P1',
             enabled: true,
+            dummyData: false,
             settings: {
                 port: '/dev/ttyUSB-P1'
             }
@@ -59,22 +64,6 @@ export default {
         {
             id: 'SHELL',
             enabled: true,
-            triggers: [
-
-                // Play doorbell.wav when CHIME1 broadcasts it is being triggered
-                {
-                    listenToEvent: {
-                        deviceId: 'CHIME1',
-                        events: ['trigger'],
-                    },
-                    execute: {
-                        event: 'runCommand',
-                        parameters: [
-                            'aplay assets/audio/doorbell.wav'
-                        ]
-                    }
-                },
-            ],
         },
         {
             id: 'PUSHBULLET',
@@ -83,22 +72,7 @@ export default {
                 apiKeys: [
                     'SJDFKSDJFLSDJLSKFJIWI92340283020',
                 ],
-            },
-            triggers: [
-                {
-                    listenToEvent: {
-                        deviceId: 'CHIME1',
-                        events: ['trigger'],
-                    },
-                    execute: {
-                        event: 'sendMessageToAll',
-                        parameters: [
-                            'Doorbell',    // Title
-                            'Ding Dong!'   // Message
-                        ]
-                    }
-                },
-            ],
+            }
         },
         {
             id: 'ZWAVE',
@@ -136,8 +110,8 @@ export default {
             name: 'modem',                      // string                          name of the device which is used in the frontend
             type: 'switch',                     // switch | temperature | power    kind of device
             subType: 'on/off',                  // on/off | up/down | momentary | temperature-humidity   subType of switch
-            protocol: {
-                pluginId: 'RFXCOM',           // string   id of the hardware device
+            plugin: {
+                id: 'RFXCOM',           // string   id of the hardware device
                 type: 'Lighting2',              // string   protocol type
                 subType: 'AC',                  // string   protocol subType
 
@@ -154,77 +128,73 @@ export default {
                 ]
             },
 
-            // TIMERS
-            // timers which control the device based on time or sun
-            timers: [
+            pluginSettings: {
 
-                // Switch on every 10 seconds
-                {
-                    enabled: false,         // boolean         enables or disables a timer
-                    state: 'on',            // on | off        state to which the timer switched on timer hit
-                    type: 'time',           // time | sun      sets the type of timer
-                    time: '10 * * * * *'    // cron notation   define the timer in the cron format seconds - minute - hours - day - month - year. Use * as wildcard
-                },
+                // TIMERS
+                // timers which control the device based on time or sun
+                timers: [
 
-                // Switch off every day at 22:00h
-                {
-                    enabled: false,
-                    state: 'off',
-                    type: 'time',
-                    time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
-                },
+                    // Switch on every 10 seconds
+                    {
+                        enabled: false,         // boolean         enables or disables a timer
+                        state: 'on',            // on | off        state to which the timer switched on timer hit
+                        time: '10 * * * * *'    // cron notation   define the timer in the cron format seconds - minute - hours - day - month - year. Use * as wildcard
+                    },
 
-                // Switch on every day 1h _before_ sunset
-                {
-                    enabled: true,
-                    type: 'sun',
-                    state: 'on',
-                    condition: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
-                    offset: '* * -1 * * *',  // One hour before sunset
-                },
+                    // Switch off every day at 22:00h
+                    {
+                        enabled: false,
+                        state: 'off',
+                        time: '0 0 22 * * *'     // (make sure you don't use * * 22 * * * instead. Otherwise it will be triggered every second)
+                    },
 
-                // Switch off 2h after sunrise
-                {
-                    enabled: true,
-                    state: 'off',
-                    type: 'sun',
-                    condition: 'sunrise',
-                    offset: '* * 2 * * *',
-                },
+                    // Switch on every day 1h _before_ sunset
+                    {
+                        enabled: true,
+                        state: 'on',
+                        time: 'sunset',     // sunrise | sunset and more see https://www.npmjs.com/package/suncalc for all options
+                        offset: '* * -1 * * *',  // One hour before sunset
+                    },
 
-                // Switch on every day on sunset
-                {
-                    enabled: true,
-                    type: 'sun',
-                    condition: 'sunset',
-                    state: 'on'
-                },
+                    // Switch off 2h after sunrise
+                    {
+                        enabled: true,
+                        state: 'off',
+                        time: 'sunrise',
+                        offset: '* * 2 * * *',
+                    },
 
-                // Switch off every Sunday till Thursday at 23:00h
-                {
-                    enabled: true,
-                    type: 'time',
-                    time: '0 0 23 * * SUN-THU',
-                    state: 'off'
-                },
+                    // Switch on every day on sunset
+                    {
+                        enabled: true,
+                        time: 'sunset',
+                        state: 'on'
+                    },
 
-                // Switch off every Saturday and Sunday at 0:30h
-                {
-                    enabled: true,
-                    type: 'time',
-                    time: '0 30 0 * * SAT-SUN',
-                    state: 'off'
-                },
+                    // Switch off every Sunday till Thursday at 23:00h
+                    {
+                        enabled: true,
+                        time: '0 0 23 * * SUN-THU',
+                        state: 'off'
+                    },
 
-                // Execute off 5 seconds after on
-                {
-                    enabled: true,
-                    type: 'event',
-                    offset: '5 * * * * *',
-                    event: 'on',
-                    state: 'off'
-                },
-            ]
+                    // Switch off every Saturday and Sunday at 0:30h
+                    {
+                        enabled: true,
+                        time: '0 30 0 * * SAT-SUN',
+                        state: 'off'
+                    },
+
+                    // Execute off 5 seconds after on
+                    {
+                        enabled: true,
+                        type: 'event',
+                        offset: '5 * * * * *',
+                        event: 'on',
+                        state: 'off'
+                    },
+                ]
+            }
         },
 
         // BUTTON WHICH EXECUTES SHELL COMMANDS
@@ -235,9 +205,9 @@ export default {
             name: 'shell test',
             type: 'switch',
             subType: 'on/off',
-            protocol: {
-                pluginId: 'SHELL',
-                id: 'SHELL1',
+            plugin: {
+                id: 'SHELL',
+                deviceId: 'SHELL1',
                 actions: {
                     on: 'ls -l',
                     off: 'pwd'
@@ -254,11 +224,9 @@ export default {
             name: 'Studeerkamer',
             type: 'temperature',
             subType: 'temperature-humidity',
-            protocol: {
-                pluginId: 'RFXCOM',
-                type: 'th',
-                subType: '13',
-                deviceId: '0x7103'
+            plugin: {
+                id: 'RFXCOM',
+                type: 'temperaturehumidity1-0x6A43',
             }
         },
 
@@ -270,9 +238,9 @@ export default {
             name: 'NEFIT outdoor',
             type: 'temperature',
             subType: 'temperature',
-            protocol: {
-                pluginId: 'NEFIT-EASY',
-                deviceId: 'outdoorTemp'
+            plugin: {
+                id: 'NEFIT-EASY',
+                deviceId: 'outdoor-temperature'
             }
         },
 
@@ -283,10 +251,9 @@ export default {
             role: 'input',
             name: 'Power received',
             type: 'power',
-            protocol: {
-                pluginId: 'P1',
-                deviceId: 'POWER1',
-                type: 'received'          // received | delivered    set the type of device
+            plugin: {
+                id: 'P1',
+                deviceId: 'received'
             }
         },
         {
@@ -295,10 +262,9 @@ export default {
             role: 'input',
             name: 'Power delivered',
             type: 'power',
-            protocol: {
-                pluginId: 'P1',
-                deviceId: 'POWER2',
-                type: 'delivered'
+            plugin: {
+                id: 'P1',
+                deviceId: 'delivered'
             }
         }
     ]
