@@ -153,9 +153,10 @@ function pluginList() {
             let month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
             let dateString = `${day}-${month}-${date.getFullYear()}`;
 
-            console.log(`\x1b[33m${plugin.full_name}\x1b[0m by ${plugin.owner.login} (last update ${dateString})
-${plugin.description}
-${plugin.html_url}
+            console.log(`\x1b[33m${plugin.full_name}\x1b[0m - ${plugin.html_url}
+Author:       ${plugin.owner.login}
+Last update:  ${dateString}
+Description:  ${plugin.description}
 `);
         }
 
