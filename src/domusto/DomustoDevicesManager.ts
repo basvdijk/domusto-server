@@ -34,7 +34,7 @@ class DomustoDevicesManager {
          */
         for (let device of config.devices) {
 
-            if (device.enabled) {
+            if (device.enabled && this.isDeviceValid(device)) {
 
                 switch (device.role) {
                     case 'input': {
@@ -87,9 +87,9 @@ class DomustoDevicesManager {
 
             } else {
 
-                let device = this.getDeviceByDeviceId(signal.deviceId);
+                let devices = this.getDevicesByPluginId(signal.pluginId);
 
-                if (device && device.triggers) {
+                for (let device of devices) {
 
                     for (let trigger of device.triggers) {
 
@@ -110,6 +110,44 @@ class DomustoDevicesManager {
 
             }
         });
+
+    }
+
+    /**
+     * Valides the device configuration
+     *
+     * @param {any} device
+     * @returns true when device is valid
+     * @memberof DomustoDevicesManager
+     */
+    isDeviceValid(device) {
+
+        if (!device['id']) {
+            util.error(`No 'id' defined for device '${device.name}' found in config.ts`);
+            return false;
+        }
+
+        if (!device['role']) {
+            util.error(`No 'role' defined for device '${device.name}' found in config.ts`);
+            return false;
+        }
+
+        if (!device['type']) {
+            util.error(`No 'type' defined for device '${device.name}' found in config.ts`);
+            return false;
+        }
+
+        if (device['inputIds'] && typeof device['inputIds'] !== 'object') {
+            util.error(`'inputIds' for device '${device.name}' in config.ts is not defined as array`);
+            return false;
+        }
+
+        if (!device.plugin['deviceId']) {
+            util.error(`No 'plugin.deviceId' defined for device '${device.name}' found in config.ts`);
+            return false;
+        }
+
+        return true;
 
     }
 
@@ -327,11 +365,9 @@ class DomustoDevicesManager {
         let devices = [];
 
         if (inputData.deviceId) {
-            let device = this.getDeviceByDeviceId(inputData.deviceId);
+            let devices = this.getDevicesByDeviceId(inputData.deviceId);
 
-            if (device) {
-                devices = [device];
-            } else {
+            if (devices.size > 0) {
                 util.debug('No device found for:', inputData.deviceId);
             }
 
@@ -381,7 +417,10 @@ class DomustoDevicesManager {
      * @returns
      * @memberof DomustoDevicesManager
      */
-    getDeviceByDeviceId(deviceId) {
+    getDevicesByDeviceId(deviceId): Set<DomustoDevice> {
+
+        let devices: Set<DomustoDevice>;
+        devices = new Set();
 
         for (let i in this.devices) {
 
@@ -390,7 +429,8 @@ class DomustoDevicesManager {
             // Check if the id defined within a protocol matches deviceId
 
             if (device.plugin.deviceId && device.plugin.deviceId.indexOf(deviceId) > -1) {
-                return device;
+                devices.add(device);
+                break;
             }
 
             // Check if the inputId matches
@@ -399,7 +439,8 @@ class DomustoDevicesManager {
                 for (let j in device.plugin.inputIds) {
 
                     if (device.plugin.inputIds[j] === deviceId) {
-                        return device;
+                        devices.add(device);
+                        break;
                     }
 
                 }
@@ -408,12 +449,13 @@ class DomustoDevicesManager {
 
             // Check if the protocol outputId matches
             if (device.plugin.outputId && (device.plugin.outputId === deviceId)) {
-                return device;
+                devices.add(device);
+                break;
             }
 
         }
 
-        return null;
+        return devices;
 
     }
 
