@@ -135,13 +135,11 @@ _Remember to only use this section when device specific settings are needed._
 
         timer: [
             {
-                type: 'sun',
                 enabled: true,
-                condition: 'sunset',
+                time: 'sunset',
                 state: 'on'
             },
             {
-                type: 'time',
                 enabled: true,
                 time: '0 0 23 * * SUN-THU',
                 state: 'off'
