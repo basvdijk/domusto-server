@@ -122,16 +122,30 @@ cp src/config.example.ts src/config.ts
 
 Edit the config file according to your setup.
 
+## Install plugins
+
+To show all available plugins, run:
+```
+./domusto.js plugin list
+```
+
+For more information about plugin installation run
+```
+./domusto.js
+```
+
+
+
 ## Run server
 
 Run the server in production
 ```bash
-./domusto.js start
+npm run start
 ```
 
 Run the server in development mode with live reload
 ```bash
-./domusto.js dev
+npm run dev
 ```
 
 Once the server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
