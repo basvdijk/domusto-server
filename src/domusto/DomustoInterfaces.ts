@@ -10,6 +10,12 @@ export namespace Domusto {
         settings: any;
     }
 
+    export interface PluginConfigurationFieldValidator {
+        attribute: string;
+        type: string|Object;
+        validValues?: Array<any>;
+    }
+
     export enum PluginCategories {
         temperature,
         heating,

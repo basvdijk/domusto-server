@@ -110,6 +110,48 @@ abstract class DomustoPlugin {
 
     }
 
+    /**
+     * Validates configuration fields
+     *
+     * @param {any} configuration
+     * @param {any} attributes
+     * @returns true when configuration field is valid
+     * @memberof DomustoPlugin
+     */
+    validateConfigurationAttributes(configuration, attributes: Domusto.PluginConfigurationFieldValidator[]) {
+
+        for (let a of attributes) {
+
+            if (typeof configuration[a.attribute] === 'undefined') {
+                this.console.error(`Configuration has undefined or missing attribute '${a.attribute}'`, configuration);
+                return false;
+            }
+
+            if (a.type instanceof RegExp) {
+
+                if (!a.type.test(typeof configuration[a.attribute])) {
+                    this.console.error(`Configuration has wrong type for attribute '${a.attribute}' expected: ${a.type}`, configuration);
+                    return false;
+                }
+
+            } else {
+
+                if (typeof configuration[a.attribute] !== a.type) {
+                    this.console.error(`Configuration has wrong type for attribute '${a.attribute}' expected: ${a.type}`, configuration);
+                    return false;
+                }
+            }
+
+            if (a.validValues && (a.validValues.indexOf(configuration[a.attribute]) === -1)) {
+                this.console.error(`Configuration has invalid value for attribute '${a.attribute}' expected: ${a.validValues.join(' | ')}`, configuration);
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
     util = util;
 
     /**
