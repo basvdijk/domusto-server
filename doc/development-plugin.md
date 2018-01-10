@@ -150,6 +150,58 @@ _Remember to only use this section when device specific settings are needed._
 }
 ```
 
+## Validate configuration fields
+Make sure you validate the plugin configuration fields in the constructor of your plugin in order to make sure the users have provided the correct fields in their `Config.ts`.
+
+```typescript
+// Config.ts:
+//
+// settings: {
+//   ip: '192.168.178.61a',
+//   pollInterval: 5 * 1000
+// }
+
+// Validation
+let isConfigurationValid = this.validateConfigurationAttributes(pluginConfiguration.settings, [
+    {
+        attribute: 'ip',
+        type: /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/
+    }
+]);
+```
+
+```ts
+// Config.ts:
+//
+// pluginSettings: {
+//
+//     timer: [
+//         {
+//             enabled: true,
+//             time: '0 41 17 * * *',
+//             state: 'on'
+//         },
+//     ]
+// }
+
+// Validation
+let isConfigurationValid = this.validateConfigurationAttributes(timer, [
+    {
+        attribute: 'enabled',
+        type: 'boolean'
+    },
+    {
+        attribute: 'time',
+        type: 'string'
+    },
+    {
+        attribute: 'state',
+        type: 'string',
+        validValues: ['on', 'off', 'trigger']
+    },
+]);
+```
+
 ## External NPM packages
 When you need external NPM packages you can add them to your package.json as dependency. You can use `npm install` in your plugin directory, but keep in mind never check in the `package-lock.json` of your plugin. This is because the way DOMUSTO installs new plugins.
 
