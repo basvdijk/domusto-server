@@ -216,3 +216,8 @@ Store the instance of an external NPM module in `this.hardwareInstance`. In this
 let receiver = new AVReceiver(pluginConfiguration.settings.ip);
 this.hardwareInstance = receiver;
 ```
+
+## Naming conventions
+
+- Device id's are written in Kebab case e.g.  `temperaturehumidity1-0x1203` and `in-house-temperature`
+- 
