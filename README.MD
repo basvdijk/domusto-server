@@ -7,6 +7,7 @@ This project is just the DOMUSTO server. You'll find the graphical interface at 
 See [API documentation](doc/api.md)
 
 # Plugins
+- [Timer](https://github.com/basvdijk/domusto-timer)
 - [RFXcom](https://github.com/basvdijk/domusto-rfxcom)
 - [Z-Wave](https://github.com/basvdijk/domusto-zwave)
 - [P1 smart meter](https://github.com/basvdijk/domusto-p1)
