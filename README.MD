@@ -4,7 +4,7 @@ This project is just the DOMUSTO server. You'll find the graphical interface at 
 
 # DOMUSTO Server API
 
-See [API documentation](doc/API.MD)
+See [API documentation](doc/api.md)
 
 # Plugins
 - [RFXcom](https://github.com/basvdijk/domusto-rfxcom)
