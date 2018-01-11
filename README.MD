@@ -2,9 +2,9 @@ _This project is pre-pre-pre-alpha, so don't expect a working solution._
 
 This project is just the DOMUSTO server. You'll find the graphical interface at https://github.com/basvdijk/domusto-client
 
-# API docs
+# DOMUSTO Server API
 
-See [the API docs](API.MD)
+See [API documentation](doc/API.MD)
 
 # Plugins
 - [RFXcom](https://github.com/basvdijk/domusto-rfxcom)
