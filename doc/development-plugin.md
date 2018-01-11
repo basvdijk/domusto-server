@@ -153,38 +153,41 @@ _Remember to only use this section when device specific settings are needed._
 ## Validate configuration fields
 Make sure you validate the plugin configuration fields in the constructor of your plugin in order to make sure the users have provided the correct fields in their `Config.ts`.
 
-```typescript
-// Config.ts:
-//
-// settings: {
-//   ip: '192.168.178.61a',
-//   pollInterval: 5 * 1000
-// }
+### Config.ts
+```js
+settings: {
+  ip: '192.168.178.61',
+  pollInterval: 5 * 1000
+}
+```
 
-// Validation
+### Plugin constructor (basvdijk/marantz)
+```typescript
 let isConfigurationValid = this.validateConfigurationAttributes(pluginConfiguration.settings, [
     {
         attribute: 'ip',
+        // regex to validate ip addresses
         type: /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/
     }
 ]);
 ```
 
-```ts
-// Config.ts:
-//
-// pluginSettings: {
-//
-//     timer: [
-//         {
-//             enabled: true,
-//             time: '0 41 17 * * *',
-//             state: 'on'
-//         },
-//     ]
-// }
+### Config.ts
+```js
+pluginSettings: {
 
-// Validation
+    timer: [
+        {
+            enabled: true,
+            time: '0 41 17 * * *',
+            state: 'on'
+        },
+    ]
+}
+```
+
+### Plugin constructor (basvdijk/timer)
+```ts
 let isConfigurationValid = this.validateConfigurationAttributes(timer, [
     {
         attribute: 'enabled',
