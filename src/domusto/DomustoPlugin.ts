@@ -122,11 +122,13 @@ abstract class DomustoPlugin {
 
         for (let a of attributes) {
 
+            // Check if attribute is defined
             if (typeof configuration[a.attribute] === 'undefined') {
                 this.console.error(`Configuration has undefined or missing attribute '${a.attribute}'`, configuration);
                 return false;
             }
 
+            // Determine type used by user RegEx / boolean / string / number
             if (a.type instanceof RegExp) {
 
                 if (!a.type.test(configuration[a.attribute])) {
@@ -142,6 +144,7 @@ abstract class DomustoPlugin {
                 }
             }
 
+            // Check if the attribute is found in the configuration
             if (a.validValues && (a.validValues.indexOf(configuration[a.attribute]) === -1)) {
                 this.console.error(`Configuration has invalid value for attribute '${a.attribute}' expected: ${a.validValues.join(' | ')}`, configuration);
                 return false;
@@ -151,8 +154,6 @@ abstract class DomustoPlugin {
         return true;
 
     }
-
-    util = util;
 
     /**
      * Adds the plugin name in front of all console messages
