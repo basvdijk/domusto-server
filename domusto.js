@@ -25,6 +25,10 @@ switch (process.argv[2]) {
         spawn('npm', ['run', 'dev'], { stdio: ['inherit', 'inherit', 'inherit'] });
         break;
 
+    case 'upgrade':
+        spawn('git', ['pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
+        break;
+
     case 'plugin':
 
         switch (process.argv[3]) {
@@ -72,8 +76,10 @@ switch (process.argv[2]) {
 
 DOMUSTO
 Use ctrl+c to stop server
- npm run start    start server
- npm run dev      start server with live refresh on .ts changes
+ npm run start         start server
+ npm run dev           start server with live refresh on .ts changes
+
+./domusto.js upgrade   upgrade DOMUSTO
 
 PLUGIN COMMANDS:
 Example: ./domusto.js plugin add basvdijk/domusto-marantz
@@ -325,7 +331,6 @@ function repoUpgrade(pluginRepo) {
         }
 
     });
-
 
 }
 
