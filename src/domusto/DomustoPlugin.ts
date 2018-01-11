@@ -129,7 +129,7 @@ abstract class DomustoPlugin {
 
             if (a.type instanceof RegExp) {
 
-                if (!a.type.test(typeof configuration[a.attribute])) {
+                if (!a.type.test(configuration[a.attribute])) {
                     this.console.error(`Configuration has wrong type for attribute '${a.attribute}' expected: ${a.type}`, configuration);
                     return false;
                 }
