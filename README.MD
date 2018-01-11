@@ -1,19 +1,21 @@
 _This project is pre-pre-pre-alpha, so don't expect a working solution._
 
-This project is just the DOMUSTO server. You'll find the graphical interface at https://github.com/basvdijk/domusto-client
+# Frontend
+Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
 
 # DOMUSTO Server API
 
 See [API documentation](doc/api.md)
 
 # Plugins
-- [Timer](https://github.com/basvdijk/domusto-timer)
-- [RFXcom](https://github.com/basvdijk/domusto-rfxcom)
-- [Z-Wave](https://github.com/basvdijk/domusto-zwave)
-- [P1 smart meter](https://github.com/basvdijk/domusto-p1)
-- [Shell executer](https://github.com/basvdijk/domusto-shell)
-- [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy)
-- [Marantz](https://github.com/basvdijk/domusto-marantz)
+| Plugin                                                       | Description                                                 |
+|--------------------------------------------------------------|-------------------------------------------------------------|
+| [Timer](https://github.com/basvdijk/domusto-timer)           | Switch based on specific time or sunset, sunrise etc.       |
+| [RFXcom](https://github.com/basvdijk/domusto-rfxcom)         | Send and receive 433Mhz signals with RFXcom usb transceiver |
+| [P1 smart meter](https://github.com/basvdijk/domusto-p1)     | Read the electrical smartmeter with P1 protocol             |
+| [Shell executer](https://github.com/basvdijk/domusto-shell)  | Execute shell commands on an DOMUSTO signal                 |
+| [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy) | Read the temperature of Nefit Easy thermostat               |
+| [Marantz](https://github.com/basvdijk/domusto-marantz)       | Control your Marantz receiver                               |
 
 # Tested hardware
 - RFXcom
@@ -57,12 +59,12 @@ See [API documentation](doc/api.md)
 
 ## Running DOMUSTO server
 ```bash
-./domusto.js start
+npm run start
 ```
 
 ## Running DOMUSTO server with auto reload on changes
 ```bash
-./domusto.js dev
+npm run dev
 ```
 
 ## Running DOMUSTO tests
@@ -134,22 +136,6 @@ For more information about plugin installation run
 ```
 ./domusto.js
 ```
-
-
-
-## Run server
-
-Run the server in production
-```bash
-npm run start
-```
-
-Run the server in development mode with live reload
-```bash
-npm run dev
-```
-
-Once the server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
 
 ## Fixed names for USB port devices
 
