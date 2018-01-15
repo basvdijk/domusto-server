@@ -1,6 +1,5 @@
 import util from '../util';
 import config from '../config';
-import DomustoEmitter from './DomustoEmitter';
 
 /**
  * Class to manage the plugins
@@ -14,7 +13,7 @@ class DomustoPluginsManager {
     private _onNewInputData: Function;
 
 
-    constructor() {}
+    constructor() { }
 
     async init() {
 
@@ -27,8 +26,6 @@ class DomustoPluginsManager {
         for (let plugin of plugins) {
 
             if (plugin.enabled) {
-
-                // util.log('enabled ', plugin.id, 'plugin');
 
                 try {
                     await this.importPlugin(plugin);
@@ -45,11 +42,13 @@ class DomustoPluginsManager {
         }
     }
 
+    /**
+     * Import the node module
+     *
+     * @param {any} plugin
+     * @memberof DomustoPluginsManager
+     */
     async importPlugin(plugin) {
-
-        // let pluginName = 'domusto-' + plugin.id.toLowerCase();
-        // let pluginPath = '../plugins/' + pluginName + '/' + pluginName;
-        // let pluginNodeModule = await import(pluginPath);
 
         let pluginName = 'domusto-' + plugin.id.toLowerCase();
         let pluginPath = '../domusto-plugins/' + pluginName + '/index';
@@ -58,24 +57,7 @@ class DomustoPluginsManager {
         let domustoPluginInstance = new pluginNodeModule.default(plugin);
         domustoPluginInstance.pluginConfiguration = plugin;
 
-        // let domustoPluginInstance = new pluginNodeModule.default(plugin);
         this._pluginInstances[plugin.id] = domustoPluginInstance;
-
-        // TODO
-        if (plugin['triggers']) {
-
-            plugin['triggers'].forEach(trigger => {
-
-                trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                    DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                        domustoPluginInstance.trigger(trigger.execute.event, trigger.execute.parameters);
-                    });
-
-                });
-
-            });
-        }
 
     }
 

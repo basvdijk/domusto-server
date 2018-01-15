@@ -1,31 +1,12 @@
 import * as express from 'express';
 
-// HELPERS
-import util from './util';
-import config from './config';
-
 // DOMUSTO
 import DomustoDevicesManager from './domusto/DomustoDevicesManager';
 import DomustoPluginsManager from './domusto/DomustoPluginsManager';
 
-// INTERFACES
-import { Domusto } from './domusto/DomustoInterfaces';
-
-export class Server {
+export class ExpressServer {
 
   public app: express.Application;
-
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
-   */
-  public static bootstrap(): Server {
-    return new Server();
-  }
 
   constructor() {
 
@@ -35,7 +16,7 @@ export class Server {
     });
 
     this.app = express();
-    this.setHeaders();
+    this.setResponseHeaders();
     this.initRoutes();
   }
 
@@ -43,19 +24,14 @@ export class Server {
    * Set the reponse headers for all requests
    *
    * @private
-   * @memberof Server
+   * @memberof ExpressServer
    */
-  private setHeaders() {
+  private setResponseHeaders() {
 
     this.app.use(function (req, res, next) {
 
-      // Website you wish to allow to connect
       res.setHeader('Access-Control-Allow-Origin', '*');
-
-      // Request methods you wish to allow
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-      // Request headers you wish to allow
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
       // Set to true if you need the website to include cookies in the requests sent
@@ -72,7 +48,7 @@ export class Server {
    * Set the routes for the DOMUSTO server API
    *
    * @private
-   * @memberof Server
+   * @memberof ExpressServer
    */
   private initRoutes() {
 
@@ -81,12 +57,14 @@ export class Server {
     // use router middleware
     this.app.use(router);
 
-    this.app.route('/output').get((req, res) => {
-      res.json(DomustoDevicesManager.getDevicesByRole('output'));
-    });
-
+    // INPUTS ROUTES
     this.app.route('/input').get((req, res) => {
       res.json(DomustoDevicesManager.getDevicesByRole('input'));
+    });
+
+    // OUTPUTS ROUTES
+    this.app.route('/output').get((req, res) => {
+      res.json(DomustoDevicesManager.getDevicesByRole('output'));
     });
 
     this.app.route('/output/command/:deviceId/:state').get((req, res) => {

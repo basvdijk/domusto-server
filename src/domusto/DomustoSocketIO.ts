@@ -1,6 +1,5 @@
 import util from '../util';
 import config from '../config';
-import DomustoEmitter from './DomustoEmitter';
 import DomustoDevicesManager from './DomustoDevicesManager';
 
 /**
@@ -29,13 +28,9 @@ class DomustoSocketIO {
 
             util.debug('DOMUSTO client connected from:', socket.handshake.headers.referer);
 
-            // // send data to client
-            // setInterval(function () {
-            //     console.log('emit');
-            //     Domusto.io.emit('deviceUpdate', { 'id': 'input-2', 'number': Math.random() });
-            // }, 10000);
-
-            DomustoEmitter.emit('socketOnConnection');
+            this.emit('inputDeviceUpdate', DomustoDevicesManager.getDevicesByRole('input'));
+            this.emit('outputDeviceUpdate', DomustoDevicesManager.getDevicesByRole('output'));
+            this.emit('screensSet', config.screens);
 
         });
 

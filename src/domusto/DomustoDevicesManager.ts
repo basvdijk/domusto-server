@@ -4,12 +4,10 @@ import util from '../util';
 import config from '../config';
 
 // DOMUSTO
-import DomustoEmitter from './DomustoEmitter';
 import DomustoDevice from './DomustoDevice';
 import DomustoInput from './DomustoInput';
 import DomustoOutput from './DomustoOutput';
 import DomustoSocketIO from './DomustoSocketIO';
-import DomustoTimer from './DomustoTimer';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
@@ -27,10 +25,10 @@ class DomustoDevicesManager {
 
     constructor() { }
 
+    /**
+     * Initialises enabled devices defined in the config.ts file
+     */
     init() {
-        /**
-         * Initialises enabled devices defined in the config.ts file
-         */
         for (let device of config.devices) {
 
             if (device.enabled && this.isDeviceValid(device)) {
@@ -47,20 +45,9 @@ class DomustoDevicesManager {
 
                 }
 
-                // if (device['triggers']) {
-                //     this._initTriggers(device);
-                // }
-
             }
 
         }
-
-        // Broadcasts the input- and output devices when a new client has connected to the SocketIO channel
-        DomustoEmitter.on('socketOnConnection', () => {
-            DomustoSocketIO.emit('inputDeviceUpdate', this.getDevicesByRole('input'));
-            DomustoSocketIO.emit('outputDeviceUpdate', this.getDevicesByRole('output'));
-            DomustoSocketIO.emit('screensSet', config.screens);
-        });
 
         DomustoSignalHub.subject.subscribe((signal: Domusto.Signal) => {
 
@@ -201,100 +188,11 @@ class DomustoDevicesManager {
 
         }
 
-        // id: 'MARANTZ-POWER',
-        //     screens: ['audio'],
-        //         enabled: true,
-        //             role: 'output',
-        //                 name: 'Marantz',
-        //                     type: 'switch',
-        //                         subType: 'on/off',
-        //                             plugin: {
-        //     id: 'MARANTZ',
-        //         subType: 'power'
-        // }
-
-        // id: 'MARANTZ-POWER',
-        // screens: ['audio'],
-        // enabled: true,
-        // role: 'output',
-        // name: 'Marantz',
-        // type: 'switch',
-        // subType: 'on/off',
-        // plugin: {
-        //     id: 'MARANTZ',
-        //     subType: 'power'
-        // }
-
         // check if a callback is provided
         if (onSuccess) {
             onSuccess(device);
         }
 
-        // let device = <DomustoOutput>this.devices[deviceId];
-
-        // let pluginInstance = DomustoPluginsManager.getPluginInstanceByPluginId(device.plugin.id);
-
-        // if (!pluginInstance) {
-        //     console.error('WARNING! No plugin instance found for:', device.plugin.id);
-        //     console.error('Make sure the plugin is enabled');
-
-        //     util.logErrorToFile('WARNING! No plugin instance found for: ' + device.plugin.id);
-        //     util.logErrorToFile('Make sure the plugin is enabled');
-        //     return false;
-        // }
-
-        // if (!device.busy) {
-
-        //     device.busy = true;
-
-        //     pluginInstance.outputCommand(device, command, response => {
-
-        //         console.log('emit', device.id + command);
-        //         DomustoEmitter.emit(device.id + command);
-
-        //         util.logSwitchToFile(device.name + ' (' + device.id + ') - ' + command);
-
-        //         DomustoLogger.newEvent(Domusto.EventType.output, device.toJSON(), command);
-
-        //         device.busy = false;
-        //         device.state = response.state;
-        //         device.lastUpdated = new Date();
-
-        //         // check if a callback is provided
-        //         if (onSuccess) {
-        //             onSuccess(device);
-        //         }
-
-        //         // outputDeviceUpdate channel only takes arrays
-        //         let devices = [];
-        //         devices.push(device);
-        //         DomustoSocketIO.emit('outputDeviceUpdate', devices);
-
-        //     });
-
-        // }
-
-    }
-
-    /**
-     * Initialises the triggers configured for a device. Binds the listeners which
-     * triggers the outputCommand of a device
-     *
-     * @param {DomustoDevice} device
-     * @memberof DomustoDevicesManager
-     */
-    _initTriggers(device) {
-        device.triggers.forEach(trigger => {
-
-            trigger.listenToEvent.events.forEach(triggerEvent => {
-
-                DomustoEmitter.on(trigger.listenToEvent.deviceId + triggerEvent, () => {
-                    this.outputCommand(device.id, trigger.execute.event);
-                });
-
-            });
-
-        });
     }
 
 
@@ -332,23 +230,6 @@ class DomustoDevicesManager {
         let output = new DomustoOutput(device);
 
         this.devices[output.id] = output;
-
-        // // Initialise timers when specified
-        // if (output.timers) {
-
-        //     util.header('INITIALISING TIMERS for', device.id);
-
-        //     output.timers.forEach((timer) => {
-
-        //         new DomustoTimer(output, timer, (device, timer) => {
-        //             this.outputCommand(device, timer);
-        //         });
-
-        //         output.hasTimers = true;
-
-        //     });
-
-        // }
 
     }
 
