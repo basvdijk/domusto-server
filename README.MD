@@ -1,7 +1,7 @@
-_This project is pre-pre-pre-alpha, so don't expect a working solution._
+_This project in alpha-state, so things might not work as expected._
 
 # Frontend
-Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client-vuejs
+Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client
 
 # DOMUSTO Server API
 
