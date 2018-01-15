@@ -10,7 +10,6 @@ import DomustoInput from './DomustoInput';
 import DomustoOutput from './DomustoOutput';
 import DomustoSocketIO from './DomustoSocketIO';
 import DomustoTimer from './DomustoTimer';
-import DomustoLogger from './DomustoLogger';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES

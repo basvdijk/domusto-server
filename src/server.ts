@@ -1,12 +1,12 @@
 import * as express from 'express';
 
+// HELPERS
 import util from './util';
 import config from './config';
 
-// import * as DomustoServer from './domusto/Domusto';
+// DOMUSTO
 import DomustoDevicesManager from './domusto/DomustoDevicesManager';
 import DomustoPluginsManager from './domusto/DomustoPluginsManager';
-import DomustoLogger from './domusto/DomustoLogger';
 
 // INTERFACES
 import { Domusto } from './domusto/DomustoInterfaces';
@@ -34,13 +34,17 @@ export class Server {
       DomustoDevicesManager.init();
     });
 
-    DomustoLogger.init();
-
     this.app = express();
     this.setHeaders();
     this.initRoutes();
   }
 
+  /**
+   * Set the reponse headers for all requests
+   *
+   * @private
+   * @memberof Server
+   */
   private setHeaders() {
 
     this.app.use(function (req, res, next) {
@@ -65,15 +69,14 @@ export class Server {
   }
 
   /**
-   * Set the routes for the API
+   * Set the routes for the DOMUSTO server API
    *
    * @private
    * @memberof Server
    */
   private initRoutes() {
 
-    let router: express.Router;
-    router = express.Router();
+    const router = express.Router();
 
     // use router middleware
     this.app.use(router);

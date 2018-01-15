@@ -8,9 +8,9 @@ import config from './config';
 import util from './util';
 import { Server } from './server';
 
-let app = new Server().app;
-let httpServer = http.createServer(app);
-let socketIO = io(httpServer);
+const app = new Server().app;
+const httpServer = http.createServer(app);
+const socketIO = io(httpServer);
 
 new DomustoCore(socketIO);
 
