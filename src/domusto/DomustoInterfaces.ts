@@ -5,9 +5,9 @@ export namespace Domusto {
     export interface PluginConfiguration {
         id: string;
         enabled: boolean;
-        dummyData: boolean;
-        debug: boolean;
-        settings: any;
+        dummyData?: boolean;
+        debug?: boolean;
+        settings?: any;
     }
 
     export interface PluginConfigurationFieldValidator {
