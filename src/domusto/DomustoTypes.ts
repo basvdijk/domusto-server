@@ -1,5 +1,3 @@
-import DomustoDevice from './DomustoDevice';
-
 export namespace Domusto {
 
     export interface PluginConfiguration {

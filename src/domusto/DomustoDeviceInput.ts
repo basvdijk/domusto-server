@@ -7,7 +7,7 @@ import DomustoDevice from './DomustoDevice';
  * @class DomustoInput
  * @extends {DomustoDevice}
  */
-class DomustoInput extends DomustoDevice {
+class DomustoDeviceInput extends DomustoDevice {
 
     constructor(input) {
 
@@ -54,4 +54,4 @@ class DomustoInput extends DomustoDevice {
 
 }
 
-export default DomustoInput;
+export default DomustoDeviceInput;

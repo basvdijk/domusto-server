@@ -1,5 +1,5 @@
 import util from '../util';
-import { Domusto } from '../domusto/DomustoInterfaces';
+import { Domusto } from '../domusto/DomustoTypes';
 import DomustoSignalHub from './DomustoSignalHub';
 
 /**

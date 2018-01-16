@@ -1,4 +1,4 @@
-import { Domusto } from './DomustoInterfaces';
+import { Domusto } from './DomustoTypes';
 
 let Rx = require('rxjs/Rx');
 let Observable = require('rxjs/Observable').Observable;

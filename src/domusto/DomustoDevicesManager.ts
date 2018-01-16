@@ -5,13 +5,13 @@ import config from '../config';
 
 // DOMUSTO
 import DomustoDevice from './DomustoDevice';
-import DomustoInput from './DomustoInput';
-import DomustoOutput from './DomustoOutput';
+import DomustoDeviceInput from './DomustoDeviceInput';
+import DomustoDeviceOutput from './DomustoDeviceOutput';
 import DomustoSocketIO from './DomustoSocketIO';
 import DomustoPluginsManager from './DomustoPluginsManager';
 
 // INTERFACES
-import { Domusto } from '../domusto/DomustoInterfaces';
+import { Domusto } from '../domusto/DomustoTypes';
 import DomustoSignalHub from './DomustoSignalHub';
 /**
  * Class to mange the DOMUSTO devices
@@ -145,7 +145,7 @@ class DomustoDevicesManager {
      */
     outputCommand(deviceId: string, command: Domusto.DeviceEvent, onSuccess?: Function) {
 
-        let device = <DomustoOutput>this.devices[deviceId];
+        let device = <DomustoDeviceOutput>this.devices[deviceId];
 
         let pluginInstance = <DomustoPlugin>DomustoPluginsManager.getPluginInstanceByPluginId(device.plugin.id);
 
@@ -204,7 +204,7 @@ class DomustoDevicesManager {
      * @memberof DomustoDevicesManager
      */
     _initInput(device) {
-        let input = new DomustoInput(device);
+        let input = new DomustoDeviceInput(device);
         this.devices[input.id] = input;
 
         let pluginId = input.plugin.id;
@@ -227,7 +227,7 @@ class DomustoDevicesManager {
      */
     _initOutput(device) {
         // let output = new DomustoOutput(Object.assign({}, device));
-        let output = new DomustoOutput(device);
+        let output = new DomustoDeviceOutput(device);
 
         this.devices[output.id] = output;
 

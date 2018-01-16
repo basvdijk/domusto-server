@@ -86,7 +86,7 @@ this.broadcastSignal('power', {
 
 DOMUSTO has several interfaces and enums defined. When you import 
 ```ts
-import { Domusto } from '../../domusto/DomustoInterfaces';
+import { Domusto } from '../../domusto/DomustoTypes';
 ```
 You can access these interfaces and enums via `Domusto.` VScode will list all possibilities automatically.
 
