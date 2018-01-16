@@ -1,5 +1,5 @@
 // import config from '../config';
-// import { Domusto } from '../domusto/DomustoInterfaces';
+// import { Domusto } from '../domusto/DomustoTypes';
 // import DomustoDevice from './DomustoDevice';
 
 // /**

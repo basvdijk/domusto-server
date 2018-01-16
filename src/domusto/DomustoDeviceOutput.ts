@@ -8,7 +8,7 @@ import config from '../config';
  * @class DomustoOutput
  * @extends {DomustoDevice}
  */
-class DomustoOutput extends DomustoDevice {
+class DomustoDeviceOutput extends DomustoDevice {
 
     private _busy = false;
     private _hasTimers = false;
@@ -92,4 +92,4 @@ class DomustoOutput extends DomustoDevice {
 
 }
 
-export default DomustoOutput;
+export default DomustoDeviceOutput;

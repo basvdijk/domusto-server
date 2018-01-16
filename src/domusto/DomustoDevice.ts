@@ -1,5 +1,5 @@
 // INTERFACES
-import { Domusto } from '../domusto/DomustoInterfaces';
+import { Domusto } from '../domusto/DomustoTypes';
 
 /**
  * Device class for a DOMUSTO device
