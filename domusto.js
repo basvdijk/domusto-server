@@ -9,6 +9,7 @@
 
 let util = require('util');
 let spawn = require('child_process').spawn;
+let spawnSync = require('child_process').spawnSync;
 let fs = require('fs');
 let jsonfile = require('jsonfile');
 let fetchUrl = require('fetch').fetchUrl;
@@ -26,7 +27,14 @@ switch (process.argv[2]) {
         break;
 
     case 'upgrade':
-        spawn('git', ['pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
+        // Get the latest DOMUSTO server version from GitHub
+        spawnSync('git', ['pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
+
+        // Install all of the new version's dependencies
+        spawnSync('npm', ['install'], { stdio: ['inherit', 'inherit', 'inherit'] });
+
+        // Reinstall all plugin dependencies
+        reInstallPluginDeps();
         break;
 
     case 'plugin':
@@ -57,7 +65,7 @@ switch (process.argv[2]) {
                 pluginListInstalled();
                 break;
             case 'install-deps':
-                reInstallDeps();
+                reInstallPluginDeps();
                 break;
             default:
                 console.log('Usage: domusto plugin add <DOMUSTO plugin name>');
@@ -236,7 +244,7 @@ function installNpmPackages(packages) {
     log('Installing plugin dependencies:');
     log(packages.join(' '));
 
-    let npm = spawn('npm', ['install', ...packages], { stdio: ['inherit', 'inherit', 'inherit'] });
+    let npm = spawn('npm', ['install', '--no-save', ...packages], { stdio: ['inherit', 'inherit', 'inherit'] });
 
     npm.on('exit', function (code) {
         if (code === 0) {
@@ -253,7 +261,7 @@ function installNpmPackages(packages) {
  * 
  * @param {any} pluginRepo Repository path e.g. src/plugins/domusto-marantz
  */
-function reInstallDeps(pluginRepo) {
+function reInstallPluginDeps(pluginRepo) {
 
     let plugins = fs.readdirSync(pluginFolder).filter(function (file) {
         return (file.indexOf('.AppleDouble') === -1) && (file.indexOf('.MD') === -1);
