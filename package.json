@@ -18,7 +18,8 @@
     "jsonfile": "^4.0.0",
     "prettyjson": "^1.2.1",
     "rfxcom": "^1.0.3",
-    "rxjs": "^5.5.6"
+    "rxjs": "^5.5.6",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "@types/express": "^4.11.0",
