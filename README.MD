@@ -92,15 +92,14 @@ v0.10.29
 To upgrade the RPI to the latest node / npm:
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 sudo apt install nodejs
-apt-get install nodejs
 ```
 
 The new versions should became: (or higher)
 ```bash
 node -v
-v8.1.4
+v9.4.0
 ```
 
 ```bash
@@ -109,6 +108,21 @@ npm -v
 ```
 
 source: http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/
+
+## Upgrading Nodejs after DOMUSTO installation
+
+First set the package source to the latest version and upgrade nodejs.
+
+```bash
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt install nodejs
+```
+
+When updating nodejs after you installed DOMUSTO server. You need to remove the `node_modules` folder, install the DOMUSTO depencencies and plugin dependencies again:
+
+```bash
+rm -rf node_modules && npm install && ./domusto.js plugin install-deps
+```
 
 ## Install npm packages
 
