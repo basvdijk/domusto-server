@@ -66,3 +66,4 @@ build
 *.wav
 src/domusto-plugins/*
 !src/domusto-plugins/README.MD
+package-lock.json
