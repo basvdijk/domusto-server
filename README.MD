@@ -4,8 +4,10 @@ _This project in alpha-state, so things might not work as expected._
 Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client
 
 # DOMUSTO Server API
-
 See [API documentation](doc/api.md)
+
+# DOMUSTO command-line tool
+See [Command line tool](doc/command-line-tool.md)
 
 # Plugins
 | Plugin                                                       | Description                                                 |
@@ -55,6 +57,13 @@ See [API documentation](doc/api.md)
 **  The kit comes without a SD card, make sure you order it when you don't have one
 *** For TL-light make sure you use the AWMR-300 and NOT the AWMR-230
 ```
+
+# Upgrading DOMUSTO server
+You can use the DOMUSTO server command-line tool to upgrade DOMUSTO server to the lastest version:
+```bash
+./domusto.js upgrade
+```
+
 
 # Running the DOMUSTO server
 
