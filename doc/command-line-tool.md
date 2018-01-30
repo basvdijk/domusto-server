@@ -10,8 +10,6 @@ Upgrade DOMUSTO server to the lastest version
 
 ## DOMUSTO server plugins
 **Install plugin by Git repo name**
-
-Syntax:
 ```
 ./domusto.js plugin add [REPO]
 ```
@@ -21,8 +19,6 @@ Example:
 ```
 
 **Remove plugin by Git repo name**
-
-Syntax:
 ```bash
 ./domusto.js plugin remove [REPO]
 ```
