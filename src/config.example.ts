@@ -226,7 +226,7 @@ export default {
             subType: 'temperature-humidity',
             plugin: {
                 id: 'RFXCOM',
-                type: 'temperaturehumidity1-0x6A43',
+                type: 'temperaturehumidity1/TH13-0x6A43',
             }
         },
 

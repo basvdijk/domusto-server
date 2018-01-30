@@ -219,5 +219,5 @@ this.hardwareInstance = receiver;
 
 ## Naming conventions
 
-- Device id's are written in Kebab case e.g.  `temperaturehumidity1-0x1203` and `in-house-temperature`
+- Device id's are written in Kebab case e.g.  `temperaturehumidity1/TH13-0x1203` and `in-house-temperature`
 - 
