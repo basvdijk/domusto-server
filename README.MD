@@ -12,6 +12,7 @@ See [API documentation](doc/api.md)
 |--------------------------------------------------------------|-------------------------------------------------------------|
 | [Timer](https://github.com/basvdijk/domusto-timer)           | Switch based on specific time or sunset, sunrise etc.       |
 | [RFXcom](https://github.com/basvdijk/domusto-rfxcom)         | Send and receive 433Mhz signals with RFXcom usb transceiver |
+| [PushBullet](https://github.com/basvdijk/domusto-pushbullet) | Sends push messages to devices with the Pushbullet.com API  |
 | [P1 smart meter](https://github.com/basvdijk/domusto-p1)     | Read the electrical smartmeter with P1 protocol             |
 | [Shell executer](https://github.com/basvdijk/domusto-shell)  | Execute shell commands on an DOMUSTO signal                 |
 | [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy) | Read the temperature of Nefit Easy thermostat               |
