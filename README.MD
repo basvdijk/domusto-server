@@ -7,7 +7,7 @@ Once the DOMUSTO server runs you can install the DOMUSTO client from https://git
 See [API documentation](doc/api.md)
 
 # DOMUSTO command-line tool
-See [Command line tool](doc/command-line-tool.md)
+DOMUSTO server is equipped with the [DOMUSTO home Automation manager](doc/command-line-tool.md) command line tool for easy DOMUSTO management like upgrading, install plugins etc.
 
 # Plugins
 | Plugin                                                       | Description                                                 |
