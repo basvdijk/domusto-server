@@ -33,6 +33,9 @@ switch (process.argv[2]) {
         // Install all of the new version's dependencies
         spawnSync('npm', ['install'], { stdio: ['inherit', 'inherit', 'inherit'] });
 
+        // Upgrade all DOMUSTO plugins
+        pluginUpgrade();
+
         // Reinstall all plugin dependencies
         reInstallPluginDeps();
         break;
@@ -57,6 +60,7 @@ switch (process.argv[2]) {
                 break;
             case 'upgrade':
                 pluginUpgrade();
+                reInstallPluginDeps();
                 break;
             case 'list':
                 pluginList();
@@ -112,6 +116,11 @@ function pluginUpgrade() {
 
     let plugins = fs.readdirSync(pluginFolder);
 
+    
+    // Remove all non-directories
+    plugins = plugins.filter(plugin => fs.statSync(`${pluginFolder}/${plugin}`).isDirectory());
+    
+    console.log('Upgrading all DOMUSTO server plugins...');
     for (plugin of plugins) {
         repoUpgrade(`${pluginFolder}/${plugin}`);
     }
@@ -327,18 +336,16 @@ function repoClone(pluginRepo) {
  */
 function repoUpgrade(pluginRepo) {
 
-    let git = spawn('git', [`--work-tree=${pluginRepo}`, 'pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
+    const repoName = pluginRepo.split('/').reverse()[0];
 
-    git.on('exit', function (code) {
+    console.log('');
+    console.log(`Upgrading ${repoName}...`);
 
-        if (code === 0) {
-            success(`${pluginRepo.split('/').reverse()[0]} upgraded`);
+    let git = spawnSync('git', [`--work-tree=${pluginRepo}`, 'pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
 
-        } else {
-            console.log('child process exited with code ' + code);
-        }
-
-    });
+    if (git.error) {
+        error(`${repoName} upgrade failed`);
+    }
 
 }
 
