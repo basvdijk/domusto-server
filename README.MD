@@ -1,6 +1,6 @@
 _This project in alpha-state, so things might not work as expected._
 
-We have written several guides:
+# Guides
 - [Installation guide](doc/installation.md)
 - [Maintenance guide](doc/maintenance.md)
 - [Command line tool](doc/command-line-tool.md)
@@ -74,6 +74,3 @@ npm run dev
 ```bash
 npm test
 ```
-
-# Setup
-
