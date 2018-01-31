@@ -1,4 +1,4 @@
-# DOMUSTO server installation
+# DOMUSTO server installation guide
 
 ## Installing and upgrading NPM / Nodejs on RPI
 

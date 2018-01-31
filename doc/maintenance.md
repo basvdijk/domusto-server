@@ -1,4 +1,4 @@
-# DOMUSTO server maintenance
+# DOMUSTO server maintenance guide
 
 ## Upgrading DOMUSTO server
 You can use the DOMUSTO server command-line tool to upgrade DOMUSTO server to the lastest version:

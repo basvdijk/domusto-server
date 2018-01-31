@@ -1,4 +1,4 @@
-# DOMUSTO command line tool
+# DOMUSTO server command line tool
 DOMUSTO server is equipped with a command line tool for easy DOMUSTO management like upgrading, install plugins etc.
 
 ```bash

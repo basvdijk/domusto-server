@@ -1,19 +1,13 @@
 _This project in alpha-state, so things might not work as expected._
 
-# Installation
-See [installation guide](doc/installation.md)
-
-# Maintaining DOMUSTO Server
-See [maintenance guide](doc/maintenance.md)
-
-# DOMUSTO Server API
-See [API documentation](doc/api.md)
+We have written several guides:
+- [Installation guide](doc/installation.md)
+- [Maintenance guide](doc/maintenance.md)
+- [Command line tool](doc/command-line-tool.md)
+- [API guide](doc/api.md)
 
 # Frontend
 Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client
-
-# DOMUSTO command-line tool
-DOMUSTO server is equipped with the [DOMUSTO home Automation manager](doc/command-line-tool.md) command line tool for easy DOMUSTO management like upgrading, install plugins etc.
 
 # Plugins
 | Plugin                                                       | Description                                                 |
