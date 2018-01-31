@@ -37,7 +37,7 @@ switch (process.argv[2]) {
         pluginUpgrade();
 
         // Reinstall all plugin dependencies
-        reInstallPluginDeps();
+        pluginReInstallDeps();
         break;
 
     case 'plugin':
@@ -60,7 +60,7 @@ switch (process.argv[2]) {
                 break;
             case 'upgrade':
                 pluginUpgrade();
-                reInstallPluginDeps();
+                pluginReInstallDeps();
                 break;
             case 'list':
                 pluginList();
@@ -69,7 +69,7 @@ switch (process.argv[2]) {
                 pluginListInstalled();
                 break;
             case 'install-deps':
-                reInstallPluginDeps();
+                pluginReInstallDeps();
                 break;
             default:
                 console.log('Usage: domusto plugin add <DOMUSTO plugin name>');
@@ -270,7 +270,7 @@ function installNpmPackages(packages) {
  * 
  * @param {any} pluginRepo Repository path e.g. src/plugins/domusto-marantz
  */
-function reInstallPluginDeps(pluginRepo) {
+function pluginReInstallDeps(pluginRepo) {
 
     let plugins = fs.readdirSync(pluginFolder).filter(function (file) {
         return (file.indexOf('.AppleDouble') === -1) && (file.indexOf('.MD') === -1);
@@ -341,7 +341,9 @@ function repoUpgrade(pluginRepo) {
     console.log('');
     console.log(`Upgrading ${repoName}...`);
 
-    let git = spawnSync('git', [`--work-tree=${pluginRepo}`, 'pull'], { stdio: ['inherit', 'inherit', 'inherit'] });
+    process.chdir(pluginRepo);
+    let git = spawnSync('git', ['pull', '--verbose'], { stdio: ['inherit', 'inherit', 'inherit'] });
+    process.chdir('../../..');
 
     if (git.error) {
         error(`${repoName} upgrade failed`);
