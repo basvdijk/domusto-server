@@ -1,10 +1,16 @@
 _This project in alpha-state, so things might not work as expected._
 
-# Frontend
-Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client
+# Installation
+See [installation guide](doc/installation.md)
+
+# Maintaining DOMUSTO Server
+See [maintenance guide](doc/maintenance.md)
 
 # DOMUSTO Server API
 See [API documentation](doc/api.md)
+
+# Frontend
+Once the DOMUSTO server runs you can install the DOMUSTO client from https://github.com/basvdijk/domusto-client
 
 # DOMUSTO command-line tool
 DOMUSTO server is equipped with the [DOMUSTO home Automation manager](doc/command-line-tool.md) command line tool for easy DOMUSTO management like upgrading, install plugins etc.
@@ -58,13 +64,6 @@ DOMUSTO server is equipped with the [DOMUSTO home Automation manager](doc/comman
 *** For TL-light make sure you use the AWMR-300 and NOT the AWMR-230
 ```
 
-# Upgrading DOMUSTO server
-You can use the DOMUSTO server command-line tool to upgrade DOMUSTO server to the lastest version:
-```bash
-./domusto.js upgrade
-```
-
-
 # Running the DOMUSTO server
 
 ## Running DOMUSTO server
@@ -84,88 +83,3 @@ npm test
 
 # Setup
 
-## Installing and upgrading NPM / Nodejs on RPI
-
-By default the node package in Raspian is very old:
-
-```bash
-npm -v
-1.4.21
-```
-
-```bash
-node -v
-v0.10.29
-```
-
-To upgrade the RPI to the latest node / npm:
-
-```bash
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt install nodejs
-```
-
-The new versions should became: (or higher)
-```bash
-node -v
-v9.4.0
-```
-
-```bash
-npm -v
-5.0.3
-```
-
-source: http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/
-
-## Upgrading Nodejs after DOMUSTO installation
-
-First set the package source to the latest version and upgrade nodejs.
-
-```bash
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-sudo apt install nodejs
-```
-
-When updating nodejs after you installed DOMUSTO server. You need to remove the `node_modules` folder, install the DOMUSTO depencencies and plugin dependencies again:
-
-```bash
-rm -rf node_modules && npm install && ./domusto.js plugin install-deps
-```
-
-## Install npm packages
-
-```bash
-npm install
-```
-
-## Setup configuration
-
-Copy the config file template in the `src` folder to your own:
-
-``` bash
-cp src/config.example.ts src/config.ts
-```
-
-Edit the config file according to your setup.
-
-## Install plugins
-
-To show all available plugins, run:
-```
-./domusto.js plugin list
-```
-
-For more information about plugin installation run
-```
-./domusto.js
-```
-
-## Fixed names for USB port devices
-
-If you have multiple USB devices connected, sometimes the order of the USB assignmets change after a reboot e.g. ttyUSB0 is suddenly ttyUSB1 and vice versa.
-
-These pages on the Domoticz wiki show how to solve this issue by assigning fixed ports:
-
-- https://www.domoticz.com/wiki/Assign_fixed_device_name_to_USB_port
-- https://www.domoticz.com/wiki/PersistentUSBDevices
