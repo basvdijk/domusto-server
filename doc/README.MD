@@ -4,4 +4,3 @@
 - [Switches](switches.md)
 - [API](api.md)
 - [Tips & Tricks](tips-and-tricks.md)
-

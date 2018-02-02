@@ -57,16 +57,7 @@ cp src/config.example.ts src/config.ts
 Edit this config file according your needs.
 
 ## Install DOMUSTO server plugins
-
-To show all available DOMUSTO server plugins, run:
-```
-./domusto.js plugin list
-```
-
-For more information about plugin installation run
-```
-./domusto.js
-```
+[See the DOMUSTO plugin guide](../src/domusto-plugins/README.MD)
 
 ## Fixed names for USB port devices
 
