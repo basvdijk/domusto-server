@@ -310,7 +310,6 @@ class DomustoDevicesManager {
 
             if (device.plugin.deviceId && device.plugin.deviceId.indexOf(deviceId) > -1) {
                 devices.add(device);
-                break;
             }
 
             // Check if the inputId matches
