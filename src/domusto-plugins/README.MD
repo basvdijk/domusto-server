@@ -6,15 +6,17 @@ Please make sure to re-install all plugin depencies after adding a new plugin:
 ```
 
 ## Available Plugins
-| Plugin                                                       | Description                                                 |
-|--------------------------------------------------------------|-------------------------------------------------------------|
-| [Timer](https://github.com/basvdijk/domusto-timer)           | Switch based on specific time or sunset, sunrise etc.       |
-| [RFXcom](https://github.com/basvdijk/domusto-rfxcom)         | Send and receive 433Mhz signals with RFXcom usb transceiver |
-| [PushBullet](https://github.com/basvdijk/domusto-pushbullet) | Sends push messages to devices with the Pushbullet.com API  |
-| [P1 smart meter](https://github.com/basvdijk/domusto-p1)     | Read the electrical smartmeter with P1 protocol             |
-| [Shell executer](https://github.com/basvdijk/domusto-shell)  | Execute shell commands on an DOMUSTO signal                 |
-| [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy) | Read the temperature of Nefit Easy thermostat               |
-| [Marantz](https://github.com/basvdijk/domusto-marantz)       | Control your Marantz receiver                               |
+| Plugin                                                         | Description                                                 |
+|----------------------------------------------------------------|-------------------------------------------------------------|
+| [Timer](https://github.com/basvdijk/domusto-timer)             | Switch based on specific time or sunset, sunrise etc.       |
+| [GPIO Pins for RPI](https://github.com/basvdijk/domusto-gpio)  | Control the GPIO pins on a Raspberry Pi                     |
+| [Marantz](https://github.com/basvdijk/domusto-marantz)         | Control your Marantz receiver                               |
+| [Nefit Easy](https://github.com/basvdijk/domusto-nefit-easy)   | Read the temperature of Nefit Easy thermostat               |
+| [P1 smart meter](https://github.com/basvdijk/domusto-p1)       | Read the electrical smartmeter with P1 protocol             |
+| [Philips HUE](https://github.com/basvdijk/domusto-philips-hue) | Control Philips HUE lights                                  |
+| [PushBullet](https://github.com/basvdijk/domusto-pushbullet)   | Sends push messages to devices with the Pushbullet.com API  |
+| [RFXcom](https://github.com/basvdijk/domusto-rfxcom)           | Send and receive 433Mhz signals with RFXcom usb transceiver |
+| [Shell executer](https://github.com/basvdijk/domusto-shell)    | Execute shell commands on an DOMUSTO signal                 |
 
 ## List available plugins
 ```sh
