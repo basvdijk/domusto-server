@@ -67,3 +67,21 @@ These pages on the Domoticz wiki show how to solve this issue by assigning fixed
 
 - https://www.domoticz.com/wiki/Assign_fixed_device_name_to_USB_port
 - https://www.domoticz.com/wiki/PersistentUSBDevices
+
+
+# Running the DOMUSTO server
+
+## Running DOMUSTO server
+```bash
+npm run start
+```
+
+## Running DOMUSTO server with auto reload on changes
+```bash
+npm run dev
+```
+
+## Running DOMUSTO tests
+```bash
+npm test
+```

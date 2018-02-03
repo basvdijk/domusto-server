@@ -60,20 +60,3 @@ Once the DOMUSTO server runs you can install the DOMUSTO client from https://git
 **  The kit comes without a SD card, make sure you order it when you don't have one
 *** For TL-light make sure you use the AWMR-300 and NOT the AWMR-230
 ```
-
-# Running the DOMUSTO server
-
-## Running DOMUSTO server
-```bash
-npm run start
-```
-
-## Running DOMUSTO server with auto reload on changes
-```bash
-npm run dev
-```
-
-## Running DOMUSTO tests
-```bash
-npm test
-```
