@@ -12,9 +12,9 @@ Before deep diving into DOMUSTO plugin development it is recommended to look at 
 
 Domusto plugins are loaded from Github. In order to make a compaitible plugin make sure:
  - Your repo name is lowercase, in the format: domusto-<PLUGIN NAME> e.g. domusto-gpio or domusto-marantz
- - If your plugin is suitable for other DOMUSTO users, add the topics `domusto` and `domusto-plugin` to your repository
+ - If your plugin is suitable for other DOMUSTO users, add the topics `domusto` and `domusto-plugin` to your repository.
 
-Checkout the repo locally in the `src/domusto-plugins` folder
+Checkout your plugin repo locally in the `src/domusto-plugins` folder
 
 ## Recommended IDE
 
@@ -24,9 +24,11 @@ DOMUSTO is developed using [Visual Studio Code](https://code.visualstudio.com/).
 - TSlint
 - TypeScript Hero
 
+In order to keep your code consistent with all other DOMUSTO code.
+
 ## Create the files needed
 
-Open a terminal in your plugin folder and execute:
+Open a terminal in your plugin folder and execute (or copy the files from an existing plugin):
 
 ```
 touch .gitignore
@@ -42,8 +44,9 @@ package-lock.json
 ```
 
 ## Writing documentation
+DOMUSTO uses a standard structure for the README.MD have a look at https://github.com/basvdijk/domusto-marantz/blob/master/README.MD for an example.
 
-We use a standard structure for the README.MD have a look at https://github.com/basvdijk/domusto-marantz/blob/master/README.MD for an example.
+You can store documentation resources like screenshots, design files etc. in the `doc` folder of your plugin. See https://github.com/basvdijk/domusto-gpio for an example use case.
 
 ## Start developing
 The easiest way to get started is to copy the code of an existing plugin e.g. https://github.com/basvdijk/domusto-marantz/blob/master/index.ts into your plugin's `index.ts` and modify it according your needs.
@@ -62,7 +65,7 @@ onSignalReceivedForPlugin(signal: Domusto.Signal) {
 }
 ```
 
-Is triggered when a signal for your plugin arrives. You might wonder why we use `this.console.log` instead of `console.log`. Using `this` automatically adds the plugin name to de log messages. You can also use `this.console.header`, `this.console.warning`, `this.console.error` and `this.console.prettyJson`
+is triggered when a signal for your plugin arrives. You might wonder why we use `this.console.log` instead of `console.log`. Using `this` automatically adds the plugin name to de log messages. You can also use `this.console.header`, `this.console.warning`, `this.console.error` and `this.console.prettyJson`
 
 You might want to intercept all signals which are going through DOMUSTO for example when writing a custom event logger. This code is executed on every Signal broadcast.
 
@@ -206,7 +209,7 @@ let isConfigurationValid = this.validateConfigurationAttributes(timer, [
 ```
 
 ## External NPM packages
-When you need external NPM packages you can add them to your package.json as dependency. You can use `npm install` in your plugin directory, but keep in mind never check in the `package-lock.json` of your plugin. This is because the way DOMUSTO installs new plugins.
+When you need external NPM packages you can add them to your package.json as dependency. You can use `npm install` in your plugin directory, but keep in mind never check in the `package-lock.json` of your plugin. Yes, this is need according to npm, because the way DOMUSTO installs new plugins it will fail if this file is committed.
 
 All server dependencies need to be installed in the `node_modules` in the root of the domusto-server folder instead of the plugin folder. To allow easy development the `domusto.js` client tool checkouts your repo, looks in your `package.json` for dependencies, and installs these automatically.
 
@@ -217,7 +220,8 @@ let receiver = new AVReceiver(pluginConfiguration.settings.ip);
 this.hardwareInstance = receiver;
 ```
 
-## Naming conventions
+## Coding conventions
 
 - Device id's are written in Kebab case e.g.  `temperaturehumidity1/TH13-0x1203` and `in-house-temperature`
-- 
+- Plugin class starts with Domusto e.g. DomustoShell, DomustoMarantz etc.
+- Do not use `console.log` but use `this.console.log` instead. DOMUSTO will then prefix your console message with the plugin name
