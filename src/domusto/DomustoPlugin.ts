@@ -1,6 +1,9 @@
 import util from '../util';
 import { Domusto } from '../domusto/DomustoTypes';
 import DomustoSignalHub from './DomustoSignalHub';
+import DomustoPluginApi from './DomustoPluginApi';
+import DomustoRouter from './DomustoRouter';
+import DomustoLogger from './DomustoLogger';
 
 /**
  * Base class for DOMUSTO plugins
@@ -17,6 +20,7 @@ abstract class DomustoPlugin {
     protected _pluginConfiguration: Domusto.PluginConfiguration;
     protected _onNewInputData: Function;
     protected _hardwareInstance: any;
+    protected _api: DomustoPluginApi;
 
     constructor(metaData: Domusto.PluginMetaData) {
 
@@ -37,6 +41,27 @@ abstract class DomustoPlugin {
                 this.onSignalReceivedForPlugin(signal);
             }
         });
+    }
+
+    /**
+     * Logs the specified data to a plugin specific log file
+     * 
+     * @param {any} data Data to log
+     * @memberof DomustoPlugin
+     */
+    logToFile(...data) {
+        DomustoLogger.logPluginToFile(this.metaData.plugin, ...data);
+    }
+
+    /**
+     * Logs the specified data to both the console and log file
+     * 
+     * @param {any} data Data to log
+     * @memberof DomustoPlugin
+     */
+    logToFileAndConsole(...data) {
+        console.log.apply(this, data);
+        this.logToFile(...data);
     }
 
     /**
@@ -155,6 +180,10 @@ abstract class DomustoPlugin {
 
     }
 
+    addApiRouteGet(route, method) {
+        DomustoRouter.addRoute(route).get(method);
+    }
+
     /**
      * Adds the plugin name in front of all console messages
      *
@@ -205,6 +234,14 @@ abstract class DomustoPlugin {
         }
 
     };
+
+    set api(api: DomustoPluginApi) {
+        this._api = api;
+    }
+
+    get api() {
+        return this._api;
+    }
 
     set pluginConfiguration(config: Domusto.PluginConfiguration) {
         this._pluginConfiguration = config;
