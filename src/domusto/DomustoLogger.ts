@@ -1,65 +1,71 @@
-// import config from '../config';
-// import { Domusto } from '../domusto/DomustoTypes';
-// import DomustoDevice from './DomustoDevice';
+const fs = require('fs');
 
-// /**
-//  * Logging handler
-//  *
-//  * @author Bas van Dijk
-//  * @class DomustoLogger
-//  */
-// class DomustoLogger {
+import config from '../config';
 
-//     domustoLoggerInstances = [];
+/**
+ * DOMUSTO sytem logging
+ *
+ * @author Bas van Dijk
+ * @class DomustoLogger
+ */
+class DomustoLogger {
 
-//     constructor() { }
+    /**
+     * Logs the specified data to the plugin activity log file
+     *
+     * @param {any} pluginName
+     * @param {any} data
+     * @memberof DomustoLogger
+     */
+    logPluginToFile(pluginName, ...data) {
+        if (config.logging) {
+            let logStream = fs.createWriteStream(`./logs/plugin-${pluginName}-activity.log`, { 'flags': 'a' });
+            // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
+            logStream.end(this.getLogDate() + '   ' + data.join(' ') + '\n');
+        }
+    }
 
-//     async init() {
-//         let plugins = config.loggerPlugins;
+    /**
+     * Logs the specified errordata to the plugin error log file
+     *
+     * @param {any} pluginName
+     * @param {any} data
+     * @memberof DomustoLogger
+     */
+    logPluginErrorToFile(pluginName, ...data) {
+        if (config.logging) {
+            let logStream = fs.createWriteStream(`./logs/plugin-${pluginName}-error.log`, { 'flags': 'a' });
+            // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
+            logStream.end(this.getLogDate() + '   ' + data.join(' ') + '\n');
+        }
+    }
+    /**
+     * Creates a well formatted date string
+     *
+     * @private
+     * @returns date string
+     * @memberof DomustoLogger
+     */
+    private getLogDate() {
 
-//         for (let plugin of plugins) {
-//             await this.importLogPlugin(plugin);
-//         }
+        function pad(n) { return n < 10 ? '0' + n : n; }
 
-//     }
+        let date = new Date();
 
-//     async importLogPlugin(plugin) {
+        let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        let dayString = days[date.getDay()];
 
-//         let loggerPath = '../plugins/' + plugin + '/' + plugin;
-//         let loggerNodeModule = await import(loggerPath);
+        return '' +
+            dayString + ' '
+            + date.getFullYear() + '-'
+            + pad((date.getMonth() + 1)) + '-'
+            + pad(date.getDate()) + ' '
+            + pad(date.getHours()) + ':'
+            + pad(date.getMinutes()) + ':'
+            + pad(date.getSeconds()) + '.'
+            + ('00' + date.getMilliseconds()).slice(-3);
+    }
 
-//         this.domustoLoggerInstances.push(new loggerNodeModule.default());
-
-//     }
-
-//     newEvent(eventType: Domusto.EventType, device: any, data: any) {
-
-//         for (let logger of this.domustoLoggerInstances) {
-//             logger.newEvent(Domusto.EventType[eventType], device, data);
-//         }
-//     }
-
-//     getLogDate() {
-
-//         function pad(n) { return n < 10 ? '0' + n : n; }
-
-//         let date = new Date();
-
-//         let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-//         let dayString = days[date.getDay()];
-
-//         return '' +
-//             dayString + ' '
-//             + date.getFullYear() + '-'
-//             + pad((date.getMonth() + 1)) + '-'
-//             + pad(date.getDate()) + ' '
-//             + pad(date.getHours()) + ':'
-//             + pad(date.getMinutes()) + ':'
-//             + pad(date.getSeconds()) + '.'
-//             + ('00' + date.getMilliseconds()).slice(-3);
-//     }
-
-// }
-
-// let DomustoLoggerInstance = new DomustoLogger();
-// export default DomustoLoggerInstance;
+}
+let DomustoLoggerInstance = new DomustoLogger();
+export default DomustoLoggerInstance;
