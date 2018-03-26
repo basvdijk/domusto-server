@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 import config from '../config';
+import Util from '../util';
 
 /**
  * DOMUSTO sytem logging
@@ -18,11 +19,7 @@ class DomustoLogger {
      * @memberof DomustoLogger
      */
     logPluginToFile(pluginName, ...data) {
-        if (config.logging) {
-            let logStream = fs.createWriteStream(`./logs/plugin-${pluginName}-activity.log`, { 'flags': 'a' });
-            // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
-            logStream.end(this.getLogDate() + '   ' + data.join(' ') + '\n');
-        }
+        this.logToFile('activity', pluginName, data);
     }
 
     /**
@@ -33,37 +30,27 @@ class DomustoLogger {
      * @memberof DomustoLogger
      */
     logPluginErrorToFile(pluginName, ...data) {
-        if (config.logging) {
-            let logStream = fs.createWriteStream(`./logs/plugin-${pluginName}-error.log`, { 'flags': 'a' });
-            // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
-            logStream.end(this.getLogDate() + '   ' + data.join(' ') + '\n');
-        }
+        this.logToFile('error', pluginName, data);
     }
+
     /**
-     * Creates a well formatted date string
+     * Logs given data to log file op type 'logType'
      *
      * @private
-     * @returns date string
+     * @param {any} logType Type of log e.g. activity | error
+     * @param {any} pluginName Name of the plugin (will be slugified)
+     * @param {any} data Data to write
      * @memberof DomustoLogger
      */
-    private getLogDate() {
+    private logToFile(logType, pluginName, ...data) {
 
-        function pad(n) { return n < 10 ? '0' + n : n; }
+        pluginName = Util.slugify(pluginName);
 
-        let date = new Date();
-
-        let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-        let dayString = days[date.getDay()];
-
-        return '' +
-            dayString + ' '
-            + date.getFullYear() + '-'
-            + pad((date.getMonth() + 1)) + '-'
-            + pad(date.getDate()) + ' '
-            + pad(date.getHours()) + ':'
-            + pad(date.getMinutes()) + ':'
-            + pad(date.getSeconds()) + '.'
-            + ('00' + date.getMilliseconds()).slice(-3);
+        if (config.logging) {
+            let logStream = fs.createWriteStream(`./logs/plugin-${pluginName}-${logType}.log`, { 'flags': 'a' });
+            // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
+            logStream.end(Util.getLogDate() + '   ' + data.join(' ') + '\n');
+        }
     }
 
 }

@@ -69,6 +69,23 @@ class Util {
         + ('00' + date.getMilliseconds()).slice(-3);
     }
 
+    /**
+     * Converts a string into a slug
+     *
+     * @private
+     * @param {any} text
+     * @returns
+     * @memberof DomustoLogger
+     */
+    static slugify(text) {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
     static logSwitchToFile(data) {
         let logStream = fs.createWriteStream('./logs/switches.log', { 'flags': 'a' });
         // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file

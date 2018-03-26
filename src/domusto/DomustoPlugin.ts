@@ -45,7 +45,7 @@ abstract class DomustoPlugin {
 
     /**
      * Logs the specified data to a plugin specific log file
-     * 
+     *
      * @param {any} data Data to log
      * @memberof DomustoPlugin
      */
@@ -55,13 +55,34 @@ abstract class DomustoPlugin {
 
     /**
      * Logs the specified data to both the console and log file
-     * 
+     *
      * @param {any} data Data to log
      * @memberof DomustoPlugin
      */
     logToFileAndConsole(...data) {
         console.log.apply(this, data);
         this.logToFile(...data);
+    }
+
+    /**
+     * Logs the specified error data to a plugin specific error log file
+     *
+     * @param {any} data Data to log
+     * @memberof DomustoPlugin
+     */
+    logToErrorFile(...data) {
+        DomustoLogger.logPluginErrorToFile(this.metaData.plugin, ...data);
+    }
+
+    /**
+     * Logs the specified error data to both the console and error log file
+     *
+     * @param {any} data Data to log
+     * @memberof DomustoPlugin
+     */
+    logToErrorFileAndConsole(...data) {
+        console.error.apply(this, data);
+        this.logToErrorFile(...data);
     }
 
     /**
