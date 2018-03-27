@@ -19,7 +19,7 @@ class DomustoLogger {
      * @memberof DomustoLogger
      */
     logPluginToFile(pluginName, ...data) {
-        this.logToFile('activity', pluginName, data);
+        this.logToFile('activity', pluginName, ...data);
     }
 
     /**
@@ -30,7 +30,7 @@ class DomustoLogger {
      * @memberof DomustoLogger
      */
     logPluginErrorToFile(pluginName, ...data) {
-        this.logToFile('error', pluginName, data);
+        this.logToFile('error', pluginName, ...data);
     }
 
     /**
