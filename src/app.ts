@@ -8,10 +8,12 @@ import util from './util';
 
 import { ExpressServer } from './expressServer';
 import DomustoSocketIO from './domusto/DomustoSocketIO';
+import DomustoRouter from './domusto/DomustoRouter';
 
 const app = new ExpressServer().app;
 const httpServer = http.createServer(app);
 const socketIO = sio(httpServer);
+const router = DomustoRouter.setApp(app);
 
 DomustoSocketIO.setIO(socketIO);
 
