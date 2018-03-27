@@ -1,5 +1,6 @@
 export default {
     debug: true,
+    logging: true,
 
     // SERVER CONFIGURATION
     // Don't change the port to something other than 3000
