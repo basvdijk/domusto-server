@@ -43,6 +43,10 @@ abstract class DomustoPlugin {
         });
     }
 
+    getMetaData() {
+        return this._metaData;
+    }
+
     /**
      * Logs the specified data to a plugin specific log file
      *
@@ -199,10 +203,6 @@ abstract class DomustoPlugin {
 
         return true;
 
-    }
-
-    addApiRouteGet(route, method) {
-        DomustoRouter.addRoute(route).get(method);
     }
 
     /**
