@@ -3,7 +3,7 @@ import DomustoPlugin from './DomustoPlugin';
 
 abstract class DomustoPluginApi {
 
-    pluginInstance: DomustoPlugin;
+    pluginInstance: any;
     pluginName: string;
 
     /**
