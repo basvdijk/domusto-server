@@ -17,7 +17,7 @@ v0.10.29
 To upgrade the RPI to the latest node / npm:
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
