@@ -56,6 +56,12 @@ cp src/config.example.ts src/config.ts
 
 Edit this config file according your needs.
 
+## Install Git
+In order to use the DOMUSTO client `./domusto.js` you need to have Git installed
+```bash
+sudo apt-get install git
+```
+
 ## Install DOMUSTO server plugins
 [See the DOMUSTO plugin guide](../src/domusto-plugins/README.MD)
 
