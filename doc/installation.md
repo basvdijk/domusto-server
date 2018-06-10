@@ -14,10 +14,12 @@ node -v
 v0.10.29
 ```
 
-To upgrade the RPI to the latest node / npm:
+To upgrade the RPI to the latest node / npm.
+
+Do not use Node 10 yes! It gives problems with compiling of socket and serial port libraries.
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
