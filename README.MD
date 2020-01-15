@@ -5,7 +5,7 @@ DOMUSTO website: https://domusto.com/
 # Introduction
 DOMUSTO is versatile, extensible, plugin driven home automation software written in NodeJS. DOMUSTO is developed to run on a Raspberry Pi, but other Linux based systems should work as well.
 
-DOMUSTO offers a [command line tool](doc/command-line-tool.md) for easy maintenance and plugin management. [Screenshots](https://github.com/basvdijk/domusto-client) can be found on the DOMUSTO client Github page.
+The [command line tool](doc/command-line-tool.md) covers easy maintenance and plugin management. [Screenshots](https://github.com/basvdijk/domusto-client) can be found on the DOMUSTO client Github page.
 
 # Documentation
 - [Installation guide](doc/installation.md)
