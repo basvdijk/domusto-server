@@ -1,10 +1,10 @@
 DOMUSTO website: https://domusto.com/
 
-_This project in alpha-state, so things might not work as expected._
+⚠️ _This project in alpha-state, so things might not work as expected._ ⚠️
 
 # Guides
 - [Installation guide](doc/installation.md)
-- [Plugin guide](domusto-plugins/README.MD)
+- [Plugin guide](doc/development-plugin.md)
 - [Maintenance guide](doc/maintenance.md)
 - [Command line tool](doc/command-line-tool.md)
 - [API guide](doc/api.md)
