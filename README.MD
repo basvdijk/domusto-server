@@ -60,7 +60,7 @@ Once the DOMUSTO server runs you can install the DOMUSTO client from https://git
 | Wall dual push button                 | [KaKu AWST-8802](https://www.klikaanklikuit.nl/nl/awst-8802-dubbele-draadloze-wandschakelaar.html)                                                                                      |  € 22,99 | DIY store* |
 | Build-in TL-light switch***           | [KaKu AWMR-300](https://www.klikaanklikuit.nl/nl/awmr-300-mini-inbouw-schakelaar.html)                                                                                                  |  € 31,99 | DIY store* |
 | Build-in switch                       | [KaKu AMU-500](https://www.klikaanklikuit.nl/nl/amu-500-universele-schakelaar.html)                                                                                                     |  € 34,99 | DIY store* |
-| Temp + Humidity sensor                | [433MHz Weather Humidity](https://www.banggood.com/custlink/mDGDAzNTS1) |   € 6,77 | eBay       |
+| Temp + Humidity sensor                | [433MHz Weather Humidity](https://www.banggood.com/custlink/mDGDAzNTS1) |   € 6,77 | Banggood       |
 
 ```
 *   Dutch DIY stores like Gamma and Karwei reguarly have discounts on KaKu devices
